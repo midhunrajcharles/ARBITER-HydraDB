@@ -1,0 +1,38 @@
+{
+  "summary": {
+    "employees": 530,
+    "roles": 10,
+    "products": 1,
+    "releases": 3,
+    "artifacts": 1391,
+    "edges_total": 3073,
+    "edges_by_type": {
+      "HAS_ROLE": 530,
+      "AUTHORED": 1523,
+      "ABOUT_RELEASE": 197,
+      "PRECEDES": 2,
+      "OF_PRODUCT": 3,
+      "MENTIONS": 403,
+      "REPORTS_TO": 295,
+      "WORKS_FOR": 120
+    }
+  },
+  "load": {
+    "employees": 530,
+    "releases": 3,
+    "edges": {
+      "AUTHORED": 1523,
+      "ABOUT_RELEASE": 197,
+      "PRECEDES": 2,
+      "MENTIONS": 403,
+      "REPORTS_TO": 295,
+      "WORKS_FOR": 120
+    },
+    "timing": {
+      "employees_s": 2.4,
+      "releases_s": 0.0,
+      "edges_s": 0.5,
+      "total_s": 2.9
+    }
+  }
+}

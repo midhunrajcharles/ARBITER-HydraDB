@@ -1,0 +1,69 @@
+{
+  "n": 50,
+  "graph_exact": 40,
+  "graph_mean_f1": 0.8,
+  "bm25_exact": 0,
+  "bm25_mean_f1": 0.027999999999999997,
+  "per_product": [
+    {
+      "product": "AutoTuneForce",
+      "n": 5,
+      "graph": 4,
+      "bm25": 0
+    },
+    {
+      "product": "ContextForce",
+      "n": 5,
+      "graph": 4,
+      "bm25": 0
+    },
+    {
+      "product": "EdgeForce",
+      "n": 5,
+      "graph": 4,
+      "bm25": 0
+    },
+    {
+      "product": "FlowForce",
+      "n": 5,
+      "graph": 4,
+      "bm25": 0
+    },
+    {
+      "product": "ForecastForce",
+      "n": 5,
+      "graph": 4,
+      "bm25": 0
+    },
+    {
+      "product": "LeadForce",
+      "n": 5,
+      "graph": 4,
+      "bm25": 0
+    },
+    {
+      "product": "PitchForce",
+      "n": 5,
+      "graph": 4,
+      "bm25": 0
+    },
+    {
+      "product": "SearchForce",
+      "n": 5,
+      "graph": 4,
+      "bm25": 0
+    },
+    {
+      "product": "SentimentForce",
+      "n": 5,
+      "graph": 4,
+      "bm25": 0
+    },
+    {
+      "product": "TrendForce",
+      "n": 5,
+      "graph": 4,
+      "bm25": 0
+    }
+  ]
+}

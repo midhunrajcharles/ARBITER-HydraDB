@@ -1,0 +1,30 @@
+{
+  "supported": [
+    "parameters $p",
+    "1-hop traversal",
+    "collect() aggregate",
+    "ORDER BY + LIMIT",
+    "DISTINCT",
+    "OPTIONAL MATCH",
+    "DELETE"
+  ],
+  "unsupported": [
+    "CREATE node",
+    "MATCH ... RETURN",
+    "MATCH WHERE",
+    "MERGE",
+    "MERGE ON CREATE SET",
+    "MATCH + SET",
+    "MATCH + CREATE edge",
+    "MATCH + MERGE edge",
+    "UNWIND + CREATE",
+    "UNWIND + MERGE",
+    "UNWIND $rows + MERGE",
+    "var-length *1..3",
+    "var-length *",
+    "count() aggregate",
+    "WITH clause",
+    "multi-label + IN",
+    "CREATE INDEX"
+  ]
+}
