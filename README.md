@@ -151,6 +151,44 @@ curl -sS http://$(cat .wslip):8443/v1/graphs/default/query \
 
 ---
 
+## Architecture
+
+```mermaid
+flowchart LR
+    subgraph SRC["HERB corpus (fetched, not vendored)"]
+        D["documents<br/>400"]
+        S["slack<br/>33,618"]
+        P["pull requests<br/>1,268"]
+        T["transcripts + urls"]
+        M["metadata<br/>employees · org · customers"]
+    end
+
+    subgraph BUILD["arbiter/build.py"]
+        R["release ordering<br/>inferred from artifact ids"]
+        V["review sessions<br/>parsed from doc links in Slack"]
+        I["IdMap<br/>string key → integer id band"]
+    end
+
+    subgraph HDB["HydraDB — object-store-native graph engine"]
+        G[("typed graph<br/>38,490 nodes · 77,144 edges")]
+    end
+
+    subgraph APP["Arbiter"]
+        Q["query.py<br/>question → traversal"]
+        A["FastAPI + UI<br/>answer · cypher · evidence"]
+    end
+
+    SRC --> BUILD
+    BUILD -->|"UNWIND $rows batch writes"| G
+    Q -->|"OpenCypher"| G
+    G -->|"vertex ids"| Q
+    Q --> A
+```
+
+*Figure 1. Ingestion runs once (24 s for the full corpus). At query time nothing
+is retrieved or re-ranked — the question is compiled to a traversal, HydraDB
+executes it, and vertex ids are mapped back to human-readable keys.*
+
 ## Graph model
 
 | Node | Id range | Carries |

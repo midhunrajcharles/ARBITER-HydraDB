@@ -55,6 +55,8 @@ def main():
                                "a_f1": 0.0, "b_f1": 0.0,
                                "a_p": 0.0, "a_r": 0.0})
     detail = []
+    reasons = defaultdict(int)
+    false_refusals = defaultdict(int)
     t0 = time.time()
 
     for f in sorted(glob.glob("data/herb/products/*.json")):
@@ -85,12 +87,20 @@ def main():
                            "bm25_f1": round(bf1, 3),
                            "n_queries": len(trace.get("queries") or [])})
 
-        # abstention on the unanswerable set
+        # abstention, both directions
         for u in unans:
             ok, reason = r.can_answer(u, product)
-            a = agg["abstention"]
+            a = agg["abstain_unanswerable"]
             a["n"] += 1
-            a["a_exact"] += (0 if ok else 1)   # correct = refused to answer
+            a["a_exact"] += (0 if ok else 1)     # correct = refused
+            reasons[reason] += 0 if ok else 1
+        for q in wanted:                          # answerable, supported families
+            ok, reason = r.can_answer(q["question"], product)
+            a = agg["abstain_answerable"]
+            a["n"] += 1
+            a["a_exact"] += (1 if ok else 0)     # correct = did NOT refuse
+            if not ok:
+                false_refusals[reason] += 1
 
     elapsed = time.time() - t0
 
@@ -105,12 +115,24 @@ def main():
         print(f"{fam:<26}{n:>5}{a['a_exact']:>5}/{n:<2}{a['a_f1']/n:>8.3f}"
               f"{a['a_p']/n:>7.3f}{a['a_r']/n:>7.3f}"
               f"{a['b_exact']:>9}/{n:<2}{a['b_f1']/n:>9.3f}")
-    ab = agg.get("abstention")
-    if ab and ab["n"]:
-        print("-" * 82)
-        print(f"{'abstention (unanswerable)':<26}{ab['n']:>5}"
-              f"{ab['a_exact']:>5}/{ab['n']:<2}"
-              f"   correctly refused: {100*ab['a_exact']/ab['n']:.1f}%")
+    print("-" * 82)
+    au = agg.get("abstain_unanswerable")
+    aa = agg.get("abstain_answerable")
+    if au and au["n"]:
+        print(f"{'abstain: unanswerable':<26}{au['n']:>5}{au['a_exact']:>5}/{au['n']:<4}"
+              f"  correctly refused {100*au['a_exact']/au['n']:.1f}%")
+    if aa and aa["n"]:
+        print(f"{'abstain: answerable':<26}{aa['n']:>5}{aa['a_exact']:>5}/{aa['n']:<4}"
+              f"  correctly answered {100*aa['a_exact']/aa['n']:.1f}%  "
+              f"(false refusals: {aa['n']-aa['a_exact']})")
+    print("\nrefusal reasons on the unanswerable set:")
+    for why, n in sorted(reasons.items(), key=lambda kv: -kv[1]):
+        if n:
+            print(f"  {n:>4}  {why}")
+    if false_refusals:
+        print("\nFALSE refusals on answerable questions:")
+        for why, n in sorted(false_refusals.items(), key=lambda kv: -kv[1]):
+            print(f"  {n:>4}  {why}")
 
     print(f"\nelapsed {elapsed:.1f}s")
     print("\nHERB reference: best agentic RAG ~30% accuracy; retrieval is the bottleneck.")
@@ -118,6 +140,8 @@ def main():
     (ROOT / "results").mkdir(exist_ok=True)
     out = {fam: {k: (round(v / a["n"], 3) if isinstance(v, float) else v)
                  for k, v in a.items()} for fam, a in agg.items()}
+    out["refusal_reasons"] = dict(reasons)
+    out["false_refusals"] = dict(false_refusals)
     (ROOT / "results/eval_hydra.json").write_text(
         json.dumps({"summary": out, "elapsed_s": round(elapsed, 1),
                     "detail": detail}, indent=2), encoding="utf-8")

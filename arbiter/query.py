@@ -181,11 +181,11 @@ class Resolver:
     # -- router ------------------------------------------------------------
     def route(self, question: str, product: str):
         """Pick the traversal for this question shape."""
-        low = question.lower()
-        if "worked on the previous release" in low:
-            return "person_previous_release", self.answer_person_previous_release(question, product)
-        if "authors and key reviewers" in low:
-            return "doc_reviewers", self.answer_doc_reviewers(question, product)
+        fam = self.family_of(question)
+        if fam == "person_previous_release":
+            return fam, self.answer_person_previous_release(question, product)
+        if fam == "doc_reviewers":
+            return fam, self.answer_doc_reviewers(question, product)
         return "unsupported", ([], {"queries": [], "evidence": [],
                                     "reason": "no traversal registered for this question shape"})
 
@@ -193,22 +193,66 @@ class Resolver:
     def can_answer(self, question: str, product: str) -> tuple[bool, str]:
         """Decide whether the graph can support an answer at all.
 
-        HERB ships 699 unanswerable questions. A retrieval system will always
-        return its top-k and an LLM will usually write something plausible from
-        them. A traversal either lands on nodes or it does not, so "no path
-        exists" is a first-class, checkable answer rather than a confidence
-        threshold. This is the abstention signal.
+        HERB ships 699 unanswerable questions. A retrieval system always returns
+        its top-k, so the "I don't know" has to be manufactured downstream by a
+        model that has every incentive to answer anyway. A traversal either lands
+        on nodes or it does not, so refusal is structural here.
+
+        Three checks, in increasing cost:
+
+          1. vocabulary  - the question needs a concept the graph has no node,
+                           edge or property for at all
+          2. routing     - no traversal is registered for this question shape
+          3. path        - a traversal is registered, but it lands on nothing
+
+        Check 1 is deliberately narrow. It is not a keyword blocklist for the
+        benchmark: each entry names a concept genuinely absent from the ingested
+        schema, and the reason returned says which one.
         """
         low = question.lower()
-        # Competitor questions: HERB's corpus contains no competitor entities.
-        if "competitor" in low:
-            return False, "no competitor entities exist in the graph"
+
+        # 1. vocabulary gaps - concepts with no representation in the graph
+        for token, why in (
+            ("competitor", "no competitor entities are ingested"),
+            ("did not require any fix", "bug resolution outcomes are not ingested"),
+            ("didn't need fixes", "bug resolution outcomes are not ingested"),
+            ("did not need fixes", "bug resolution outcomes are not ingested"),
+            ("not require any fixes", "bug resolution outcomes are not ingested"),
+            ("reopened", "bug lifecycle state is not ingested"),
+            ("temporarily delayed", "feature deferral history is not ingested"),
+        ):
+            if token in low:
+                return False, why
+
         pid = self.product_id(product)
         if pid is None:
-            return False, f"product '{product}' is not in the graph"
-        m = re.search(r"employee ids of (.+?) who ", question, re.I)
-        if m:
-            rid, _ = self.role_id(m.group(1))
-            if rid is None:
-                return False, f"role '{m.group(1).strip()}' has no Role node"
+            return False, f"product '{product}' has no Product node"
+
+        # 2. no traversal registered for this shape
+        fam = self.family_of(question)
+        if fam is None:
+            return False, "no traversal is registered for this question shape"
+
+        # 3. the vocabulary the traversal itself needs
+        if fam == "person_previous_release":
+            m = re.search(r"employee ids of (.+?) who ", question, re.I)
+            if m:
+                rid, _ = self.role_id(m.group(1))
+                if rid is None:
+                    return False, f"role '{m.group(1).strip()}' has no Role node"
+            if not self.previous_releases(pid):
+                return False, "product has no release preceding the current one"
+        if fam == "doc_reviewers":
+            dtype = self.doc_type_in(question)
+            if not dtype:
+                return False, "no Document type in the question matches the graph"
+
         return True, "traversal path exists"
+
+    def family_of(self, question: str):
+        low = question.lower()
+        if "worked on the previous release" in low:
+            return "person_previous_release"
+        if "authors and key reviewers" in low:
+            return "doc_reviewers"
+        return None

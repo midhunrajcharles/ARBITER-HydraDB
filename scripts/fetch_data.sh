@@ -10,6 +10,12 @@
 #   paper   : Benchmarking Deep Search over Heterogeneous Enterprise Data
 set -euo pipefail
 
+# Use the project venv if present, else whatever python is on PATH.
+PY=python
+for c in .venv/Scripts/python.exe .venv/bin/python python3 python; do
+  if command -v "$c" >/dev/null 2>&1 || [ -x "$c" ]; then PY="$c"; break; fi
+done
+
 BASE="https://huggingface.co/datasets/Salesforce/HERB/resolve/main"
 API="https://huggingface.co/api/datasets/Salesforce/HERB"
 OUT="data/herb"
@@ -17,7 +23,7 @@ OUT="data/herb"
 mkdir -p "$OUT/products" "$OUT/metadata"
 echo "listing files ..."
 curl -sL -m 60 "$API" \
-  | python -c "import json,sys;[print(f['rfilename']) for f in json.load(sys.stdin)['siblings'] if f['rfilename'].startswith(('products/','metadata/'))]" \
+  | "$PY" -c "import json,sys;[print(f['rfilename']) for f in json.load(sys.stdin)['siblings'] if f['rfilename'].startswith(('products/','metadata/'))]" \
   | tr -d '\r' > /tmp/herb_files.txt
 
 n=$(wc -l < /tmp/herb_files.txt)

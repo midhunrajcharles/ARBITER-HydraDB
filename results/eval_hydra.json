@@ -1,43 +1,329 @@
 {
-  "n": 50,
-  "elapsed_s": 181.1,
-  "arbiter_exact": 40,
-  "arbiter_mean_f1": 0.8,
-  "bm25_exact": 0,
-  "bm25_mean_f1": 0.028,
+  "summary": {
+    "doc_reviewers": {
+      "n": 50,
+      "a_exact": 0,
+      "b_exact": 0,
+      "a_f1": 0.593,
+      "b_f1": 0.391,
+      "a_p": 0.935,
+      "a_r": 0.455
+    },
+    "abstention": {
+      "n": 361,
+      "a_exact": 70,
+      "b_exact": 0,
+      "a_f1": 0.0,
+      "b_f1": 0.0,
+      "a_p": 0.0,
+      "a_r": 0.0
+    },
+    "person_previous_release": {
+      "n": 50,
+      "a_exact": 40,
+      "b_exact": 0,
+      "a_f1": 0.8,
+      "b_f1": 0.028,
+      "a_p": 0.8,
+      "a_r": 0.8
+    }
+  },
+  "elapsed_s": 160.3,
   "detail": [
     {
+      "family": "doc_reviewers",
+      "product": "ActionGenie",
+      "question": "Find employee IDs of the authors and key reviewers of the Market Research Report for the ActionGenie product?",
+      "gt": [
+        "eid_d96fb219",
+        "eid_2589c967",
+        "eid_ec3b5d65",
+        "eid_f1c8f4a5",
+        "eid_4afd9484",
+        "eid_839bc5eb",
+        "eid_e96d2f38",
+        "eid_3bcf2a20",
+        "eid_802e8eff",
+        "eid_bed67c52",
+        "eid_13fdff84"
+      ],
+      "pred": [
+        "eid_13fdff84",
+        "eid_2589c967",
+        "eid_d96fb219",
+        "eid_ec3b5d65"
+      ],
+      "bm25": [
+        "eid_13fdff84",
+        "eid_2ed1a8f6",
+        "eid_3bcf2a20",
+        "eid_4afd9484",
+        "eid_4bcfb482",
+        "eid_5346d7a5",
+        "eid_802e8eff",
+        "eid_839bc5eb",
+        "eid_af89b40b",
+        "eid_bed67c52",
+        "eid_d1169926",
+        "eid_e96d2f38",
+        "eid_ec3b5d65",
+        "eid_f1c8f4a5",
+        "eid_fd8cecea"
+      ],
+      "exact": false,
+      "f1": 0.533,
+      "precision": 1.0,
+      "recall": 0.364,
+      "bm25_f1": 0.692,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "ActionGenie",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Vision Document for the ActionGenie product?",
+      "gt": [
+        "eid_d96fb219",
+        "eid_2589c967",
+        "eid_eb1756e0",
+        "eid_4afd9484",
+        "eid_839bc5eb",
+        "eid_ce2f3276",
+        "eid_3bcf2a20",
+        "eid_802e8eff",
+        "eid_bed67c52",
+        "eid_fd8cecea"
+      ],
+      "pred": [
+        "eid_2589c967",
+        "eid_d96fb219",
+        "eid_eb1756e0",
+        "eid_fd8cecea"
+      ],
+      "bm25": [
+        "eid_1f678d18",
+        "eid_21de287d",
+        "eid_5346d7a5",
+        "eid_6cc1a0f6",
+        "eid_95f6d01c",
+        "eid_af89b40b",
+        "eid_c834699e",
+        "eid_d1169926",
+        "eid_d67508f1",
+        "eid_fd8cecea"
+      ],
+      "exact": false,
+      "f1": 0.571,
+      "precision": 1.0,
+      "recall": 0.4,
+      "bm25_f1": 0.1,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "ActionGenie",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Requirements Document for the ActionGenie product?",
+      "gt": [
+        "eid_d96fb219",
+        "eid_2589c967",
+        "eid_5346d7a5",
+        "eid_4afd9484",
+        "eid_839bc5eb",
+        "eid_e96d2f38",
+        "eid_3bcf2a20",
+        "eid_802e8eff",
+        "eid_bed67c52",
+        "eid_2470307f",
+        "eid_fd8cecea"
+      ],
+      "pred": [
+        "eid_2589c967",
+        "eid_5346d7a5",
+        "eid_d96fb219",
+        "eid_fa6ec727",
+        "eid_fd8cecea"
+      ],
+      "bm25": [
+        "eid_1f678d18",
+        "eid_21de287d",
+        "eid_2470307f",
+        "eid_3bcf2a20",
+        "eid_47d43bc4",
+        "eid_4afd9484",
+        "eid_5346d7a5",
+        "eid_6cc1a0f6",
+        "eid_6f8eba96",
+        "eid_7b874c82",
+        "eid_802e8eff",
+        "eid_839bc5eb",
+        "eid_95f6d01c",
+        "eid_af89b40b",
+        "eid_bed67c52",
+        "eid_c834699e",
+        "eid_c97ac4fe",
+        "eid_d1169926",
+        "eid_d67508f1",
+        "eid_df392037",
+        "eid_e058484b",
+        "eid_e0ff9aca",
+        "eid_e96d2f38",
+        "eid_f48dbe55",
+        "eid_fd8cecea"
+      ],
+      "exact": false,
+      "f1": 0.5,
+      "precision": 0.8,
+      "recall": 0.364,
+      "bm25_f1": 0.5,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "ActionGenie",
+      "question": "Find employee IDs of the authors and key reviewers of the Technical Specifications Document for the ActionGenie product?",
+      "gt": [
+        "eid_fd8cecea",
+        "eid_d96fb219",
+        "eid_5346d7a5",
+        "eid_4afd9484",
+        "eid_03a183c9",
+        "eid_9bddb57c",
+        "eid_e96d2f38",
+        "eid_3bcf2a20",
+        "eid_802e8eff",
+        "eid_2470307f",
+        "eid_47d43bc4",
+        "eid_5890ce38"
+      ],
+      "pred": [
+        "eid_5346d7a5",
+        "eid_5890ce38",
+        "eid_d96fb219",
+        "eid_fd8cecea"
+      ],
+      "bm25": [
+        "eid_03a183c9",
+        "eid_1f678d18",
+        "eid_2470307f",
+        "eid_2543da6a",
+        "eid_3bcf2a20",
+        "eid_47d43bc4",
+        "eid_4afd9484",
+        "eid_4bcfb482",
+        "eid_5346d7a5",
+        "eid_5890ce38",
+        "eid_6f8eba96",
+        "eid_7b874c82",
+        "eid_802e8eff",
+        "eid_95f6d01c",
+        "eid_96000199",
+        "eid_9bddb57c",
+        "eid_af89b40b",
+        "eid_bed67c52",
+        "eid_c97ac4fe",
+        "eid_d1169926",
+        "eid_df392037",
+        "eid_e058484b",
+        "eid_e0ff9aca",
+        "eid_e96d2f38",
+        "eid_f48dbe55",
+        "eid_fd8cecea"
+      ],
+      "exact": false,
+      "f1": 0.5,
+      "precision": 1.0,
+      "recall": 0.333,
+      "bm25_f1": 0.579,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "ActionGenie",
+      "question": "Find employee IDs of the authors and key reviewers of the System Design Document for the ActionGenie product?",
+      "gt": [
+        "eid_fd8cecea",
+        "eid_5890ce38",
+        "eid_5346d7a5",
+        "eid_03a183c9",
+        "eid_9bddb57c",
+        "eid_e058484b",
+        "eid_df392037",
+        "eid_816aea15",
+        "eid_2470307f",
+        "eid_47d43bc4",
+        "eid_bed67c52"
+      ],
+      "pred": [
+        "eid_5346d7a5",
+        "eid_5890ce38",
+        "eid_bed67c52",
+        "eid_fd8cecea"
+      ],
+      "bm25": [
+        "eid_03a183c9",
+        "eid_13cb0e90",
+        "eid_1f678d18",
+        "eid_2470307f",
+        "eid_3bcf2a20",
+        "eid_47d43bc4",
+        "eid_49aa3b00",
+        "eid_4afd9484",
+        "eid_4bcfb482",
+        "eid_5346d7a5",
+        "eid_5890ce38",
+        "eid_6f8eba96",
+        "eid_7b874c82",
+        "eid_802e8eff",
+        "eid_95f6d01c",
+        "eid_96000199",
+        "eid_9bddb57c",
+        "eid_af89b40b",
+        "eid_bed67c52",
+        "eid_c97ac4fe",
+        "eid_d1169926",
+        "eid_df392037",
+        "eid_e058484b",
+        "eid_e0ff9aca",
+        "eid_e96d2f38",
+        "eid_f48dbe55",
+        "eid_fd8cecea"
+      ],
+      "exact": false,
+      "f1": 0.533,
+      "precision": 1.0,
+      "recall": 0.364,
+      "bm25_f1": 0.526,
+      "n_queries": 7
+    },
+    {
+      "family": "person_previous_release",
       "product": "AutoTuneForce",
       "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of AutoTuneForce?",
-      "role": "Marketing Research Analyst",
       "gt": [
         "eid_12eb6b62",
         "eid_a13234f2"
       ],
-      "hydra": [
+      "pred": [
         "eid_12eb6b62",
         "eid_a13234f2"
       ],
       "bm25": [],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000007}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000008}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "AutoTuneForce",
       "question": "Find employee IDs of Product Managers who worked on the previous release of AutoTuneForce?",
-      "role": "Product Manager",
       "gt": [
         "eid_caa2e58d",
         "eid_2d8eff4d",
         "eid_c3aac633"
       ],
-      "hydra": [
+      "pred": [
         "eid_2d8eff4d",
         "eid_c3aac633",
         "eid_caa2e58d"
@@ -46,48 +332,44 @@
         "eid_5318af37",
         "eid_e42b000f"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000007}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000008}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "AutoTuneForce",
       "question": "Find employee IDs of Technical Architects who worked on the previous release of AutoTuneForce?",
-      "role": "Technical Architect",
       "gt": [
         "eid_d2f0f99a",
         "eid_a253c65a"
       ],
-      "hydra": [
+      "pred": [
         "eid_a253c65a",
         "eid_d2f0f99a"
       ],
       "bm25": [
         "eid_19f537cf"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000007}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000008}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "AutoTuneForce",
       "question": "Find employee IDs of Engineering Leads who worked on the previous release of AutoTuneForce?",
-      "role": "Engineering Lead",
       "gt": [
         "eid_e0273792",
         "eid_7017b913"
       ],
-      "hydra": [
+      "pred": [
         "eid_7017b913",
         "eid_e0273792"
       ],
@@ -97,71 +379,732 @@
         "eid_8c71a7a9",
         "eid_b67edbb4"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000007}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000008}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "AutoTuneForce",
       "question": "Find employee IDs of QA specialists who worked on the previous release of AutoTuneForce?",
-      "role": "QA Specialist",
       "gt": [
         "eid_8b14b999",
         "eid_dc8bf84e"
       ],
-      "hydra": [],
+      "pred": [],
       "bm25": [
         "eid_7f22371d"
       ],
-      "hydra_exact": false,
-      "bm25_exact": false,
-      "hydra_f1": 0.0,
+      "exact": false,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000007}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000008}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "doc_reviewers",
+      "product": "CoachForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Market Research Report for the CoachForce product?",
+      "gt": [
+        "eid_4f30e22e",
+        "eid_f98d7490",
+        "eid_2d72674d",
+        "eid_99835861",
+        "eid_8df92d08",
+        "eid_ee9ca887",
+        "eid_85a4de81",
+        "eid_965867b8",
+        "eid_59bbe6f6",
+        "eid_50da4819",
+        "eid_890654c4"
+      ],
+      "pred": [
+        "eid_2d72674d",
+        "eid_4f30e22e",
+        "eid_890654c4",
+        "eid_f98d7490"
+      ],
+      "bm25": [
+        "eid_1e9356f5",
+        "eid_4350bf70",
+        "eid_890654c4",
+        "eid_8a2cd06b",
+        "eid_932ce89c",
+        "eid_a8a4fdcb",
+        "eid_c3f3eff2",
+        "eid_f98d7490"
+      ],
+      "exact": false,
+      "f1": 0.533,
+      "precision": 1.0,
+      "recall": 0.364,
+      "bm25_f1": 0.211,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "CoachForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Vision Document for the CoachForce product?",
+      "gt": [
+        "eid_4f30e22e",
+        "eid_f98d7490",
+        "eid_f6ae6dd8",
+        "eid_99835861",
+        "eid_888411ab",
+        "eid_50da4819",
+        "eid_ee9ca887",
+        "eid_85a4de81",
+        "eid_59bbe6f6",
+        "eid_8df92d08",
+        "eid_46e00bc4"
+      ],
+      "pred": [
+        "eid_207da0e7",
+        "eid_46e00bc4",
+        "eid_4f30e22e",
+        "eid_c0df5be6",
+        "eid_f6ae6dd8",
+        "eid_f98d7490"
+      ],
+      "bm25": [
+        "eid_0d55ede9",
+        "eid_4350bf70",
+        "eid_46e00bc4",
+        "eid_48e149b5",
+        "eid_8a2cd06b",
+        "eid_8bab7c9d",
+        "eid_932ce89c",
+        "eid_a43a4389",
+        "eid_a8a4fdcb",
+        "eid_c0df5be6",
+        "eid_ccd7c214",
+        "eid_eba4d825",
+        "eid_f98d7490"
+      ],
+      "exact": false,
+      "f1": 0.471,
+      "precision": 0.667,
+      "recall": 0.364,
+      "bm25_f1": 0.167,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "CoachForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Requirements Document for the CoachForce product?",
+      "gt": [
+        "eid_4f30e22e",
+        "eid_55f01e31",
+        "eid_f98d7490",
+        "eid_99835861",
+        "eid_71a4de1d",
+        "eid_50da4819",
+        "eid_ee9ca887",
+        "eid_7b85a749",
+        "eid_1cfce648",
+        "eid_4de5cd7f",
+        "eid_59bbe6f6",
+        "eid_8df92d08",
+        "eid_b814ccfb",
+        "eid_c0df5be6"
+      ],
+      "pred": [
+        "eid_4f30e22e",
+        "eid_55f01e31",
+        "eid_c0df5be6",
+        "eid_f98d7490"
+      ],
+      "bm25": [
+        "eid_0d55ede9",
+        "eid_4350bf70",
+        "eid_46e00bc4",
+        "eid_48e149b5",
+        "eid_8a2cd06b",
+        "eid_932ce89c",
+        "eid_99835861",
+        "eid_a43a4389",
+        "eid_a8a4fdcb",
+        "eid_c0df5be6",
+        "eid_ccd7c214",
+        "eid_eba4d825",
+        "eid_f98d7490"
+      ],
+      "exact": false,
+      "f1": 0.444,
+      "precision": 1.0,
+      "recall": 0.286,
+      "bm25_f1": 0.222,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "CoachForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Technical Specifications Document for the CoachForce product?",
+      "gt": [
+        "eid_55f01e31",
+        "eid_46e00bc4",
+        "eid_f98d7490",
+        "eid_99835861",
+        "eid_88e74382",
+        "eid_31ca5b45",
+        "eid_8efef28a",
+        "eid_50da4819",
+        "eid_85a4de81",
+        "eid_7b85a749",
+        "eid_1cfce648",
+        "eid_4de5cd7f",
+        "eid_8df92d08",
+        "eid_d9f42fd7"
+      ],
+      "pred": [
+        "eid_46e00bc4",
+        "eid_55f01e31",
+        "eid_d9f42fd7",
+        "eid_f98d7490"
+      ],
+      "bm25": [
+        "eid_0d55ede9",
+        "eid_46e00bc4",
+        "eid_8a2cd06b",
+        "eid_932ce89c",
+        "eid_99835861",
+        "eid_a8a4fdcb",
+        "eid_c0df5be6",
+        "eid_d9f42fd7",
+        "eid_eba4d825",
+        "eid_f98d7490"
+      ],
+      "exact": false,
+      "f1": 0.444,
+      "precision": 1.0,
+      "recall": 0.286,
+      "bm25_f1": 0.333,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "CoachForce",
+      "question": "Find employee IDs of the authors and key reviewers of the System Design Document for the CoachForce product?",
+      "gt": [
+        "eid_55f01e31",
+        "eid_46e00bc4",
+        "eid_b48f959b",
+        "eid_31ca5b45",
+        "eid_71a4de1d",
+        "eid_8efef28a",
+        "eid_d9f42fd7",
+        "eid_df39cc9e",
+        "eid_66d09012",
+        "eid_7b85a749",
+        "eid_4de5cd7f",
+        "eid_99835861"
+      ],
+      "pred": [
+        "eid_46e00bc4",
+        "eid_55f01e31",
+        "eid_99835861",
+        "eid_b48f959b"
+      ],
+      "bm25": [
+        "eid_0d55ede9",
+        "eid_24dbff62",
+        "eid_3f4b2681",
+        "eid_46e00bc4",
+        "eid_50da4819",
+        "eid_7b2a9f4a",
+        "eid_8a2cd06b",
+        "eid_932ce89c",
+        "eid_99835861",
+        "eid_a8a4fdcb",
+        "eid_c0df5be6",
+        "eid_c5bce3e8",
+        "eid_eba4d825",
+        "eid_f66c3942"
+      ],
+      "exact": false,
+      "f1": 0.5,
+      "precision": 1.0,
+      "recall": 0.333,
+      "bm25_f1": 0.154,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "CollaborationForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Market Research Report for the CollaborationForce product?",
+      "gt": [
+        "eid_62db8640",
+        "eid_82e9fcef",
+        "eid_7f69c513",
+        "eid_439a052b",
+        "eid_abff6bea",
+        "eid_6d14c4ec",
+        "eid_d0b6cb92",
+        "eid_fa16fefb",
+        "eid_539907c1",
+        "eid_bd4d2940"
+      ],
+      "pred": [
+        "eid_62db8640",
+        "eid_7f69c513",
+        "eid_82e9fcef",
+        "eid_bd4d2940"
+      ],
+      "bm25": [
+        "eid_160fca3c",
+        "eid_2f10ad20",
+        "eid_3bd7cd36",
+        "eid_82e9fcef",
+        "eid_887367ca",
+        "eid_9b8bc088",
+        "eid_bd4d2940",
+        "eid_c7622c8e",
+        "eid_efc9418c",
+        "eid_fa16fefb"
+      ],
+      "exact": false,
+      "f1": 0.571,
+      "precision": 1.0,
+      "recall": 0.4,
+      "bm25_f1": 0.3,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "CollaborationForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Vision Document for the CollaborationForce product?",
+      "gt": [
+        "eid_2f10ad20",
+        "eid_82e9fcef",
+        "eid_7f69c513",
+        "eid_439a052b",
+        "eid_6148bfae",
+        "eid_abff6bea",
+        "eid_6d14c4ec",
+        "eid_fa16fefb",
+        "eid_efc9418c"
+      ],
+      "pred": [
+        "eid_2f10ad20",
+        "eid_7f69c513",
+        "eid_82e9fcef",
+        "eid_efc9418c"
+      ],
+      "bm25": [
+        "eid_2c384d22",
+        "eid_36319f22",
+        "eid_4ddcb99f",
+        "eid_719a0253",
+        "eid_82e9fcef",
+        "eid_887367ca",
+        "eid_9937f1d5",
+        "eid_9b8bc088",
+        "eid_bd4d2940",
+        "eid_c7622c8e",
+        "eid_efc9418c",
+        "eid_fa16fefb"
+      ],
+      "exact": false,
+      "f1": 0.615,
+      "precision": 1.0,
+      "recall": 0.444,
+      "bm25_f1": 0.286,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "CollaborationForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Requirements Document for the CollaborationForce product?",
+      "gt": [
+        "eid_c7622c8e",
+        "eid_82e9fcef",
+        "eid_7f69c513",
+        "eid_7c6dd6a6",
+        "eid_abff6bea",
+        "eid_b34186ad",
+        "eid_798684b4",
+        "eid_6d14c4ec",
+        "eid_4f731d34",
+        "eid_fa16fefb",
+        "eid_887367ca"
+      ],
+      "pred": [
+        "eid_7f69c513",
+        "eid_82e9fcef",
+        "eid_887367ca",
+        "eid_c7622c8e"
+      ],
+      "bm25": [
+        "eid_2c384d22",
+        "eid_36319f22",
+        "eid_435d10af",
+        "eid_439a052b",
+        "eid_4f731d34",
+        "eid_5a940dab",
+        "eid_6d14c4ec",
+        "eid_719a0253",
+        "eid_798684b4",
+        "eid_7c6dd6a6",
+        "eid_82e9fcef",
+        "eid_887367ca",
+        "eid_9937f1d5",
+        "eid_9b8bc088",
+        "eid_abff6bea",
+        "eid_b34186ad",
+        "eid_bd4d2940",
+        "eid_c7622c8e",
+        "eid_d0b6cb92",
+        "eid_efc9418c",
+        "eid_f944b0ee",
+        "eid_fa16fefb"
+      ],
+      "exact": false,
+      "f1": 0.533,
+      "precision": 1.0,
+      "recall": 0.364,
+      "bm25_f1": 0.606,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "CollaborationForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Technical Specifications Document for the CollaborationForce product?",
+      "gt": [
+        "eid_c7622c8e",
+        "eid_36319f22",
+        "eid_82e9fcef",
+        "eid_439a052b",
+        "eid_7c6dd6a6",
+        "eid_5b61c55e",
+        "eid_887367ca",
+        "eid_3f2087c9",
+        "eid_b34186ad",
+        "eid_6d14c4ec",
+        "eid_4f731d34",
+        "eid_fa16fefb",
+        "eid_9b8bc088"
+      ],
+      "pred": [
+        "eid_36319f22",
+        "eid_792330e0",
+        "eid_82e9fcef",
+        "eid_887367ca",
+        "eid_9b8bc088",
+        "eid_c7622c8e"
+      ],
+      "bm25": [
+        "eid_2c384d22",
+        "eid_36319f22",
+        "eid_435d10af",
+        "eid_439a052b",
+        "eid_4ddcb99f",
+        "eid_4f731d34",
+        "eid_5a940dab",
+        "eid_6d14c4ec",
+        "eid_719a0253",
+        "eid_798684b4",
+        "eid_7c6dd6a6",
+        "eid_82e9fcef",
+        "eid_887367ca",
+        "eid_9937f1d5",
+        "eid_9b8bc088",
+        "eid_abff6bea",
+        "eid_b34186ad",
+        "eid_c7622c8e",
+        "eid_d0b6cb92",
+        "eid_efc9418c",
+        "eid_f944b0ee",
+        "eid_fa16fefb"
+      ],
+      "exact": false,
+      "f1": 0.526,
+      "precision": 0.833,
+      "recall": 0.385,
+      "bm25_f1": 0.629,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "CollaborationForce",
+      "question": "Find employee IDs of the authors and key reviewers of the System Design Document for the CollaborationForce product?",
+      "gt": [
+        "eid_792330e0",
+        "eid_36319f22",
+        "eid_c7622c8e",
+        "eid_7c6dd6a6",
+        "eid_9b8bc088",
+        "eid_887367ca",
+        "eid_3f2087c9",
+        "eid_435d10af",
+        "eid_b34186ad",
+        "eid_fa16fefb"
+      ],
+      "pred": [
+        "eid_36319f22",
+        "eid_792330e0",
+        "eid_c7622c8e",
+        "eid_fa16fefb"
+      ],
+      "bm25": [
+        "eid_13786f09",
+        "eid_2c384d22",
+        "eid_4ddcb99f",
+        "eid_52681a26",
+        "eid_719a0253",
+        "eid_82e9fcef",
+        "eid_887367ca",
+        "eid_9937f1d5",
+        "eid_9b8bc088",
+        "eid_c7622c8e",
+        "eid_efc9418c",
+        "eid_fa16fefb"
+      ],
+      "exact": false,
+      "f1": 0.571,
+      "precision": 1.0,
+      "recall": 0.4,
+      "bm25_f1": 0.364,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "ConnectForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Market Research Report for the ConnectForce product?",
+      "gt": [
+        "eid_8558304e",
+        "eid_e5e36dc1",
+        "eid_2e028d1b",
+        "eid_a2b52913",
+        "eid_aedadd3e",
+        "eid_294ba09d",
+        "eid_f95e63d8",
+        "eid_86205170",
+        "eid_3a0795f3",
+        "eid_eaec7b7a"
+      ],
+      "pred": [
+        "eid_2e028d1b",
+        "eid_8558304e",
+        "eid_e5e36dc1",
+        "eid_eaec7b7a"
+      ],
+      "bm25": [
+        "eid_4e8b2cdc",
+        "eid_5636d3f5",
+        "eid_86205170",
+        "eid_968bc0a2",
+        "eid_9da87309",
+        "eid_e5e36dc1",
+        "eid_eaec7b7a",
+        "eid_f3569cc7",
+        "eid_f95e63d8"
+      ],
+      "exact": false,
+      "f1": 0.571,
+      "precision": 1.0,
+      "recall": 0.4,
+      "bm25_f1": 0.421,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "ConnectForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Vision Document for the ConnectForce product?",
+      "gt": [
+        "eid_8558304e",
+        "eid_e5e36dc1",
+        "eid_c38fb1b4",
+        "eid_a2b52913",
+        "eid_aedadd3e",
+        "eid_294ba09d",
+        "eid_86205170",
+        "eid_a1e925ce",
+        "eid_4e8b2cdc"
+      ],
+      "pred": [
+        "eid_4e8b2cdc",
+        "eid_8558304e",
+        "eid_c38fb1b4",
+        "eid_e5e36dc1"
+      ],
+      "bm25": [
+        "eid_294ba09d",
+        "eid_4e8b2cdc",
+        "eid_5636d3f5",
+        "eid_86205170",
+        "eid_968bc0a2",
+        "eid_9da87309",
+        "eid_c8ebc4b0",
+        "eid_e5e36dc1"
+      ],
+      "exact": false,
+      "f1": 0.615,
+      "precision": 1.0,
+      "recall": 0.444,
+      "bm25_f1": 0.471,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "ConnectForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Requirements Document for the ConnectForce product?",
+      "gt": [
+        "eid_8558304e",
+        "eid_e5e36dc1",
+        "eid_5636d3f5",
+        "eid_a2b52913",
+        "eid_aedadd3e",
+        "eid_15cf6612",
+        "eid_294ba09d",
+        "eid_f95e63d8",
+        "eid_86205170",
+        "eid_71bfb0a9",
+        "eid_6b76916e",
+        "eid_1faba5d2",
+        "eid_9da87309"
+      ],
+      "pred": [
+        "eid_5636d3f5",
+        "eid_8558304e",
+        "eid_8605f7ee",
+        "eid_9da87309",
+        "eid_e5e36dc1"
+      ],
+      "bm25": [
+        "eid_294ba09d",
+        "eid_4e8b2cdc",
+        "eid_5636d3f5",
+        "eid_86205170",
+        "eid_968bc0a2",
+        "eid_9da87309",
+        "eid_c8ebc4b0",
+        "eid_e5e36dc1"
+      ],
+      "exact": false,
+      "f1": 0.444,
+      "precision": 0.8,
+      "recall": 0.308,
+      "bm25_f1": 0.476,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "ConnectForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Technical Specifications Document for the ConnectForce product?",
+      "gt": [
+        "eid_610a4c21",
+        "eid_e5e36dc1",
+        "eid_5636d3f5",
+        "eid_15cf6612",
+        "eid_294ba09d",
+        "eid_3adf7b8a",
+        "eid_6936f36d",
+        "eid_4e8b2cdc",
+        "eid_71bfb0a9",
+        "eid_51f50b3a",
+        "eid_5827604d"
+      ],
+      "pred": [
+        "eid_5636d3f5",
+        "eid_5827604d",
+        "eid_610a4c21",
+        "eid_e5e36dc1"
+      ],
+      "bm25": [
+        "eid_44c67741",
+        "eid_4d689aa7",
+        "eid_4e8b2cdc",
+        "eid_5636d3f5",
+        "eid_5827604d",
+        "eid_968bc0a2",
+        "eid_9da87309",
+        "eid_c8ebc4b0",
+        "eid_e5e36dc1"
+      ],
+      "exact": false,
+      "f1": 0.533,
+      "precision": 1.0,
+      "recall": 0.364,
+      "bm25_f1": 0.4,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "ConnectForce",
+      "question": "Find employee IDs of the authors and key reviewers of the System Design Document for the ConnectForce product?",
+      "gt": [
+        "eid_610a4c21",
+        "eid_5636d3f5",
+        "eid_5827604d",
+        "eid_d7acdc4c",
+        "eid_15cf6612",
+        "eid_4e8b2cdc",
+        "eid_71bfb0a9",
+        "eid_6e2f3e2b",
+        "eid_3c2f2069",
+        "eid_f95e63d8"
+      ],
+      "pred": [
+        "eid_5636d3f5",
+        "eid_5827604d",
+        "eid_610a4c21",
+        "eid_f95e63d8"
+      ],
+      "bm25": [
+        "eid_44c67741",
+        "eid_4d689aa7",
+        "eid_4e8b2cdc",
+        "eid_968bc0a2",
+        "eid_9da87309",
+        "eid_c8ebc4b0",
+        "eid_e5e36dc1",
+        "eid_f95e63d8",
+        "eid_fc0f17c3"
+      ],
+      "exact": false,
+      "f1": 0.571,
+      "precision": 1.0,
+      "recall": 0.4,
+      "bm25_f1": 0.211,
+      "n_queries": 7
+    },
+    {
+      "family": "person_previous_release",
       "product": "ContextForce",
       "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of ContextForce?",
-      "role": "Marketing Research Analyst",
       "gt": [
         "eid_3bd7cd36",
         "eid_9a9cf08a"
       ],
-      "hydra": [
+      "pred": [
         "eid_3bd7cd36",
         "eid_9a9cf08a"
       ],
       "bm25": [
         "eid_bd4d2940"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000027}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000028}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "ContextForce",
       "question": "Find employee IDs of Product Managers who worked on the previous release of ContextForce?",
-      "role": "Product Manager",
       "gt": [
         "eid_aa99608e",
         "eid_887367ca",
         "eid_2c384d22",
         "eid_efc9418c"
       ],
-      "hydra": [
+      "pred": [
         "eid_2c384d22",
         "eid_887367ca",
         "eid_aa99608e",
@@ -170,48 +1113,44 @@
       "bm25": [
         "eid_887367ca"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.4,
-      "queries": [
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000027}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000028}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "ContextForce",
       "question": "Find employee IDs of Technical Architects who worked on the previous release of ContextForce?",
-      "role": "Technical Architect",
       "gt": [
         "eid_9b8bc088",
         "eid_719a0253"
       ],
-      "hydra": [
+      "pred": [
         "eid_719a0253",
         "eid_9b8bc088"
       ],
       "bm25": [
         "eid_792330e0"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000027}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000028}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "ContextForce",
       "question": "Find employee IDs of Engineering Leads who worked on the previous release of ContextForce?",
-      "role": "Engineering Lead",
       "gt": [
         "eid_072d9c10",
         "eid_52681a26"
       ],
-      "hydra": [
+      "pred": [
         "eid_072d9c10",
         "eid_52681a26"
       ],
@@ -220,70 +1159,64 @@
         "eid_82e9fcef",
         "eid_fa16fefb"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000027}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000028}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "ContextForce",
       "question": "Find employee IDs of QA specialists who worked on the previous release of ContextForce?",
-      "role": "QA Specialist",
       "gt": [
         "eid_cb99086d",
         "eid_97b4acd0"
       ],
-      "hydra": [],
+      "pred": [],
       "bm25": [
         "eid_798684b4",
         "eid_7c6dd6a6",
         "eid_c7622c8e"
       ],
-      "hydra_exact": false,
-      "bm25_exact": false,
-      "hydra_f1": 0.0,
+      "exact": false,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000027}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000028}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "EdgeForce",
       "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of EdgeForce?",
-      "role": "Marketing Research Analyst",
       "gt": [
         "eid_12eb6b62",
         "eid_7d27f1fd"
       ],
-      "hydra": [
+      "pred": [
         "eid_12eb6b62",
         "eid_7d27f1fd"
       ],
       "bm25": [],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000030}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000031}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "EdgeForce",
       "question": "Find employee IDs of Product Managers who worked on the previous release of EdgeForce?",
-      "role": "Product Manager",
       "gt": [
         "eid_6bd20afa",
         "eid_c3aac633",
         "eid_5318af37"
       ],
-      "hydra": [
+      "pred": [
         "eid_5318af37",
         "eid_6bd20afa",
         "eid_c3aac633"
@@ -291,48 +1224,44 @@
       "bm25": [
         "eid_caa2e58d"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000030}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000031}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "EdgeForce",
       "question": "Find employee IDs of Technical Architects who worked on the previous release of EdgeForce?",
-      "role": "Technical Architect",
       "gt": [
         "eid_19f537cf",
         "eid_d2f0f99a"
       ],
-      "hydra": [
+      "pred": [
         "eid_19f537cf",
         "eid_d2f0f99a"
       ],
       "bm25": [
         "eid_a253c65a"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000030}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000031}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "EdgeForce",
       "question": "Find employee IDs of Engineering Leads who worked on the previous release of EdgeForce?",
-      "role": "Engineering Lead",
       "gt": [
         "eid_35e32fec",
         "eid_6f719d21"
       ],
-      "hydra": [
+      "pred": [
         "eid_35e32fec",
         "eid_6f719d21"
       ],
@@ -341,72 +1270,506 @@
         "eid_91523bad",
         "eid_b6a30126"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000030}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000031}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "EdgeForce",
       "question": "Find employee IDs of QA specialists who worked on the previous release of EdgeForce?",
-      "role": "QA Specialist",
       "gt": [
         "eid_0719bc3e",
         "eid_7f22371d"
       ],
-      "hydra": [],
+      "pred": [],
       "bm25": [
         "eid_1a7d9807",
         "eid_9db3abf4"
       ],
-      "hydra_exact": false,
-      "bm25_exact": false,
-      "hydra_f1": 0.0,
+      "exact": false,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000030}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000031}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "doc_reviewers",
+      "product": "ExplainabilityForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Market Research Report for the ExplainabilityForce product?",
+      "gt": [
+        "eid_7017b913",
+        "eid_6c9bbe3a",
+        "eid_7bd2e61a",
+        "eid_e0273792",
+        "eid_12eb6b62"
+      ],
+      "pred": [
+        "eid_12eb6b62",
+        "eid_6c9bbe3a",
+        "eid_7017b913",
+        "eid_7bd2e61a"
+      ],
+      "bm25": [
+        "eid_12eb6b62",
+        "eid_1f17ef52",
+        "eid_5318af37",
+        "eid_7017b913",
+        "eid_91523bad",
+        "eid_a13234f2",
+        "eid_dc8bf84e",
+        "eid_e0273792",
+        "eid_e0e4b6d0",
+        "eid_e52cca3d"
+      ],
+      "exact": false,
+      "f1": 0.889,
+      "precision": 1.0,
+      "recall": 0.8,
+      "bm25_f1": 0.4,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "ExplainabilityForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Vision Document for the ExplainabilityForce product?",
+      "gt": [
+        "eid_7017b913",
+        "eid_6c9bbe3a",
+        "eid_fce6544f",
+        "eid_e0273792",
+        "eid_5318af37"
+      ],
+      "pred": [
+        "eid_5318af37",
+        "eid_6c9bbe3a",
+        "eid_7017b913",
+        "eid_fce6544f"
+      ],
+      "bm25": [
+        "eid_0528f388",
+        "eid_1f17ef52",
+        "eid_2d8eff4d",
+        "eid_5318af37",
+        "eid_7017b913",
+        "eid_91523bad",
+        "eid_caa2e58d",
+        "eid_dc8bf84e",
+        "eid_e52cca3d"
+      ],
+      "exact": false,
+      "f1": 0.889,
+      "precision": 1.0,
+      "recall": 0.8,
+      "bm25_f1": 0.286,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "ExplainabilityForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Requirements Document for the ExplainabilityForce product?",
+      "gt": [
+        "eid_7017b913",
+        "eid_dc8bf84e",
+        "eid_6c9bbe3a",
+        "eid_e0273792",
+        "eid_8b14b999",
+        "eid_5318af37"
+      ],
+      "pred": [
+        "eid_12eb6b62",
+        "eid_5318af37",
+        "eid_6c9bbe3a",
+        "eid_7017b913",
+        "eid_dc8bf84e",
+        "eid_e0273792",
+        "eid_e52cca3d"
+      ],
+      "bm25": [
+        "eid_0528f388",
+        "eid_1f17ef52",
+        "eid_2d8eff4d",
+        "eid_5318af37",
+        "eid_7017b913",
+        "eid_91523bad",
+        "eid_caa2e58d",
+        "eid_dc8bf84e",
+        "eid_e52cca3d"
+      ],
+      "exact": false,
+      "f1": 0.769,
+      "precision": 0.714,
+      "recall": 0.833,
+      "bm25_f1": 0.4,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "ExplainabilityForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Technical Specifications Document for the ExplainabilityForce product?",
+      "gt": [
+        "eid_7017b913",
+        "eid_dc8bf84e",
+        "eid_5318af37",
+        "eid_c3aac633",
+        "eid_e0273792",
+        "eid_8b14b999",
+        "eid_d2f0f99a"
+      ],
+      "pred": [
+        "eid_5318af37",
+        "eid_7017b913",
+        "eid_d2f0f99a",
+        "eid_dc8bf84e"
+      ],
+      "bm25": [
+        "eid_1f17ef52",
+        "eid_2d8eff4d",
+        "eid_5318af37",
+        "eid_7017b913",
+        "eid_8b14b999",
+        "eid_91523bad",
+        "eid_a253c65a",
+        "eid_c3aac633",
+        "eid_caa2e58d",
+        "eid_d2f0f99a",
+        "eid_dc8bf84e",
+        "eid_e0273792",
+        "eid_e0e4b6d0",
+        "eid_e52cca3d"
+      ],
+      "exact": false,
+      "f1": 0.727,
+      "precision": 1.0,
+      "recall": 0.571,
+      "bm25_f1": 0.667,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "ExplainabilityForce",
+      "question": "Find employee IDs of the authors and key reviewers of the System Design Document for the ExplainabilityForce product?",
+      "gt": [
+        "eid_d2f0f99a",
+        "eid_dc8bf84e",
+        "eid_5318af37",
+        "eid_c3aac633",
+        "eid_8b14b999",
+        "eid_e0273792"
+      ],
+      "pred": [
+        "eid_5318af37",
+        "eid_d2f0f99a",
+        "eid_dc8bf84e",
+        "eid_e0273792",
+        "eid_e52cca3d"
+      ],
+      "bm25": [
+        "eid_1f17ef52",
+        "eid_2d8eff4d",
+        "eid_5318af37",
+        "eid_7017b913",
+        "eid_91523bad",
+        "eid_b6a30126",
+        "eid_dc8bf84e",
+        "eid_e0273792",
+        "eid_e0e4b6d0",
+        "eid_e52cca3d",
+        "eid_ec0be6e7"
+      ],
+      "exact": false,
+      "f1": 0.727,
+      "precision": 0.8,
+      "recall": 0.667,
+      "bm25_f1": 0.353,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "FeedbackForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Market Research Report for the FeedbackForce product?",
+      "gt": [
+        "eid_df282afb",
+        "eid_e51b439b",
+        "eid_91523bad",
+        "eid_b67edbb4",
+        "eid_6f719d21",
+        "eid_35e32fec",
+        "eid_b6a30126",
+        "eid_07ca0a78",
+        "eid_2490c02c",
+        "eid_a13234f2"
+      ],
+      "pred": [
+        "eid_91523bad",
+        "eid_a13234f2",
+        "eid_df282afb",
+        "eid_e51b439b"
+      ],
+      "bm25": [
+        "eid_07ca0a78",
+        "eid_12eb6b62",
+        "eid_19f537cf",
+        "eid_2490c02c",
+        "eid_35e32fec",
+        "eid_36569bb7",
+        "eid_4b38019b",
+        "eid_54905dcb",
+        "eid_6bd20afa",
+        "eid_6f719d21",
+        "eid_8c71a7a9",
+        "eid_91523bad",
+        "eid_9db3abf4",
+        "eid_a13234f2",
+        "eid_b67edbb4",
+        "eid_b6a30126",
+        "eid_df282afb",
+        "eid_e42b000f"
+      ],
+      "exact": false,
+      "f1": 0.571,
+      "precision": 1.0,
+      "recall": 0.4,
+      "bm25_f1": 0.643,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "FeedbackForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Vision Document for the FeedbackForce product?",
+      "gt": [
+        "eid_bf6c7f21",
+        "eid_e51b439b",
+        "eid_91523bad",
+        "eid_ad0725a2",
+        "eid_b67edbb4",
+        "eid_6f719d21",
+        "eid_8c71a7a9",
+        "eid_35e32fec",
+        "eid_b6a30126",
+        "eid_2490c02c",
+        "eid_6bd20afa"
+      ],
+      "pred": [
+        "eid_6bd20afa",
+        "eid_91523bad",
+        "eid_bac7c6c4",
+        "eid_bf6c7f21",
+        "eid_e51b439b"
+      ],
+      "bm25": [
+        "eid_2490c02c",
+        "eid_35e32fec",
+        "eid_4b38019b",
+        "eid_5318af37",
+        "eid_6bd20afa",
+        "eid_6f719d21",
+        "eid_7017b913",
+        "eid_8c71a7a9",
+        "eid_91523bad",
+        "eid_9db3abf4",
+        "eid_ad0725a2",
+        "eid_b67edbb4",
+        "eid_b6a30126",
+        "eid_c3aac633",
+        "eid_e42b000f",
+        "eid_e51b439b",
+        "eid_e9652ef0"
+      ],
+      "exact": false,
+      "f1": 0.5,
+      "precision": 0.8,
+      "recall": 0.364,
+      "bm25_f1": 0.714,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "FeedbackForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Requirements Document for the FeedbackForce product?",
+      "gt": [
+        "eid_e51b439b",
+        "eid_9db3abf4",
+        "eid_91523bad",
+        "eid_6f719d21",
+        "eid_c9c3d8d5",
+        "eid_9c46088d",
+        "eid_7f22371d",
+        "eid_a9002ae2",
+        "eid_8c71a7a9",
+        "eid_2490c02c",
+        "eid_e42b000f"
+      ],
+      "pred": [
+        "eid_91523bad",
+        "eid_9db3abf4",
+        "eid_e42b000f",
+        "eid_e51b439b"
+      ],
+      "bm25": [
+        "eid_061285c7",
+        "eid_0719bc3e",
+        "eid_19f537cf",
+        "eid_1a7d9807",
+        "eid_2490c02c",
+        "eid_35e32fec",
+        "eid_4b38019b",
+        "eid_5058fefc",
+        "eid_5318af37",
+        "eid_6bd20afa",
+        "eid_6f719d21",
+        "eid_7017b913",
+        "eid_7f22371d",
+        "eid_8c71a7a9",
+        "eid_91523bad",
+        "eid_9c46088d",
+        "eid_9db3abf4",
+        "eid_a9002ae2",
+        "eid_b67edbb4",
+        "eid_b6a30126",
+        "eid_c3aac633",
+        "eid_c9c3d8d5",
+        "eid_e42b000f",
+        "eid_e51b439b"
+      ],
+      "exact": false,
+      "f1": 0.533,
+      "precision": 1.0,
+      "recall": 0.364,
+      "bm25_f1": 0.629,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "FeedbackForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Technical Specifications Document for the FeedbackForce product?",
+      "gt": [
+        "eid_9db3abf4",
+        "eid_91523bad",
+        "eid_caa2e58d",
+        "eid_1a7d9807",
+        "eid_b67edbb4",
+        "eid_6f719d21",
+        "eid_9c46088d",
+        "eid_7f22371d",
+        "eid_35e32fec",
+        "eid_b6a30126",
+        "eid_0719bc3e",
+        "eid_19f537cf"
+      ],
+      "pred": [
+        "eid_19f537cf",
+        "eid_91523bad",
+        "eid_9db3abf4",
+        "eid_caa2e58d"
+      ],
+      "bm25": [
+        "eid_19f537cf",
+        "eid_5318af37",
+        "eid_54905dcb",
+        "eid_6bd20afa",
+        "eid_7017b913",
+        "eid_91523bad",
+        "eid_9db3abf4",
+        "eid_b67edbb4",
+        "eid_c3aac633",
+        "eid_d2f0f99a",
+        "eid_e42b000f"
+      ],
+      "exact": false,
+      "f1": 0.5,
+      "precision": 1.0,
+      "recall": 0.333,
+      "bm25_f1": 0.348,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "FeedbackForce",
+      "question": "Find employee IDs of the authors and key reviewers of the System Design Document for the FeedbackForce product?",
+      "gt": [
+        "eid_9db3abf4",
+        "eid_a253c65a",
+        "eid_caa2e58d",
+        "eid_1a7d9807",
+        "eid_e42b000f",
+        "eid_19f537cf",
+        "eid_9c46088d",
+        "eid_7f22371d",
+        "eid_061285c7",
+        "eid_a9002ae2",
+        "eid_2d8eff4d",
+        "eid_0719bc3e",
+        "eid_6bd20afa",
+        "eid_b67edbb4"
+      ],
+      "pred": [
+        "eid_9db3abf4",
+        "eid_a253c65a",
+        "eid_b67edbb4",
+        "eid_caa2e58d"
+      ],
+      "bm25": [
+        "eid_36569bb7",
+        "eid_5318af37",
+        "eid_54905dcb",
+        "eid_5780b68c",
+        "eid_6bd20afa",
+        "eid_91523bad",
+        "eid_9db3abf4",
+        "eid_a0fe567d",
+        "eid_b67edbb4",
+        "eid_c3aac633",
+        "eid_e0273792",
+        "eid_e1bcb754",
+        "eid_e42b000f",
+        "eid_e81cfe3f",
+        "eid_e9652ef0"
+      ],
+      "exact": false,
+      "f1": 0.444,
+      "precision": 1.0,
+      "recall": 0.286,
+      "bm25_f1": 0.276,
+      "n_queries": 7
+    },
+    {
+      "family": "person_previous_release",
       "product": "FlowForce",
       "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of FlowForce?",
-      "role": "Marketing Research Analyst",
       "gt": [
         "eid_eaec7b7a",
         "eid_f3569cc7"
       ],
-      "hydra": [
+      "pred": [
         "eid_eaec7b7a",
         "eid_f3569cc7"
       ],
       "bm25": [
         "eid_13033b71"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000039}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000040}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "FlowForce",
       "question": "Find employee IDs of Product Managers who worked on the previous release of FlowForce?",
-      "role": "Product Manager",
       "gt": [
         "eid_6e2f3e2b",
         "eid_968bc0a2",
         "eid_3adf7b8a",
         "eid_c8ebc4b0"
       ],
-      "hydra": [
+      "pred": [
         "eid_3adf7b8a",
         "eid_6e2f3e2b",
         "eid_968bc0a2",
@@ -415,46 +1778,42 @@
       "bm25": [
         "eid_4e8b2cdc"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000039}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000040}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "FlowForce",
       "question": "Find employee IDs of Technical Architects who worked on the previous release of FlowForce?",
-      "role": "Technical Architect",
       "gt": [
         "eid_3c2f2069",
         "eid_4d689aa7"
       ],
-      "hydra": [
+      "pred": [
         "eid_3c2f2069",
         "eid_4d689aa7"
       ],
       "bm25": [],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000039}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000040}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "FlowForce",
       "question": "Find employee IDs of Engineering Leads who worked on the previous release of FlowForce?",
-      "role": "Engineering Lead",
       "gt": [
         "eid_aedadd3e",
         "eid_f95e63d8"
       ],
-      "hydra": [
+      "pred": [
         "eid_aedadd3e",
         "eid_f95e63d8"
       ],
@@ -462,68 +1821,62 @@
         "eid_294ba09d",
         "eid_e5e36dc1"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000039}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000040}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "FlowForce",
       "question": "Find employee IDs of QA specialists who worked on the previous release of FlowForce?",
-      "role": "QA Specialist",
       "gt": [
         "eid_a4b607d6",
         "eid_9917239e"
       ],
-      "hydra": [],
+      "pred": [],
       "bm25": [
         "eid_6936f36d"
       ],
-      "hydra_exact": false,
-      "bm25_exact": false,
-      "hydra_f1": 0.0,
+      "exact": false,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000039}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000040}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "ForecastForce",
       "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of ForecastForce?",
-      "role": "Marketing Research Analyst",
       "gt": [
         "eid_94fb5d84",
         "eid_cb131cb3"
       ],
-      "hydra": [
+      "pred": [
         "eid_94fb5d84",
         "eid_cb131cb3"
       ],
       "bm25": [],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000042}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000043}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "ForecastForce",
       "question": "Find employee IDs of Product Managers who worked on the previous release of ForecastForce?",
-      "role": "Product Manager",
       "gt": [
         "eid_4988ee2a",
         "eid_3516c527",
         "eid_2d14387c"
       ],
-      "hydra": [
+      "pred": [
         "eid_2d14387c",
         "eid_3516c527",
         "eid_4988ee2a"
@@ -531,46 +1884,42 @@
       "bm25": [
         "eid_9f1ff493"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000042}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000043}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "ForecastForce",
       "question": "Find employee IDs of Technical Architects who worked on the previous release of ForecastForce?",
-      "role": "Technical Architect",
       "gt": [
         "eid_1e7c8290",
         "eid_ec5cb5c2"
       ],
-      "hydra": [
+      "pred": [
         "eid_1e7c8290",
         "eid_ec5cb5c2"
       ],
       "bm25": [],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000042}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000043}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "ForecastForce",
       "question": "Find employee IDs of Engineering Leads who worked on the previous release of ForecastForce?",
-      "role": "Engineering Lead",
       "gt": [
         "eid_0c373165",
         "eid_ab6f41bc"
       ],
-      "hydra": [
+      "pred": [
         "eid_0c373165",
         "eid_ab6f41bc"
       ],
@@ -580,66 +1929,266 @@
         "eid_86044ae5",
         "eid_bd791efc"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.333,
-      "queries": [
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000042}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000043}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "ForecastForce",
       "question": "Find employee IDs of QA specialists who worked on the previous release of ForecastForce?",
-      "role": "QA Specialist",
       "gt": [
         "eid_accab4fc",
         "eid_3f3ea10f"
       ],
-      "hydra": [],
+      "pred": [],
       "bm25": [],
-      "hydra_exact": false,
-      "bm25_exact": false,
-      "hydra_f1": 0.0,
+      "exact": false,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000042}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000043}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "doc_reviewers",
+      "product": "InsightForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Market Research Report for the InsightForce product?",
+      "gt": [
+        "eid_272ed674",
+        "eid_0c373165",
+        "eid_782010a4",
+        "eid_1330d187",
+        "eid_131494b8",
+        "eid_ab6f41bc",
+        "eid_cb131cb3"
+      ],
+      "pred": [
+        "eid_0c373165",
+        "eid_272ed674",
+        "eid_782010a4",
+        "eid_9f1ff493",
+        "eid_a8040636",
+        "eid_cb131cb3"
+      ],
+      "bm25": [
+        "eid_131494b8",
+        "eid_1330d187",
+        "eid_3516c527",
+        "eid_4988ee2a",
+        "eid_70223d0a",
+        "eid_782010a4",
+        "eid_94fb5d84",
+        "eid_9f1ff493",
+        "eid_ab6f41bc",
+        "eid_c09d4d60",
+        "eid_cb131cb3",
+        "eid_e3612e4a"
+      ],
+      "exact": false,
+      "f1": 0.615,
+      "precision": 0.667,
+      "recall": 0.571,
+      "bm25_f1": 0.526,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "InsightForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Vision Document for the InsightForce product?",
+      "gt": [
+        "eid_272ed674",
+        "eid_0c373165",
+        "eid_4fc423da",
+        "eid_1330d187",
+        "eid_131494b8",
+        "eid_ab6f41bc",
+        "eid_4988ee2a"
+      ],
+      "pred": [
+        "eid_0c373165",
+        "eid_13df35ed",
+        "eid_272ed674",
+        "eid_4988ee2a",
+        "eid_4fc423da",
+        "eid_ec5cb5c2"
+      ],
+      "bm25": [
+        "eid_0e2e8d07",
+        "eid_3516c527",
+        "eid_4988ee2a",
+        "eid_4fc423da",
+        "eid_9e9883de",
+        "eid_9f1ff493",
+        "eid_cb131cb3",
+        "eid_e3612e4a"
+      ],
+      "exact": false,
+      "f1": 0.615,
+      "precision": 0.667,
+      "recall": 0.571,
+      "bm25_f1": 0.267,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "InsightForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Requirements Document for the InsightForce product?",
+      "gt": [
+        "eid_272ed674",
+        "eid_0c373165",
+        "eid_e3612e4a",
+        "eid_0dd1bf2e",
+        "eid_1330d187",
+        "eid_3f3ea10f",
+        "eid_839e5084",
+        "eid_73a50f06",
+        "eid_ab6f41bc",
+        "eid_9c876927",
+        "eid_131494b8",
+        "eid_9f1ff493"
+      ],
+      "pred": [
+        "eid_0c373165",
+        "eid_272ed674",
+        "eid_9f1ff493",
+        "eid_e3612e4a"
+      ],
+      "bm25": [
+        "eid_0e2e8d07",
+        "eid_2594f98a",
+        "eid_3516c527",
+        "eid_4988ee2a",
+        "eid_4fc423da",
+        "eid_9e9883de",
+        "eid_9f1ff493",
+        "eid_e3612e4a"
+      ],
+      "exact": false,
+      "f1": 0.5,
+      "precision": 1.0,
+      "recall": 0.333,
+      "bm25_f1": 0.2,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "InsightForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Technical Specifications Document for the InsightForce product?",
+      "gt": [
+        "eid_2d14387c",
+        "eid_0c373165",
+        "eid_e3612e4a",
+        "eid_1330d187",
+        "eid_4988ee2a",
+        "eid_839e5084",
+        "eid_9f1ff493",
+        "eid_73a50f06",
+        "eid_9c876927",
+        "eid_54b986cf",
+        "eid_ec5cb5c2"
+      ],
+      "pred": [
+        "eid_0c373165",
+        "eid_2d14387c",
+        "eid_446bc3ee",
+        "eid_e3612e4a",
+        "eid_ec5cb5c2"
+      ],
+      "bm25": [
+        "eid_0c373165",
+        "eid_0e2e8d07",
+        "eid_1e7c8290",
+        "eid_3516c527",
+        "eid_4988ee2a",
+        "eid_4fc423da",
+        "eid_9f1ff493",
+        "eid_e3612e4a",
+        "eid_ec5cb5c2"
+      ],
+      "exact": false,
+      "f1": 0.5,
+      "precision": 0.8,
+      "recall": 0.364,
+      "bm25_f1": 0.5,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "InsightForce",
+      "question": "Find employee IDs of the authors and key reviewers of the System Design Document for the InsightForce product?",
+      "gt": [
+        "eid_ec5cb5c2",
+        "eid_2d14387c",
+        "eid_e3612e4a",
+        "eid_0dd1bf2e",
+        "eid_4988ee2a",
+        "eid_3f3ea10f",
+        "eid_839e5084",
+        "eid_9f1ff493",
+        "eid_bc469a8f",
+        "eid_73a50f06",
+        "eid_9c876927",
+        "eid_54b986cf",
+        "eid_0c373165"
+      ],
+      "pred": [
+        "eid_0c373165",
+        "eid_2d14387c",
+        "eid_e3612e4a",
+        "eid_ec5cb5c2"
+      ],
+      "bm25": [
+        "eid_0c373165",
+        "eid_16935c12",
+        "eid_3516c527",
+        "eid_4988ee2a",
+        "eid_4fc423da",
+        "eid_9f1ff493",
+        "eid_a8040636",
+        "eid_e3612e4a",
+        "eid_ec5cb5c2"
+      ],
+      "exact": false,
+      "f1": 0.471,
+      "precision": 1.0,
+      "recall": 0.308,
+      "bm25_f1": 0.455,
+      "n_queries": 7
+    },
+    {
+      "family": "person_previous_release",
       "product": "LeadForce",
       "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of LeadForce?",
-      "role": "Marketing Research Analyst",
       "gt": [
         "eid_5af96a7d",
         "eid_1e9356f5"
       ],
-      "hydra": [
+      "pred": [
         "eid_1e9356f5",
         "eid_5af96a7d"
       ],
       "bm25": [],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000052}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000053}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "LeadForce",
       "question": "Find employee IDs of Product Managers who worked on the previous release of LeadForce?",
-      "role": "Product Manager",
       "gt": [
         "eid_66d09012",
         "eid_469598db",
         "eid_ccd7c214"
       ],
-      "hydra": [
+      "pred": [
         "eid_469598db",
         "eid_66d09012",
         "eid_ccd7c214"
@@ -647,48 +2196,44 @@
       "bm25": [
         "eid_8efef28a"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000052}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000053}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "LeadForce",
       "question": "Find employee IDs of Technical Architects who worked on the previous release of LeadForce?",
-      "role": "Technical Architect",
       "gt": [
         "eid_eba4d825",
         "eid_df39cc9e"
       ],
-      "hydra": [
+      "pred": [
         "eid_df39cc9e",
         "eid_eba4d825"
       ],
       "bm25": [
         "eid_b48f959b"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000052}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000053}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "LeadForce",
       "question": "Find employee IDs of Engineering Leads who worked on the previous release of LeadForce?",
-      "role": "Engineering Lead",
       "gt": [
         "eid_8df92d08",
         "eid_50da4819"
       ],
-      "hydra": [
+      "pred": [
         "eid_50da4819",
         "eid_8df92d08"
       ],
@@ -696,70 +2241,266 @@
         "eid_99835861",
         "eid_f98d7490"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000052}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000053}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "LeadForce",
       "question": "Find employee IDs of QA specialists who worked on the previous release of LeadForce?",
-      "role": "QA Specialist",
       "gt": [
         "eid_ddbe5577",
         "eid_4de5cd7f"
       ],
-      "hydra": [],
+      "pred": [],
       "bm25": [
         "eid_55f01e31",
         "eid_88e74382"
       ],
-      "hydra_exact": false,
-      "bm25_exact": false,
-      "hydra_f1": 0.0,
+      "exact": false,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000052}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000053}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "doc_reviewers",
+      "product": "MonitorForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Market Research Report for the MonitorForce product?",
+      "gt": [
+        "eid_575214be",
+        "eid_5d5f5e96",
+        "eid_5b9ab912",
+        "eid_44c67741",
+        "eid_f3569cc7"
+      ],
+      "pred": [
+        "eid_575214be",
+        "eid_5b9ab912",
+        "eid_5d5f5e96",
+        "eid_f3569cc7"
+      ],
+      "bm25": [
+        "eid_13033b71",
+        "eid_4d689aa7",
+        "eid_4e8b2cdc",
+        "eid_641eee2a",
+        "eid_9ea72e0c",
+        "eid_a4b607d6",
+        "eid_abfc6560",
+        "eid_c38fe0e7",
+        "eid_c8ebc4b0",
+        "eid_f3569cc7"
+      ],
+      "exact": false,
+      "f1": 0.889,
+      "precision": 1.0,
+      "recall": 0.8,
+      "bm25_f1": 0.133,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "MonitorForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Vision Document for the MonitorForce product?",
+      "gt": [
+        "eid_038c9fb6",
+        "eid_575214be",
+        "eid_5b9ab912",
+        "eid_44c67741",
+        "eid_c8ebc4b0"
+      ],
+      "pred": [
+        "eid_038c9fb6",
+        "eid_575214be",
+        "eid_5b9ab912",
+        "eid_c8ebc4b0"
+      ],
+      "bm25": [
+        "eid_294ba09d",
+        "eid_4d689aa7",
+        "eid_4e8b2cdc",
+        "eid_5b9ab912",
+        "eid_610a4c21",
+        "eid_9de52b6e",
+        "eid_a4b607d6",
+        "eid_abfc6560",
+        "eid_c8ebc4b0",
+        "eid_e5e36dc1"
+      ],
+      "exact": false,
+      "f1": 0.889,
+      "precision": 1.0,
+      "recall": 0.8,
+      "bm25_f1": 0.267,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "MonitorForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Requirements Document for the MonitorForce product?",
+      "gt": [
+        "eid_a4b607d6",
+        "eid_575214be",
+        "eid_5b9ab912",
+        "eid_2fc784e1",
+        "eid_44c67741",
+        "eid_9de8dc40",
+        "eid_9917239e",
+        "eid_c8ebc4b0"
+      ],
+      "pred": [
+        "eid_575214be",
+        "eid_5b9ab912",
+        "eid_a4b607d6",
+        "eid_c38fe0e7",
+        "eid_c8ebc4b0"
+      ],
+      "bm25": [
+        "eid_294ba09d",
+        "eid_2fc784e1",
+        "eid_44c67741",
+        "eid_4d689aa7",
+        "eid_4e8b2cdc",
+        "eid_5b9ab912",
+        "eid_610a4c21",
+        "eid_9917239e",
+        "eid_9de52b6e",
+        "eid_9de8dc40",
+        "eid_a4b607d6",
+        "eid_abfc6560",
+        "eid_c8ebc4b0",
+        "eid_e5e36dc1"
+      ],
+      "exact": false,
+      "f1": 0.615,
+      "precision": 0.8,
+      "recall": 0.5,
+      "bm25_f1": 0.636,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "MonitorForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Technical Specifications Document for the MonitorForce product?",
+      "gt": [
+        "eid_a4b607d6",
+        "eid_c8ebc4b0",
+        "eid_5b9ab912",
+        "eid_9de8dc40",
+        "eid_2fc784e1",
+        "eid_968bc0a2",
+        "eid_9917239e",
+        "eid_44c67741",
+        "eid_4d689aa7"
+      ],
+      "pred": [
+        "eid_4d689aa7",
+        "eid_5b9ab912",
+        "eid_a4b607d6",
+        "eid_c8ebc4b0"
+      ],
+      "bm25": [
+        "eid_294ba09d",
+        "eid_2fc784e1",
+        "eid_44c67741",
+        "eid_4d689aa7",
+        "eid_4e8b2cdc",
+        "eid_575214be",
+        "eid_5827604d",
+        "eid_5b9ab912",
+        "eid_610a4c21",
+        "eid_968bc0a2",
+        "eid_9917239e",
+        "eid_9de52b6e",
+        "eid_9de8dc40",
+        "eid_a4b607d6",
+        "eid_abfc6560",
+        "eid_c8ebc4b0"
+      ],
+      "exact": false,
+      "f1": 0.615,
+      "precision": 1.0,
+      "recall": 0.444,
+      "bm25_f1": 0.72,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "MonitorForce",
+      "question": "Find employee IDs of the authors and key reviewers of the System Design Document for the MonitorForce product?",
+      "gt": [
+        "eid_4d689aa7",
+        "eid_c8ebc4b0",
+        "eid_a4b607d6",
+        "eid_2fc784e1",
+        "eid_9de8dc40",
+        "eid_9917239e",
+        "eid_968bc0a2",
+        "eid_5b9ab912"
+      ],
+      "pred": [
+        "eid_4d689aa7",
+        "eid_5b9ab912",
+        "eid_a4b607d6",
+        "eid_c8ebc4b0"
+      ],
+      "bm25": [
+        "eid_294ba09d",
+        "eid_4d689aa7",
+        "eid_4e8b2cdc",
+        "eid_575214be",
+        "eid_5827604d",
+        "eid_5b9ab912",
+        "eid_610a4c21",
+        "eid_9de52b6e",
+        "eid_a4b607d6",
+        "eid_abfc6560",
+        "eid_c8ebc4b0"
+      ],
+      "exact": false,
+      "f1": 0.667,
+      "precision": 1.0,
+      "recall": 0.5,
+      "bm25_f1": 0.421,
+      "n_queries": 7
+    },
+    {
+      "family": "person_previous_release",
       "product": "PitchForce",
       "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of PitchForce?",
-      "role": "Marketing Research Analyst",
       "gt": [
         "eid_890654c4",
         "eid_1e9356f5"
       ],
-      "hydra": [
+      "pred": [
         "eid_1e9356f5",
         "eid_890654c4"
       ],
       "bm25": [],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000062}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000063}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "PitchForce",
       "question": "Find employee IDs of Product Managers who worked on the previous release of PitchForce?",
-      "role": "Product Manager",
       "gt": [
         "eid_8bab7c9d",
         "eid_46e00bc4",
         "eid_0d55ede9",
         "eid_ccd7c214"
       ],
-      "hydra": [
+      "pred": [
         "eid_0d55ede9",
         "eid_46e00bc4",
         "eid_8bab7c9d",
@@ -768,118 +2509,108 @@
       "bm25": [
         "eid_c0df5be6"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000062}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000063}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "PitchForce",
       "question": "Find employee IDs of Technical Architects who worked on the previous release of PitchForce?",
-      "role": "Technical Architect",
       "gt": [
         "eid_b48f959b",
         "eid_eba4d825"
       ],
-      "hydra": [
+      "pred": [
         "eid_b48f959b",
         "eid_eba4d825"
       ],
       "bm25": [
         "eid_df39cc9e"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000062}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000063}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "PitchForce",
       "question": "Find employee IDs of Engineering Leads who worked on the previous release of PitchForce?",
-      "role": "Engineering Lead",
       "gt": [
         "eid_99835861",
         "eid_4350bf70"
       ],
-      "hydra": [
+      "pred": [
         "eid_4350bf70",
         "eid_99835861"
       ],
       "bm25": [
         "eid_50da4819"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000062}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000063}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "PitchForce",
       "question": "Find employee IDs of QA specialists who worked on the previous release of PitchForce?",
-      "role": "QA Specialist",
       "gt": [
         "eid_7b85a749",
         "eid_88e74382"
       ],
-      "hydra": [],
+      "pred": [],
       "bm25": [
         "eid_1cfce648",
         "eid_32ff39b2",
         "eid_71a4de1d"
       ],
-      "hydra_exact": false,
-      "bm25_exact": false,
-      "hydra_f1": 0.0,
+      "exact": false,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000062}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000063}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "SearchForce",
       "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of SearchForce?",
-      "role": "Marketing Research Analyst",
       "gt": [
         "eid_3bd7cd36",
         "eid_bd4d2940"
       ],
-      "hydra": [
+      "pred": [
         "eid_3bd7cd36",
         "eid_bd4d2940"
       ],
       "bm25": [],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000073}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000074}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "SearchForce",
       "question": "Find employee IDs of Product Managers who worked on the previous release of SearchForce?",
-      "role": "Product Manager",
       "gt": [
         "eid_9937f1d5",
         "eid_36319f22",
         "eid_2c384d22"
       ],
-      "hydra": [
+      "pred": [
         "eid_2c384d22",
         "eid_36319f22",
         "eid_9937f1d5"
@@ -888,46 +2619,42 @@
         "eid_5b61c55e",
         "eid_efc9418c"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000073}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000074}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "SearchForce",
       "question": "Find employee IDs of Technical Architects who worked on the previous release of SearchForce?",
-      "role": "Technical Architect",
       "gt": [
         "eid_719a0253",
         "eid_792330e0"
       ],
-      "hydra": [
+      "pred": [
         "eid_719a0253",
         "eid_792330e0"
       ],
       "bm25": [],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000073}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000074}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "SearchForce",
       "question": "Find employee IDs of Engineering Leads who worked on the previous release of SearchForce?",
-      "role": "Engineering Lead",
       "gt": [
         "eid_52681a26",
         "eid_82e9fcef"
       ],
-      "hydra": [
+      "pred": [
         "eid_52681a26",
         "eid_82e9fcef"
       ],
@@ -936,117 +2663,107 @@
         "eid_439a052b",
         "eid_d0b6cb92"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000073}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000074}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "SearchForce",
       "question": "Find employee IDs of QA specialists who worked on the previous release of SearchForce?",
-      "role": "QA Specialist",
       "gt": [
         "eid_c7622c8e",
         "eid_7c6dd6a6"
       ],
-      "hydra": [],
+      "pred": [],
       "bm25": [
         "eid_4f731d34"
       ],
-      "hydra_exact": false,
-      "bm25_exact": false,
-      "hydra_f1": 0.0,
+      "exact": false,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000073}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000074}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "SentimentForce",
       "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of SentimentForce?",
-      "role": "Marketing Research Analyst",
       "gt": [
         "eid_bb22e59b",
         "eid_2ed1a8f6"
       ],
-      "hydra": [
+      "pred": [
         "eid_2ed1a8f6",
         "eid_bb22e59b"
       ],
       "bm25": [
         "eid_2ed1a8f6"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.667,
-      "queries": [
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000080}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000081}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "SentimentForce",
       "question": "Find employee IDs of Product Managers who worked on the previous release of SentimentForce?",
-      "role": "Product Manager",
       "gt": [
         "eid_1f678d18",
         "eid_9bddb57c",
         "eid_03a183c9"
       ],
-      "hydra": [
+      "pred": [
         "eid_03a183c9",
         "eid_1f678d18",
         "eid_9bddb57c"
       ],
       "bm25": [],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000080}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000081}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "SentimentForce",
       "question": "Find employee IDs of Technical Architects who worked on the previous release of SentimentForce?",
-      "role": "Technical Architect",
       "gt": [
         "eid_816aea15",
         "eid_2543da6a"
       ],
-      "hydra": [
+      "pred": [
         "eid_2543da6a",
         "eid_816aea15"
       ],
       "bm25": [
         "eid_5890ce38"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000080}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000081}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "SentimentForce",
       "question": "Find employee IDs of Engineering Leads who worked on the previous release of SentimentForce?",
-      "role": "Engineering Lead",
       "gt": [
         "eid_3bcf2a20",
         "eid_95f6d01c"
       ],
-      "hydra": [
+      "pred": [
         "eid_3bcf2a20",
         "eid_95f6d01c"
       ],
@@ -1054,69 +2771,287 @@
         "eid_802e8eff",
         "eid_d96fb219"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000080}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000081}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "SentimentForce",
       "question": "Find employee IDs of QA specialists who worked on the previous release of SentimentForce?",
-      "role": "QA Specialist",
       "gt": [
         "eid_7b874c82",
         "eid_df392037"
       ],
-      "hydra": [],
+      "pred": [],
       "bm25": [
         "eid_c97ac4fe"
       ],
-      "hydra_exact": false,
-      "bm25_exact": false,
-      "hydra_f1": 0.0,
+      "exact": false,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000080}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000081}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "doc_reviewers",
+      "product": "SupportForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Market Research Report for the SupportForce product?",
+      "gt": [
+        "eid_e5e36dc1",
+        "eid_8558304e",
+        "eid_2e028d1b",
+        "eid_aedadd3e",
+        "eid_3a0795f3",
+        "eid_294ba09d",
+        "eid_f95e63d8",
+        "eid_86205170",
+        "eid_a2b52913",
+        "eid_13033b71"
+      ],
+      "pred": [
+        "eid_13033b71",
+        "eid_2e028d1b",
+        "eid_8558304e",
+        "eid_e5e36dc1"
+      ],
+      "bm25": [
+        "eid_13033b71",
+        "eid_2e028d1b",
+        "eid_5636d3f5",
+        "eid_5b9ab912",
+        "eid_6a7cba73",
+        "eid_6f212a93",
+        "eid_8558304e",
+        "eid_c8ebc4b0",
+        "eid_e5e36dc1",
+        "eid_f3569cc7",
+        "eid_f50066b1"
+      ],
+      "exact": false,
+      "f1": 0.571,
+      "precision": 1.0,
+      "recall": 0.4,
+      "bm25_f1": 0.381,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "SupportForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Vision Document for the SupportForce product?",
+      "gt": [
+        "eid_e5e36dc1",
+        "eid_8558304e",
+        "eid_c38fb1b4",
+        "eid_aedadd3e",
+        "eid_294ba09d",
+        "eid_f95e63d8",
+        "eid_a1e925ce",
+        "eid_86205170",
+        "eid_a2b52913",
+        "eid_6a7cba73"
+      ],
+      "pred": [
+        "eid_6a7cba73",
+        "eid_8558304e",
+        "eid_c38fb1b4",
+        "eid_e5e36dc1"
+      ],
+      "bm25": [
+        "eid_294ba09d",
+        "eid_5636d3f5",
+        "eid_5b9ab912",
+        "eid_5d5f5e96",
+        "eid_610a4c21",
+        "eid_6a7cba73",
+        "eid_6f212a93",
+        "eid_71e8aec1",
+        "eid_c8ebc4b0",
+        "eid_d098d618",
+        "eid_e5e36dc1",
+        "eid_f50066b1",
+        "eid_f95e63d8"
+      ],
+      "exact": false,
+      "f1": 0.571,
+      "precision": 1.0,
+      "recall": 0.4,
+      "bm25_f1": 0.348,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "SupportForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Requirements Document for the SupportForce product?",
+      "gt": [
+        "eid_e5e36dc1",
+        "eid_5636d3f5",
+        "eid_8558304e",
+        "eid_1faba5d2",
+        "eid_51f50b3a",
+        "eid_71bfb0a9",
+        "eid_6b76916e",
+        "eid_f95e63d8",
+        "eid_55db4c6f",
+        "eid_15cf6612",
+        "eid_86205170",
+        "eid_a2b52913",
+        "eid_610a4c21"
+      ],
+      "pred": [
+        "eid_5636d3f5",
+        "eid_610a4c21",
+        "eid_8558304e",
+        "eid_e5e36dc1"
+      ],
+      "bm25": [
+        "eid_294ba09d",
+        "eid_5636d3f5",
+        "eid_5b9ab912",
+        "eid_5d5f5e96",
+        "eid_610a4c21",
+        "eid_6a7cba73",
+        "eid_6f212a93",
+        "eid_71e8aec1",
+        "eid_c8ebc4b0",
+        "eid_d098d618",
+        "eid_e5e36dc1",
+        "eid_f50066b1",
+        "eid_f95e63d8"
+      ],
+      "exact": false,
+      "f1": 0.471,
+      "precision": 1.0,
+      "recall": 0.308,
+      "bm25_f1": 0.308,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "SupportForce",
+      "question": "Find employee IDs of the authors and key reviewers of the Technical Specifications Document for the SupportForce product?",
+      "gt": [
+        "eid_e5e36dc1",
+        "eid_5636d3f5",
+        "eid_610a4c21",
+        "eid_6e2f3e2b",
+        "eid_aedadd3e",
+        "eid_294ba09d",
+        "eid_51f50b3a",
+        "eid_71bfb0a9",
+        "eid_4e8b2cdc",
+        "eid_3c2f2069"
+      ],
+      "pred": [
+        "eid_3c2f2069",
+        "eid_5636d3f5",
+        "eid_610a4c21",
+        "eid_e5e36dc1"
+      ],
+      "bm25": [
+        "eid_13033b71",
+        "eid_3c2f2069",
+        "eid_44c67741",
+        "eid_4d689aa7",
+        "eid_610a4c21",
+        "eid_6a7cba73",
+        "eid_6f212a93",
+        "eid_c8ebc4b0",
+        "eid_e5e36dc1",
+        "eid_f50066b1",
+        "eid_f95e63d8"
+      ],
+      "exact": false,
+      "f1": 0.571,
+      "precision": 1.0,
+      "recall": 0.4,
+      "bm25_f1": 0.286,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "SupportForce",
+      "question": "Find employee IDs of the authors and key reviewers of the System Design Document for the SupportForce product?",
+      "gt": [
+        "eid_5827604d",
+        "eid_5636d3f5",
+        "eid_610a4c21",
+        "eid_3c2f2069",
+        "eid_1faba5d2",
+        "eid_3adf7b8a",
+        "eid_71bfb0a9",
+        "eid_6b76916e",
+        "eid_4e8b2cdc",
+        "eid_6936f36d",
+        "eid_55db4c6f",
+        "eid_15cf6612",
+        "eid_d7acdc4c",
+        "eid_f95e63d8"
+      ],
+      "pred": [
+        "eid_5636d3f5",
+        "eid_5827604d",
+        "eid_610a4c21",
+        "eid_f95e63d8"
+      ],
+      "bm25": [
+        "eid_0e5bec0e",
+        "eid_11732422",
+        "eid_44c67741",
+        "eid_4d689aa7",
+        "eid_610a4c21",
+        "eid_6a7cba73",
+        "eid_6dca8945",
+        "eid_6f212a93",
+        "eid_80cffa39",
+        "eid_b9189afb",
+        "eid_c8ebc4b0",
+        "eid_e5e36dc1",
+        "eid_f50066b1",
+        "eid_f95e63d8"
+      ],
+      "exact": false,
+      "f1": 0.444,
+      "precision": 1.0,
+      "recall": 0.286,
+      "bm25_f1": 0.143,
+      "n_queries": 7
+    },
+    {
+      "family": "person_previous_release",
       "product": "TrendForce",
       "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of TrendForce?",
-      "role": "Marketing Research Analyst",
       "gt": [
         "eid_9a9cf08a",
         "eid_3bd7cd36"
       ],
-      "hydra": [
+      "pred": [
         "eid_3bd7cd36",
         "eid_9a9cf08a"
       ],
       "bm25": [],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000090}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000091}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "TrendForce",
       "question": "Find employee IDs of Product Managers who worked on the previous release of TrendForce?",
-      "role": "Product Manager",
       "gt": [
         "eid_aa99608e",
         "eid_5b61c55e",
         "eid_9937f1d5",
         "eid_887367ca"
       ],
-      "hydra": [
+      "pred": [
         "eid_5b61c55e",
         "eid_887367ca",
         "eid_9937f1d5",
@@ -1126,83 +3061,256 @@
         "eid_36319f22",
         "eid_3f2087c9"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000090}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000091}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "TrendForce",
       "question": "Find employee IDs of Technical Architects who worked on the previous release of TrendForce?",
-      "role": "Technical Architect",
       "gt": [
         "eid_719a0253",
         "eid_9b8bc088"
       ],
-      "hydra": [
+      "pred": [
         "eid_719a0253",
         "eid_9b8bc088"
       ],
       "bm25": [],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000090}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000091}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "TrendForce",
       "question": "Find employee IDs of Engineering Leads who worked on the previous release of TrendForce?",
-      "role": "Engineering Lead",
       "gt": [
         "eid_d0b6cb92",
         "eid_52681a26"
       ],
-      "hydra": [
+      "pred": [
         "eid_52681a26",
         "eid_d0b6cb92"
       ],
       "bm25": [
         "eid_82e9fcef"
       ],
-      "hydra_exact": true,
-      "bm25_exact": false,
-      "hydra_f1": 1.0,
+      "exact": true,
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000090}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000091}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
     },
     {
+      "family": "person_previous_release",
       "product": "TrendForce",
       "question": "Find employee IDs of QA specialists who worked on the previous release of TrendForce?",
-      "role": "QA Specialist",
       "gt": [
         "eid_f944b0ee",
         "eid_4f731d34"
       ],
-      "hydra": [],
+      "pred": [],
       "bm25": [
         "eid_435d10af",
         "eid_7c6dd6a6",
         "eid_c7622c8e"
       ],
-      "hydra_exact": false,
-      "bm25_exact": false,
-      "hydra_f1": 0.0,
+      "exact": false,
+      "f1": 0.0,
+      "precision": 0.0,
+      "recall": 0.0,
       "bm25_f1": 0.0,
-      "queries": [
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000090}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
-        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000091}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
-      ]
+      "n_queries": 2
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "WorkFlowGenie",
+      "question": "Find employee IDs of the authors and key reviewers of the Market Research Report for the WorkFlowGenie product?",
+      "gt": [
+        "eid_95f6d01c",
+        "eid_ea9d8486",
+        "eid_4a50932a",
+        "eid_f4f58faa",
+        "eid_2ed1a8f6"
+      ],
+      "pred": [
+        "eid_2ed1a8f6",
+        "eid_4a50932a",
+        "eid_95f6d01c",
+        "eid_c92d3e03",
+        "eid_ea9d8486"
+      ],
+      "bm25": [
+        "eid_136119e9",
+        "eid_13fdff84",
+        "eid_2ed1a8f6",
+        "eid_55f29a0d",
+        "eid_71c0d545",
+        "eid_802e8eff",
+        "eid_f4f58faa",
+        "eid_fd8cecea"
+      ],
+      "exact": false,
+      "f1": 0.8,
+      "precision": 0.8,
+      "recall": 0.8,
+      "bm25_f1": 0.308,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "WorkFlowGenie",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Vision Document for the WorkFlowGenie product?",
+      "gt": [
+        "eid_95f6d01c",
+        "eid_625f445d",
+        "eid_4a50932a",
+        "eid_f4f58faa",
+        "eid_71c0d545"
+      ],
+      "pred": [
+        "eid_4a50932a",
+        "eid_625f445d",
+        "eid_71c0d545",
+        "eid_95f6d01c"
+      ],
+      "bm25": [
+        "eid_2543da6a",
+        "eid_4812cbd8",
+        "eid_62e8e52d",
+        "eid_71c0d545",
+        "eid_802e8eff",
+        "eid_c92d3e03",
+        "eid_fd8cecea"
+      ],
+      "exact": false,
+      "f1": 0.889,
+      "precision": 1.0,
+      "recall": 0.8,
+      "bm25_f1": 0.167,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "WorkFlowGenie",
+      "question": "Find employee IDs of the authors and key reviewers of the Product Requirements Document for the WorkFlowGenie product?",
+      "gt": [
+        "eid_95f6d01c",
+        "eid_62e8e52d",
+        "eid_4a50932a",
+        "eid_3f26c6e5",
+        "eid_6039d1c9",
+        "eid_320cd970",
+        "eid_f4f58faa",
+        "eid_71c0d545"
+      ],
+      "pred": [
+        "eid_4a50932a",
+        "eid_55f29a0d",
+        "eid_62e8e52d",
+        "eid_71c0d545",
+        "eid_95f6d01c"
+      ],
+      "bm25": [
+        "eid_4812cbd8",
+        "eid_62e8e52d",
+        "eid_71c0d545",
+        "eid_802e8eff",
+        "eid_95f6d01c",
+        "eid_c92d3e03",
+        "eid_d96fb219",
+        "eid_fd8cecea"
+      ],
+      "exact": false,
+      "f1": 0.615,
+      "precision": 0.8,
+      "recall": 0.5,
+      "bm25_f1": 0.375,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "WorkFlowGenie",
+      "question": "Find employee IDs of the authors and key reviewers of the Technical Specifications Document for the WorkFlowGenie product?",
+      "gt": [
+        "eid_71c0d545",
+        "eid_95f6d01c",
+        "eid_62e8e52d",
+        "eid_f4f58faa",
+        "eid_3f26c6e5",
+        "eid_6039d1c9",
+        "eid_320cd970",
+        "eid_1f678d18",
+        "eid_2543da6a"
+      ],
+      "pred": [
+        "eid_2543da6a",
+        "eid_62e8e52d",
+        "eid_71c0d545",
+        "eid_95f6d01c"
+      ],
+      "bm25": [
+        "eid_2543da6a",
+        "eid_55f29a0d",
+        "eid_5890ce38",
+        "eid_71c0d545",
+        "eid_802e8eff",
+        "eid_95f6d01c",
+        "eid_fd8cecea"
+      ],
+      "exact": false,
+      "f1": 0.615,
+      "precision": 1.0,
+      "recall": 0.444,
+      "bm25_f1": 0.375,
+      "n_queries": 7
+    },
+    {
+      "family": "doc_reviewers",
+      "product": "WorkFlowGenie",
+      "question": "Find employee IDs of the authors and key reviewers of the System Design Document for the WorkFlowGenie product?",
+      "gt": [
+        "eid_71c0d545",
+        "eid_62e8e52d",
+        "eid_827a0ea9",
+        "eid_2543da6a",
+        "eid_3f26c6e5",
+        "eid_6039d1c9",
+        "eid_320cd970",
+        "eid_1f678d18",
+        "eid_95f6d01c"
+      ],
+      "pred": [
+        "eid_62e8e52d",
+        "eid_71c0d545",
+        "eid_827a0ea9",
+        "eid_95f6d01c",
+        "eid_d96bfd9b"
+      ],
+      "bm25": [
+        "eid_2543da6a",
+        "eid_55f29a0d",
+        "eid_5890ce38",
+        "eid_71c0d545",
+        "eid_802e8eff",
+        "eid_95f6d01c",
+        "eid_fd8cecea"
+      ],
+      "exact": false,
+      "f1": 0.571,
+      "precision": 0.8,
+      "recall": 0.444,
+      "bm25_f1": 0.375,
+      "n_queries": 7
     }
   ]
 }
