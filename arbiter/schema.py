@@ -122,10 +122,11 @@ MENTIONS = "MENTIONS"            # Artifact  -> Employee
 REPORTS_TO = "REPORTS_TO"        # Employee  -> Employee  (org hierarchy)
 REPORTED_BY = "REPORTED_BY"      # Artifact  -> Customer
 WORKS_FOR = "WORKS_FOR"          # Customer  -> Company
+REVIEWS = "REVIEWS"              # Artifact(slack) -> Artifact(document)
 
 EDGE_TYPES = [
     HAS_ROLE, AUTHORED, ABOUT_RELEASE, PRECEDES,
-    OF_PRODUCT, MENTIONS, REPORTS_TO, REPORTED_BY, WORKS_FOR,
+    OF_PRODUCT, MENTIONS, REPORTS_TO, REPORTED_BY, WORKS_FOR, REVIEWS,
 ]
 
 # ---------------------------------------------------------------------------
@@ -142,6 +143,11 @@ CREATE_EMPLOYEE = (
 )
 CREATE_RELEASE = (
     'CREATE (rel:Release {{id: {relid}, key: "{key}", seq: {seq}}})'
+    '-[:OF_PRODUCT]->(p:Product {{id: {pid}}})'
+)
+
+CREATE_DOCUMENT = (
+    'CREATE (d:Document {{id: {did}, key: "{key}", dtype: "{dtype}"}})'
     '-[:OF_PRODUCT]->(p:Product {{id: {pid}}})'
 )
 

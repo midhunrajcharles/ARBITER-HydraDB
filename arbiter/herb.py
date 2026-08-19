@@ -23,6 +23,9 @@ import re
 from pathlib import Path
 
 EID = re.compile(r"eid_[0-9a-f]{8}")
+# Slack messages that circulate a document embed its id in a link:
+#   <https://sf-internal.slack.com/archives/docs/onforcex_market_research_report|Market Research Report>
+DOCLINK = re.compile(r"archives/docs/([A-Za-z0-9_\-]+)")
 
 
 class ProductGraph:
@@ -34,6 +37,13 @@ class ProductGraph:
         self.about_release = []
         self.releases = {}
         self._release_dates = {}
+        # review sessions: a document is circulated in a planning channel and the
+        # ensuing same-day conversation IS the review. `reviews` links each of
+        # those slack utterances to the document under discussion.
+        self.reviews = []
+        self.doc_types = {}   # document id -> 'Market Research Report' etc
+        self._slack_by_session = {}   # (channel, yyyymmdd) -> [slack ids]
+        self._doc_shared_in = {}      # (channel, yyyymmdd) -> {doc_ids}
 
     # -- release inference -------------------------------------------------
     def note_release(self, slug, ts):
@@ -90,6 +100,29 @@ class ProductGraph:
             self.mentions.append({"artifact_id": aid, "employee_id": m})
         self.link_release(aid, slug)
 
+    def note_session(self, channel, slack_id, text):
+        """Group slack utterances into (channel, day) review sessions.
+
+        A document review in HERB looks like: someone posts the doc link into a
+        planning channel, and the same day's replies are the review. Grouping by
+        (channel, day) recovers that unit without guessing at thread semantics,
+        and any doc id linked inside the session names what was reviewed.
+        """
+        if not slack_id:
+            return
+        day = slack_id.split("-")[0]
+        key = (channel, day)
+        self._slack_by_session.setdefault(key, []).append(slack_id)
+        for doc_id in DOCLINK.findall(text or ""):
+            self._doc_shared_in.setdefault(key, set()).add(doc_id)
+
+    def close_sessions(self):
+        """Emit REVIEWS edges: every utterance in a session -> the doc reviewed."""
+        for key, docs in self._doc_shared_in.items():
+            for slack_id in self._slack_by_session.get(key, []):
+                for doc_id in docs:
+                    self.reviews.append({"artifact_id": slack_id, "document_id": doc_id})
+
     def order_releases(self):
         """Order by earliest artifact date. This produces the PRECEDES chain."""
         ordered = sorted(
@@ -117,6 +150,8 @@ def load_product(path):
         g.note_release(g.slug_from_doc(doc), doc.get("date"))
 
     for doc in data.get("documents") or []:
+        if doc.get("id"):
+            g.doc_types[doc["id"]] = doc.get("type") or ""
         g.add(
             doc.get("id"),
             "document",
@@ -150,16 +185,22 @@ def load_product(path):
         m = (msg.get("Message") or {}).get("User") or {}
         aid = msg.get("id") or m.get("utterranceID") or ""
         chan = ((msg.get("Channel") or {}).get("name")) or ""
-        g.add(aid, "slack", m.get("timestamp"), m.get("text", ""),
+        text = m.get("text", "")
+        g.add(aid, "slack", m.get("timestamp"), text,
               author=m.get("userId"), slug=g.slug_from_text(chan))
+        g.note_session(chan, aid, text)
         for reply in msg.get("ThreadReplies") or []:
             if not isinstance(reply, dict):
                 continue
             ru = reply.get("User") or reply
             rid = ru.get("utterranceID") or ""
             if rid:
-                g.add(rid, "slack", ru.get("timestamp"), ru.get("text", ""),
+                rtext = ru.get("text", "")
+                g.add(rid, "slack", ru.get("timestamp"), rtext,
                       author=ru.get("userId"), slug=g.slug_from_text(chan))
+                g.note_session(chan, rid, rtext)
+
+    g.close_sessions()
 
     for u in data.get("urls") or []:
         uid = u.get("id") or ""

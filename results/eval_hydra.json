@@ -1,0 +1,1208 @@
+{
+  "n": 50,
+  "elapsed_s": 181.1,
+  "arbiter_exact": 40,
+  "arbiter_mean_f1": 0.8,
+  "bm25_exact": 0,
+  "bm25_mean_f1": 0.028,
+  "detail": [
+    {
+      "product": "AutoTuneForce",
+      "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of AutoTuneForce?",
+      "role": "Marketing Research Analyst",
+      "gt": [
+        "eid_12eb6b62",
+        "eid_a13234f2"
+      ],
+      "hydra": [
+        "eid_12eb6b62",
+        "eid_a13234f2"
+      ],
+      "bm25": [],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000007}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000008}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "AutoTuneForce",
+      "question": "Find employee IDs of Product Managers who worked on the previous release of AutoTuneForce?",
+      "role": "Product Manager",
+      "gt": [
+        "eid_caa2e58d",
+        "eid_2d8eff4d",
+        "eid_c3aac633"
+      ],
+      "hydra": [
+        "eid_2d8eff4d",
+        "eid_c3aac633",
+        "eid_caa2e58d"
+      ],
+      "bm25": [
+        "eid_5318af37",
+        "eid_e42b000f"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000007}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000008}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "AutoTuneForce",
+      "question": "Find employee IDs of Technical Architects who worked on the previous release of AutoTuneForce?",
+      "role": "Technical Architect",
+      "gt": [
+        "eid_d2f0f99a",
+        "eid_a253c65a"
+      ],
+      "hydra": [
+        "eid_a253c65a",
+        "eid_d2f0f99a"
+      ],
+      "bm25": [
+        "eid_19f537cf"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000007}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000008}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "AutoTuneForce",
+      "question": "Find employee IDs of Engineering Leads who worked on the previous release of AutoTuneForce?",
+      "role": "Engineering Lead",
+      "gt": [
+        "eid_e0273792",
+        "eid_7017b913"
+      ],
+      "hydra": [
+        "eid_7017b913",
+        "eid_e0273792"
+      ],
+      "bm25": [
+        "eid_35e32fec",
+        "eid_6f719d21",
+        "eid_8c71a7a9",
+        "eid_b67edbb4"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000007}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000008}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "AutoTuneForce",
+      "question": "Find employee IDs of QA specialists who worked on the previous release of AutoTuneForce?",
+      "role": "QA Specialist",
+      "gt": [
+        "eid_8b14b999",
+        "eid_dc8bf84e"
+      ],
+      "hydra": [],
+      "bm25": [
+        "eid_7f22371d"
+      ],
+      "hydra_exact": false,
+      "bm25_exact": false,
+      "hydra_f1": 0.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000007}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000008}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "ContextForce",
+      "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of ContextForce?",
+      "role": "Marketing Research Analyst",
+      "gt": [
+        "eid_3bd7cd36",
+        "eid_9a9cf08a"
+      ],
+      "hydra": [
+        "eid_3bd7cd36",
+        "eid_9a9cf08a"
+      ],
+      "bm25": [
+        "eid_bd4d2940"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000027}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000028}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "ContextForce",
+      "question": "Find employee IDs of Product Managers who worked on the previous release of ContextForce?",
+      "role": "Product Manager",
+      "gt": [
+        "eid_aa99608e",
+        "eid_887367ca",
+        "eid_2c384d22",
+        "eid_efc9418c"
+      ],
+      "hydra": [
+        "eid_2c384d22",
+        "eid_887367ca",
+        "eid_aa99608e",
+        "eid_efc9418c"
+      ],
+      "bm25": [
+        "eid_887367ca"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.4,
+      "queries": [
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000027}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000028}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "ContextForce",
+      "question": "Find employee IDs of Technical Architects who worked on the previous release of ContextForce?",
+      "role": "Technical Architect",
+      "gt": [
+        "eid_9b8bc088",
+        "eid_719a0253"
+      ],
+      "hydra": [
+        "eid_719a0253",
+        "eid_9b8bc088"
+      ],
+      "bm25": [
+        "eid_792330e0"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000027}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000028}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "ContextForce",
+      "question": "Find employee IDs of Engineering Leads who worked on the previous release of ContextForce?",
+      "role": "Engineering Lead",
+      "gt": [
+        "eid_072d9c10",
+        "eid_52681a26"
+      ],
+      "hydra": [
+        "eid_072d9c10",
+        "eid_52681a26"
+      ],
+      "bm25": [
+        "eid_6d14c4ec",
+        "eid_82e9fcef",
+        "eid_fa16fefb"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000027}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000028}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "ContextForce",
+      "question": "Find employee IDs of QA specialists who worked on the previous release of ContextForce?",
+      "role": "QA Specialist",
+      "gt": [
+        "eid_cb99086d",
+        "eid_97b4acd0"
+      ],
+      "hydra": [],
+      "bm25": [
+        "eid_798684b4",
+        "eid_7c6dd6a6",
+        "eid_c7622c8e"
+      ],
+      "hydra_exact": false,
+      "bm25_exact": false,
+      "hydra_f1": 0.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000027}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000028}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "EdgeForce",
+      "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of EdgeForce?",
+      "role": "Marketing Research Analyst",
+      "gt": [
+        "eid_12eb6b62",
+        "eid_7d27f1fd"
+      ],
+      "hydra": [
+        "eid_12eb6b62",
+        "eid_7d27f1fd"
+      ],
+      "bm25": [],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000030}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000031}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "EdgeForce",
+      "question": "Find employee IDs of Product Managers who worked on the previous release of EdgeForce?",
+      "role": "Product Manager",
+      "gt": [
+        "eid_6bd20afa",
+        "eid_c3aac633",
+        "eid_5318af37"
+      ],
+      "hydra": [
+        "eid_5318af37",
+        "eid_6bd20afa",
+        "eid_c3aac633"
+      ],
+      "bm25": [
+        "eid_caa2e58d"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000030}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000031}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "EdgeForce",
+      "question": "Find employee IDs of Technical Architects who worked on the previous release of EdgeForce?",
+      "role": "Technical Architect",
+      "gt": [
+        "eid_19f537cf",
+        "eid_d2f0f99a"
+      ],
+      "hydra": [
+        "eid_19f537cf",
+        "eid_d2f0f99a"
+      ],
+      "bm25": [
+        "eid_a253c65a"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000030}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000031}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "EdgeForce",
+      "question": "Find employee IDs of Engineering Leads who worked on the previous release of EdgeForce?",
+      "role": "Engineering Lead",
+      "gt": [
+        "eid_35e32fec",
+        "eid_6f719d21"
+      ],
+      "hydra": [
+        "eid_35e32fec",
+        "eid_6f719d21"
+      ],
+      "bm25": [
+        "eid_8c71a7a9",
+        "eid_91523bad",
+        "eid_b6a30126"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000030}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000031}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "EdgeForce",
+      "question": "Find employee IDs of QA specialists who worked on the previous release of EdgeForce?",
+      "role": "QA Specialist",
+      "gt": [
+        "eid_0719bc3e",
+        "eid_7f22371d"
+      ],
+      "hydra": [],
+      "bm25": [
+        "eid_1a7d9807",
+        "eid_9db3abf4"
+      ],
+      "hydra_exact": false,
+      "bm25_exact": false,
+      "hydra_f1": 0.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000030}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000031}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "FlowForce",
+      "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of FlowForce?",
+      "role": "Marketing Research Analyst",
+      "gt": [
+        "eid_eaec7b7a",
+        "eid_f3569cc7"
+      ],
+      "hydra": [
+        "eid_eaec7b7a",
+        "eid_f3569cc7"
+      ],
+      "bm25": [
+        "eid_13033b71"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000039}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000040}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "FlowForce",
+      "question": "Find employee IDs of Product Managers who worked on the previous release of FlowForce?",
+      "role": "Product Manager",
+      "gt": [
+        "eid_6e2f3e2b",
+        "eid_968bc0a2",
+        "eid_3adf7b8a",
+        "eid_c8ebc4b0"
+      ],
+      "hydra": [
+        "eid_3adf7b8a",
+        "eid_6e2f3e2b",
+        "eid_968bc0a2",
+        "eid_c8ebc4b0"
+      ],
+      "bm25": [
+        "eid_4e8b2cdc"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000039}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000040}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "FlowForce",
+      "question": "Find employee IDs of Technical Architects who worked on the previous release of FlowForce?",
+      "role": "Technical Architect",
+      "gt": [
+        "eid_3c2f2069",
+        "eid_4d689aa7"
+      ],
+      "hydra": [
+        "eid_3c2f2069",
+        "eid_4d689aa7"
+      ],
+      "bm25": [],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000039}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000040}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "FlowForce",
+      "question": "Find employee IDs of Engineering Leads who worked on the previous release of FlowForce?",
+      "role": "Engineering Lead",
+      "gt": [
+        "eid_aedadd3e",
+        "eid_f95e63d8"
+      ],
+      "hydra": [
+        "eid_aedadd3e",
+        "eid_f95e63d8"
+      ],
+      "bm25": [
+        "eid_294ba09d",
+        "eid_e5e36dc1"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000039}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000040}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "FlowForce",
+      "question": "Find employee IDs of QA specialists who worked on the previous release of FlowForce?",
+      "role": "QA Specialist",
+      "gt": [
+        "eid_a4b607d6",
+        "eid_9917239e"
+      ],
+      "hydra": [],
+      "bm25": [
+        "eid_6936f36d"
+      ],
+      "hydra_exact": false,
+      "bm25_exact": false,
+      "hydra_f1": 0.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000039}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000040}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "ForecastForce",
+      "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of ForecastForce?",
+      "role": "Marketing Research Analyst",
+      "gt": [
+        "eid_94fb5d84",
+        "eid_cb131cb3"
+      ],
+      "hydra": [
+        "eid_94fb5d84",
+        "eid_cb131cb3"
+      ],
+      "bm25": [],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000042}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000043}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "ForecastForce",
+      "question": "Find employee IDs of Product Managers who worked on the previous release of ForecastForce?",
+      "role": "Product Manager",
+      "gt": [
+        "eid_4988ee2a",
+        "eid_3516c527",
+        "eid_2d14387c"
+      ],
+      "hydra": [
+        "eid_2d14387c",
+        "eid_3516c527",
+        "eid_4988ee2a"
+      ],
+      "bm25": [
+        "eid_9f1ff493"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000042}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000043}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "ForecastForce",
+      "question": "Find employee IDs of Technical Architects who worked on the previous release of ForecastForce?",
+      "role": "Technical Architect",
+      "gt": [
+        "eid_1e7c8290",
+        "eid_ec5cb5c2"
+      ],
+      "hydra": [
+        "eid_1e7c8290",
+        "eid_ec5cb5c2"
+      ],
+      "bm25": [],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000042}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000043}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "ForecastForce",
+      "question": "Find employee IDs of Engineering Leads who worked on the previous release of ForecastForce?",
+      "role": "Engineering Lead",
+      "gt": [
+        "eid_0c373165",
+        "eid_ab6f41bc"
+      ],
+      "hydra": [
+        "eid_0c373165",
+        "eid_ab6f41bc"
+      ],
+      "bm25": [
+        "eid_0c373165",
+        "eid_12f75faa",
+        "eid_86044ae5",
+        "eid_bd791efc"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.333,
+      "queries": [
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000042}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000043}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "ForecastForce",
+      "question": "Find employee IDs of QA specialists who worked on the previous release of ForecastForce?",
+      "role": "QA Specialist",
+      "gt": [
+        "eid_accab4fc",
+        "eid_3f3ea10f"
+      ],
+      "hydra": [],
+      "bm25": [],
+      "hydra_exact": false,
+      "bm25_exact": false,
+      "hydra_f1": 0.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000042}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000043}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "LeadForce",
+      "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of LeadForce?",
+      "role": "Marketing Research Analyst",
+      "gt": [
+        "eid_5af96a7d",
+        "eid_1e9356f5"
+      ],
+      "hydra": [
+        "eid_1e9356f5",
+        "eid_5af96a7d"
+      ],
+      "bm25": [],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000052}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000053}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "LeadForce",
+      "question": "Find employee IDs of Product Managers who worked on the previous release of LeadForce?",
+      "role": "Product Manager",
+      "gt": [
+        "eid_66d09012",
+        "eid_469598db",
+        "eid_ccd7c214"
+      ],
+      "hydra": [
+        "eid_469598db",
+        "eid_66d09012",
+        "eid_ccd7c214"
+      ],
+      "bm25": [
+        "eid_8efef28a"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000052}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000053}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "LeadForce",
+      "question": "Find employee IDs of Technical Architects who worked on the previous release of LeadForce?",
+      "role": "Technical Architect",
+      "gt": [
+        "eid_eba4d825",
+        "eid_df39cc9e"
+      ],
+      "hydra": [
+        "eid_df39cc9e",
+        "eid_eba4d825"
+      ],
+      "bm25": [
+        "eid_b48f959b"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000052}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000053}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "LeadForce",
+      "question": "Find employee IDs of Engineering Leads who worked on the previous release of LeadForce?",
+      "role": "Engineering Lead",
+      "gt": [
+        "eid_8df92d08",
+        "eid_50da4819"
+      ],
+      "hydra": [
+        "eid_50da4819",
+        "eid_8df92d08"
+      ],
+      "bm25": [
+        "eid_99835861",
+        "eid_f98d7490"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000052}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000053}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "LeadForce",
+      "question": "Find employee IDs of QA specialists who worked on the previous release of LeadForce?",
+      "role": "QA Specialist",
+      "gt": [
+        "eid_ddbe5577",
+        "eid_4de5cd7f"
+      ],
+      "hydra": [],
+      "bm25": [
+        "eid_55f01e31",
+        "eid_88e74382"
+      ],
+      "hydra_exact": false,
+      "bm25_exact": false,
+      "hydra_f1": 0.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000052}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000053}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "PitchForce",
+      "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of PitchForce?",
+      "role": "Marketing Research Analyst",
+      "gt": [
+        "eid_890654c4",
+        "eid_1e9356f5"
+      ],
+      "hydra": [
+        "eid_1e9356f5",
+        "eid_890654c4"
+      ],
+      "bm25": [],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000062}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000063}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "PitchForce",
+      "question": "Find employee IDs of Product Managers who worked on the previous release of PitchForce?",
+      "role": "Product Manager",
+      "gt": [
+        "eid_8bab7c9d",
+        "eid_46e00bc4",
+        "eid_0d55ede9",
+        "eid_ccd7c214"
+      ],
+      "hydra": [
+        "eid_0d55ede9",
+        "eid_46e00bc4",
+        "eid_8bab7c9d",
+        "eid_ccd7c214"
+      ],
+      "bm25": [
+        "eid_c0df5be6"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000062}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000063}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "PitchForce",
+      "question": "Find employee IDs of Technical Architects who worked on the previous release of PitchForce?",
+      "role": "Technical Architect",
+      "gt": [
+        "eid_b48f959b",
+        "eid_eba4d825"
+      ],
+      "hydra": [
+        "eid_b48f959b",
+        "eid_eba4d825"
+      ],
+      "bm25": [
+        "eid_df39cc9e"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000062}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000063}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "PitchForce",
+      "question": "Find employee IDs of Engineering Leads who worked on the previous release of PitchForce?",
+      "role": "Engineering Lead",
+      "gt": [
+        "eid_99835861",
+        "eid_4350bf70"
+      ],
+      "hydra": [
+        "eid_4350bf70",
+        "eid_99835861"
+      ],
+      "bm25": [
+        "eid_50da4819"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000062}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000063}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "PitchForce",
+      "question": "Find employee IDs of QA specialists who worked on the previous release of PitchForce?",
+      "role": "QA Specialist",
+      "gt": [
+        "eid_7b85a749",
+        "eid_88e74382"
+      ],
+      "hydra": [],
+      "bm25": [
+        "eid_1cfce648",
+        "eid_32ff39b2",
+        "eid_71a4de1d"
+      ],
+      "hydra_exact": false,
+      "bm25_exact": false,
+      "hydra_f1": 0.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000062}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000063}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "SearchForce",
+      "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of SearchForce?",
+      "role": "Marketing Research Analyst",
+      "gt": [
+        "eid_3bd7cd36",
+        "eid_bd4d2940"
+      ],
+      "hydra": [
+        "eid_3bd7cd36",
+        "eid_bd4d2940"
+      ],
+      "bm25": [],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000073}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000074}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "SearchForce",
+      "question": "Find employee IDs of Product Managers who worked on the previous release of SearchForce?",
+      "role": "Product Manager",
+      "gt": [
+        "eid_9937f1d5",
+        "eid_36319f22",
+        "eid_2c384d22"
+      ],
+      "hydra": [
+        "eid_2c384d22",
+        "eid_36319f22",
+        "eid_9937f1d5"
+      ],
+      "bm25": [
+        "eid_5b61c55e",
+        "eid_efc9418c"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000073}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000074}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "SearchForce",
+      "question": "Find employee IDs of Technical Architects who worked on the previous release of SearchForce?",
+      "role": "Technical Architect",
+      "gt": [
+        "eid_719a0253",
+        "eid_792330e0"
+      ],
+      "hydra": [
+        "eid_719a0253",
+        "eid_792330e0"
+      ],
+      "bm25": [],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000073}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000074}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "SearchForce",
+      "question": "Find employee IDs of Engineering Leads who worked on the previous release of SearchForce?",
+      "role": "Engineering Lead",
+      "gt": [
+        "eid_52681a26",
+        "eid_82e9fcef"
+      ],
+      "hydra": [
+        "eid_52681a26",
+        "eid_82e9fcef"
+      ],
+      "bm25": [
+        "eid_072d9c10",
+        "eid_439a052b",
+        "eid_d0b6cb92"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000073}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000074}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "SearchForce",
+      "question": "Find employee IDs of QA specialists who worked on the previous release of SearchForce?",
+      "role": "QA Specialist",
+      "gt": [
+        "eid_c7622c8e",
+        "eid_7c6dd6a6"
+      ],
+      "hydra": [],
+      "bm25": [
+        "eid_4f731d34"
+      ],
+      "hydra_exact": false,
+      "bm25_exact": false,
+      "hydra_f1": 0.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000073}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000074}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "SentimentForce",
+      "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of SentimentForce?",
+      "role": "Marketing Research Analyst",
+      "gt": [
+        "eid_bb22e59b",
+        "eid_2ed1a8f6"
+      ],
+      "hydra": [
+        "eid_2ed1a8f6",
+        "eid_bb22e59b"
+      ],
+      "bm25": [
+        "eid_2ed1a8f6"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.667,
+      "queries": [
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000080}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000081}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "SentimentForce",
+      "question": "Find employee IDs of Product Managers who worked on the previous release of SentimentForce?",
+      "role": "Product Manager",
+      "gt": [
+        "eid_1f678d18",
+        "eid_9bddb57c",
+        "eid_03a183c9"
+      ],
+      "hydra": [
+        "eid_03a183c9",
+        "eid_1f678d18",
+        "eid_9bddb57c"
+      ],
+      "bm25": [],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000080}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000081}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "SentimentForce",
+      "question": "Find employee IDs of Technical Architects who worked on the previous release of SentimentForce?",
+      "role": "Technical Architect",
+      "gt": [
+        "eid_816aea15",
+        "eid_2543da6a"
+      ],
+      "hydra": [
+        "eid_2543da6a",
+        "eid_816aea15"
+      ],
+      "bm25": [
+        "eid_5890ce38"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000080}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000081}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "SentimentForce",
+      "question": "Find employee IDs of Engineering Leads who worked on the previous release of SentimentForce?",
+      "role": "Engineering Lead",
+      "gt": [
+        "eid_3bcf2a20",
+        "eid_95f6d01c"
+      ],
+      "hydra": [
+        "eid_3bcf2a20",
+        "eid_95f6d01c"
+      ],
+      "bm25": [
+        "eid_802e8eff",
+        "eid_d96fb219"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000080}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000081}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "SentimentForce",
+      "question": "Find employee IDs of QA specialists who worked on the previous release of SentimentForce?",
+      "role": "QA Specialist",
+      "gt": [
+        "eid_7b874c82",
+        "eid_df392037"
+      ],
+      "hydra": [],
+      "bm25": [
+        "eid_c97ac4fe"
+      ],
+      "hydra_exact": false,
+      "bm25_exact": false,
+      "hydra_f1": 0.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000080}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000081}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "TrendForce",
+      "question": "Find employee IDs of Marketing Research Analysts who worked on the previous release of TrendForce?",
+      "role": "Marketing Research Analyst",
+      "gt": [
+        "eid_9a9cf08a",
+        "eid_3bd7cd36"
+      ],
+      "hydra": [
+        "eid_3bd7cd36",
+        "eid_9a9cf08a"
+      ],
+      "bm25": [],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000090}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000091}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "TrendForce",
+      "question": "Find employee IDs of Product Managers who worked on the previous release of TrendForce?",
+      "role": "Product Manager",
+      "gt": [
+        "eid_aa99608e",
+        "eid_5b61c55e",
+        "eid_9937f1d5",
+        "eid_887367ca"
+      ],
+      "hydra": [
+        "eid_5b61c55e",
+        "eid_887367ca",
+        "eid_9937f1d5",
+        "eid_aa99608e"
+      ],
+      "bm25": [
+        "eid_36319f22",
+        "eid_3f2087c9"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000090}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000004})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000091}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "TrendForce",
+      "question": "Find employee IDs of Technical Architects who worked on the previous release of TrendForce?",
+      "role": "Technical Architect",
+      "gt": [
+        "eid_719a0253",
+        "eid_9b8bc088"
+      ],
+      "hydra": [
+        "eid_719a0253",
+        "eid_9b8bc088"
+      ],
+      "bm25": [],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000090}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000005})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000091}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "TrendForce",
+      "question": "Find employee IDs of Engineering Leads who worked on the previous release of TrendForce?",
+      "role": "Engineering Lead",
+      "gt": [
+        "eid_d0b6cb92",
+        "eid_52681a26"
+      ],
+      "hydra": [
+        "eid_52681a26",
+        "eid_d0b6cb92"
+      ],
+      "bm25": [
+        "eid_82e9fcef"
+      ],
+      "hydra_exact": true,
+      "bm25_exact": false,
+      "hydra_f1": 1.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000090}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000001})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000091}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    },
+    {
+      "product": "TrendForce",
+      "question": "Find employee IDs of QA specialists who worked on the previous release of TrendForce?",
+      "role": "QA Specialist",
+      "gt": [
+        "eid_f944b0ee",
+        "eid_4f731d34"
+      ],
+      "hydra": [],
+      "bm25": [
+        "eid_435d10af",
+        "eid_7c6dd6a6",
+        "eid_c7622c8e"
+      ],
+      "hydra_exact": false,
+      "bm25_exact": false,
+      "hydra_f1": 0.0,
+      "bm25_f1": 0.0,
+      "queries": [
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000090}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact",
+        "MATCH (ro:Role {id: 1000003})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000091}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee, a.id AS artifact"
+      ]
+    }
+  ]
+}

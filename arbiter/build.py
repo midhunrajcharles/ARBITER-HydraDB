@@ -40,6 +40,7 @@ class GraphBuild:
         self.edges: dict[str, list[tuple[int, int]]] = {k: [] for k in schema.EDGE_TYPES}
         self.artifact_kind: dict[str, str] = {}
         self.products: set[str] = set()
+        self.documents: list[dict] = []
 
     # -- helpers -----------------------------------------------------------
     def emp(self, key): return self.ids.get("employee", key)
@@ -112,6 +113,17 @@ class GraphBuild:
                 self.edge(schema.ABOUT_RELEASE, self.art(e["artifact_id"], k),
                           self.rel(e["release_id"]))
 
+        for did, dtype in g.doc_types.items():
+            self.documents.append({"id": self.art(did, "document"), "key": did,
+                                   "dtype": dtype, "product_id": pid})
+
+        for r in g.reviews:
+            sk = self.artifact_kind.get(r["artifact_id"])
+            dk = self.artifact_kind.get(r["document_id"])
+            if sk and dk:
+                self.edge(schema.REVIEWS, self.art(r["artifact_id"], sk),
+                          self.art(r["document_id"], dk))
+
         for m in g.mentions:
             k = self.artifact_kind.get(m["artifact_id"])
             if k and m["employee_id"] in self.employees:
@@ -173,6 +185,12 @@ def load_into_hydra(b: GraphBuild, hydra, verbose=True, batch=500):
         hydra.run(schema.CREATE_RELEASE.format(
             relid=r["id"], key=_q(r["key"]), seq=r["seq"], pid=r["product_id"]))
     stats["releases"] = len(b.releases)
+
+    # 2b. Documents (carry their type -- lets doc-type questions stay server-side).
+    for d in b.documents:
+        hydra.run(schema.CREATE_DOCUMENT.format(
+            did=d["id"], key=_q(d["key"]), dtype=_q(d["dtype"]), pid=d["product_id"]))
+    stats["documents"] = len(b.documents)
     t_rel = time.time()
 
     # 3. Edges in bulk.

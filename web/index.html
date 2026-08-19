@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arbiter — graph-native enterprise context on HydraDB</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#151b23; --panel2:#1c232d; --line:#2a3441;
+    --fg:#e6edf3; --dim:#8b98a5; --accent:#4dd4ac; --accent2:#58a6ff;
+    --warn:#f0b849; --bad:#f85149; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}
+  header{padding:22px 28px;border-bottom:1px solid var(--line);
+         display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+  h1{margin:0;font-size:19px;letter-spacing:-.2px}
+  h1 span{color:var(--accent)}
+  .tag{font:12px var(--mono);color:var(--dim)}
+  .stats{margin-left:auto;display:flex;gap:18px;font:12px var(--mono);color:var(--dim);flex-wrap:wrap}
+  .stats b{color:var(--accent);font-weight:600}
+  main{max-width:1180px;margin:0 auto;padding:24px 28px 80px}
+  .lede{color:var(--dim);margin:0 0 22px;max-width:74ch}
+  .lede b{color:var(--fg);font-weight:600}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  select,button,input{font:inherit;background:var(--panel2);color:var(--fg);
+    border:1px solid var(--line);border-radius:7px;padding:9px 12px}
+  input{flex:1;min-width:280px}
+  button{cursor:pointer;background:var(--accent);color:#06231b;border:0;font-weight:600;padding:9px 20px}
+  button:hover{filter:brightness(1.08)}
+  button.ghost{background:var(--panel2);color:var(--fg);border:1px solid var(--line);font-weight:400}
+  .qlist{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-height:196px;overflow:auto}
+  .q{padding:8px 11px;background:var(--panel);border:1px solid var(--line);border-radius:6px;
+     cursor:pointer;font-size:13.5px;display:flex;gap:9px;align-items:center}
+  .q:hover{border-color:var(--accent)}
+  .pill{font:10px var(--mono);padding:2px 7px;border-radius:20px;flex-shrink:0;letter-spacing:.4px}
+  .pill.a{background:#12312a;color:var(--accent)}
+  .pill.u{background:#3a2a12;color:var(--warn)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+        padding:18px 20px;margin-bottom:16px}
+  .card h3{margin:0 0 12px;font-size:12px;letter-spacing:.9px;text-transform:uppercase;color:var(--dim)}
+  .ans{display:flex;flex-wrap:wrap;gap:9px}
+  .emp{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--accent);
+       border-radius:6px;padding:9px 13px}
+  .emp .id{font:12.5px var(--mono);color:var(--accent)}
+  .emp .nm{font-size:13px;color:var(--dim);margin-top:2px}
+  pre{margin:0;background:#0a0e14;border:1px solid var(--line);border-radius:7px;padding:13px;
+      overflow-x:auto;font:12.5px/1.6 var(--mono);color:#c9d4e0}
+  pre + pre{margin-top:9px}
+  .kw{color:#ff7b72}.br{color:var(--accent2)}.num{color:var(--warn)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line)}
+  th{color:var(--dim);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.6px}
+  td.mono{font:12px var(--mono);color:var(--dim)}
+  .kind{font:10px var(--mono);padding:2px 6px;border-radius:4px;background:var(--panel2)}
+  .kind.document{background:#12312a;color:var(--accent)}
+  .abstain{border-left:3px solid var(--warn)}
+  .abstain .why{color:var(--warn);font-size:14px}
+  .verdict{display:flex;gap:10px;align-items:center;margin-bottom:14px;font-size:13px}
+  .badge{font:11px var(--mono);padding:3px 9px;border-radius:5px}
+  .ok{background:#12312a;color:var(--accent)}
+  .no{background:#3d1518;color:var(--bad)}
+  .muted{color:var(--dim);font-size:13px}
+  .scroll{overflow-x:auto}
+</style>
+</head>
+<body>
+<header>
+  <h1>Arbiter<span>.</span></h1>
+  <span class="tag">graph-native enterprise context resolution on HydraDB</span>
+  <div class="stats" id="stats"></div>
+</header>
+
+<main>
+  <p class="lede">
+    HERB asks who worked on <b>the previous release</b> — a question whose answer appears in no
+    document's text. Arbiter resolves it by <b>traversal</b>: release ordering → the artifacts that
+    belong to those releases → the people who authored them → filtered by a role edge.
+    Every answer below is produced by OpenCypher executed inside HydraDB, and the query is shown.
+  </p>
+
+  <div class="row">
+    <select id="product"></select>
+    <input id="question" placeholder="Pick a HERB question below, or type one…">
+    <button id="ask">Resolve</button>
+  </div>
+  <div class="qlist" id="qlist"></div>
+  <div id="out"></div>
+</main>
+
+<script>
+const $ = s => document.querySelector(s);
+let GT = {};
+
+const esc = s => String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const hl = q => esc(q)
+  .replace(/\b(MATCH|RETURN|WHERE|DISTINCT|AND|OR|AS|OPTIONAL|UNWIND|CREATE)\b/g,'<span class="kw">$1</span>')
+  .replace(/\[:(\w+)\]/g,'[:<span class="br">$1</span>]')
+  .replace(/\b(\d{4,})\b/g,'<span class="num">$1</span>');
+
+async function boot(){
+  const s = await (await fetch('/api/stats')).json();
+  $('#stats').innerHTML =
+    `<span><b>${s.artifacts.toLocaleString()}</b> artifacts</span>
+     <span><b>${s.edges_total.toLocaleString()}</b> edges</span>
+     <span><b>${s.employees}</b> employees</span>
+     <span><b>${s.releases}</b> releases</span>
+     <span>HydraDB ${s.hydradb.ready?'<b>ready</b>':'<span style="color:var(--bad)">down</span>'}</span>`;
+  const ps = await (await fetch('/api/products')).json();
+  $('#product').innerHTML = ps.map(p=>`<option>${p}</option>`).join('');
+  loadQs();
+}
+
+async function loadQs(){
+  const p = $('#product').value;
+  const qs = await (await fetch(`/api/questions?product=${encodeURIComponent(p)}`)).json();
+  GT = {};
+  $('#qlist').innerHTML = qs.map(q=>{
+    GT[q.question] = q.ground_truth || [];
+    return `<div class="q" data-q="${esc(q.question)}">
+      <span class="pill ${q.answerable?'a':'u'}">${q.answerable?'ANSWERABLE':'UNANSWERABLE'}</span>
+      <span>${esc(q.question)}</span></div>`;
+  }).join('');
+  document.querySelectorAll('.q').forEach(el=>el.onclick=()=>{
+    $('#question').value = el.dataset.q; ask();
+  });
+}
+
+async function ask(){
+  const question = $('#question').value.trim();
+  const product = $('#product').value;
+  if(!question) return;
+  $('#out').innerHTML = '<div class="card"><span class="muted">traversing…</span></div>';
+  const r = await (await fetch('/api/ask',{method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({question,product})})).json();
+
+  if(r.abstained){
+    $('#out').innerHTML = `<div class="card abstain">
+      <h3>Abstained</h3>
+      <div class="why">No answer returned — ${esc(r.reason)}.</div>
+      <p class="muted" style="margin:10px 0 0">A retrieval system still returns its top-k here, and a
+      language model will usually write something plausible from it. A traversal either lands on nodes
+      or it does not, so "no path exists" is a checkable answer rather than a confidence threshold.</p>
+    </div>`;
+    return;
+  }
+
+  const gt = GT[question] || [];
+  const got = r.answer.map(a=>a.employee_id).sort();
+  const exact = gt.length && JSON.stringify(got)===JSON.stringify([...gt].sort());
+  const verdict = gt.length
+    ? `<div class="verdict"><span class="badge ${exact?'ok':'no'}">${exact?'EXACT MATCH':'MISMATCH'}</span>
+       <span class="muted">ground truth: ${gt.map(esc).join(', ')}</span></div>` : '';
+
+  $('#out').innerHTML = `
+    <div class="card">
+      <h3>Answer${r.role_matched?` — role node: ${esc(r.role_matched)}`:''}</h3>
+      ${verdict}
+      <div class="ans">${r.answer.length ? r.answer.map(a=>`
+        <div class="emp"><div class="id">${esc(a.employee_id)}</div>
+        <div class="nm">${esc(a.name||'')} · ${esc(a.role||'')}</div></div>`).join('')
+        : '<span class="muted">no nodes matched</span>'}</div>
+    </div>
+    <div class="card">
+      <h3>Cypher executed inside HydraDB (${r.queries.length})</h3>
+      ${r.queries.map(q=>`<pre>${hl(q)}</pre>`).join('')}
+    </div>
+    <div class="card">
+      <h3>Evidence path — every artifact the traversal landed on</h3>
+      <div class="scroll"><table>
+        <tr><th>employee</th><th>artifact</th><th>kind</th><th>release</th></tr>
+        ${r.evidence.map(e=>`<tr>
+          <td class="mono">${esc(e.employee)}</td>
+          <td class="mono">${esc(e.artifact||'')}</td>
+          <td><span class="kind ${esc(e.artifact_kind||'')}">${esc(e.artifact_kind||'')}</span></td>
+          <td class="mono">${esc(e.release||'')}</td></tr>`).join('')}
+      </table></div>
+    </div>`;
+}
+
+$('#ask').onclick = ask;
+$('#question').addEventListener('keydown', e => { if(e.key==='Enter') ask(); });
+$('#product').onchange = loadQs;
+boot();
+</script>
+</body>
+</html>
