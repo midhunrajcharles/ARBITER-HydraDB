@@ -2,7 +2,7 @@
 
 **Enterprise context resolution by graph traversal, not similarity.**
 
-Repo: `<github url>` · Demo video: `<youtube url>` · Track: Enterprise Context and Ontology
+Repo: https://github.com/midhunrajcharles/arbiter · Demo video: `<youtube url>` · Track: Enterprise Context and Ontology
 
 ---
 
@@ -145,7 +145,7 @@ Median latency **48 ms**, p95 **57 ms** (n=20).
 ## Instant setup
 
 ```bash
-git clone <repo> && cd arbiter
+git clone https://github.com/midhunrajcharles/arbiter.git && cd arbiter
 python -m venv .venv && .venv/Scripts/pip install -r requirements.txt
 bash scripts/fetch_data.sh      # pulls HERB from Salesforce's HuggingFace repo
 bash scripts/hydra_up.sh        # starts HydraDB, waits for /readyz

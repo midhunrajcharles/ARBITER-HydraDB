@@ -41,7 +41,7 @@ No API keys. No paid services. Every data source is public.
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/<you>/arbiter.git
+git clone https://github.com/midhunrajcharles/arbiter.git
 cd arbiter
 python -m venv .venv
 .venv/Scripts/pip install -r requirements.txt     # Windows
