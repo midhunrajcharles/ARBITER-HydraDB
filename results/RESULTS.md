@@ -2,6 +2,10 @@
 
 Produced by `python scripts/eval_hydra.py` against a live HydraDB v0.1.0 node
 with the full HERB corpus loaded (30 products, 38,490 artifacts, 77,144 edges).
+
+The graph covers all 30 products. The evaluation covers the 20 distinct products
+for which HERB defines these two question families (10 products each).
+
 Raw output: `results/eval_hydra.json`.
 
 ## Accuracy

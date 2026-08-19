@@ -45,8 +45,10 @@ touched.
 
 ## Results
 
-Measured across all 30 HERB products, every Arbiter answer produced by a live
-HydraDB traversal. BM25 runs over the identical corpus.
+The graph is built from **all 30 HERB products**. The evaluation covers the
+**20 distinct products** for which HERB actually defines these two question
+families (10 products each). Every Arbiter answer is produced by a live HydraDB
+traversal; BM25 runs over the identical corpus.
 
 | Question family | n | Arbiter exact | Arbiter F1 | precision | recall | BM25 exact | BM25 F1 |
 |---|---|---|---|---|---|---|---|
