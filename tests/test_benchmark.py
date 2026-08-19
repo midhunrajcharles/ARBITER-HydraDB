@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from arbiter.benchmark import load_benchmark_report
+from arbiter.benchmark import BenchmarkReportError, load_benchmark_report
 
 
 class BenchmarkReportTests(unittest.TestCase):
@@ -14,8 +14,8 @@ class BenchmarkReportTests(unittest.TestCase):
 
             self.assertEqual(load_benchmark_report(report_path)["summary"]["n"], 1)
 
-    def test_missing_report_raises_file_error(self):
-        with self.assertRaises(FileNotFoundError):
+    def test_missing_report_raises_benchmark_error(self):
+        with self.assertRaises(BenchmarkReportError):
             load_benchmark_report("missing-report.json")
 
 
