@@ -10,7 +10,6 @@ themselves.
 """
 from __future__ import annotations
 
-import json
 import mimetypes
 from pathlib import Path
 
@@ -24,6 +23,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from arbiter.build import build_all
+from arbiter.benchmark import load_benchmark_report
 from arbiter.herb import load_questions
 from arbiter.hydra import Hydra
 from arbiter.query import Resolver
@@ -98,7 +98,7 @@ def benchmark():
     path = ROOT / "results" / "eval_hydra.json"
     if not path.exists():
         return JSONResponse({"error": "no evaluation artifact"}, status_code=404)
-    d = json.loads(path.read_text(encoding="utf-8"))
+    d = load_benchmark_report(path)
     s = d["summary"]
     prev, docs = s["person_previous_release"], s["doc_reviewers"]
     unans, ans = s["abstain_unanswerable"], s["abstain_answerable"]
