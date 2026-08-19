@@ -9,9 +9,18 @@
       "a_p": 0.935,
       "a_r": 0.455
     },
-    "abstention": {
+    "abstain_unanswerable": {
       "n": 361,
-      "a_exact": 70,
+      "a_exact": 361,
+      "b_exact": 0,
+      "a_f1": 0.0,
+      "b_f1": 0.0,
+      "a_p": 0.0,
+      "a_r": 0.0
+    },
+    "abstain_answerable": {
+      "n": 100,
+      "a_exact": 100,
       "b_exact": 0,
       "a_f1": 0.0,
       "b_f1": 0.0,
@@ -26,9 +35,17 @@
       "b_f1": 0.028,
       "a_p": 0.8,
       "a_r": 0.8
-    }
+    },
+    "refusal_reasons": {
+      "no competitor entities are ingested": 70,
+      "no traversal is registered for this question shape": 148,
+      "feature deferral history is not ingested": 10,
+      "bug resolution outcomes are not ingested": 97,
+      "bug lifecycle state is not ingested": 36
+    },
+    "false_refusals": {}
   },
-  "elapsed_s": 160.3,
+  "elapsed_s": 171.6,
   "detail": [
     {
       "family": "doc_reviewers",

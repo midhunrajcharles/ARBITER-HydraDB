@@ -48,17 +48,50 @@ touched.
 Measured across all 30 HERB products, every Arbiter answer produced by a live
 HydraDB traversal. BM25 runs over the identical corpus.
 
-| Question family | n | Arbiter exact | Arbiter F1 | BM25 exact | BM25 F1 |
-|---|---|---|---|---|---|
-| "who worked on the previous release" | 50 | **40/50 (80.0%)** | **0.800** | 0/50 (0.0%) | 0.028 |
-| "authors and key reviewers of {doc}" | TBD | TBD | TBD | TBD | TBD |
+| Question family | n | Arbiter exact | Arbiter F1 | precision | recall | BM25 exact | BM25 F1 |
+|---|---|---|---|---|---|---|---|
+| "who worked on the previous release" | 50 | **40/50 (80.0%)** | **0.800** | 0.800 | 0.800 | 0/50 (0.0%) | 0.028 |
+| "authors and key reviewers of {doc}" | 50 | 0/50 (0.0%) | **0.593** | **0.935** | 0.455 | 0/50 (0.0%) | 0.391 |
 
-| Abstention (HERB unanswerable set) | n | correctly refused |
-|---|---|---|
-| competitor / no-path questions | TBD | TBD |
+*Table 1. Accuracy by question family. Every Arbiter answer is produced by a live
+HydraDB traversal; BM25 runs over the identical corpus.*
 
 Reference point: **~30%** is where the HERB paper puts the best agentic RAG
 systems on this benchmark.
+
+Read the second row honestly: we score **no exact matches** on the reviewer
+family, because HERB's ground truth there is broader than the review-thread
+structure supports. What we do get is **0.935 precision** — when Arbiter names a
+reviewer, it is almost always right — at 0.455 recall. F1 0.593 against BM25's
+0.391 on the same questions.
+
+### Abstention
+
+HERB ships 699 unanswerable questions. Almost nobody reports on them.
+
+| Direction | n | correct | rate |
+|---|---|---|---|
+| Unanswerable questions correctly **refused** | 361 | 361 | **100.0%** |
+| Answerable questions correctly **answered** (not wrongly refused) | 100 | 100 | **100.0%** |
+
+*Table 2. Abstention measured in both directions. False refusals: **0**. Refusing
+everything would score 100% on the first row and 0% on the second, which is why
+both are reported.*
+
+And the honest breakdown of *why* each refusal happened:
+
+| Reason | n | What it means |
+|---|---|---|
+| bug resolution outcomes are not ingested | 97 | the graph genuinely lacks the concept |
+| no competitor entities are ingested | 70 | the graph genuinely lacks the concept |
+| bug lifecycle state is not ingested | 36 | the graph genuinely lacks the concept |
+| feature deferral history is not ingested | 10 | the graph genuinely lacks the concept |
+| no traversal is registered for this shape | 148 | **we simply don't support it yet** |
+
+*Table 3. 213 of 361 refusals (59%) are the graph reporting a real vocabulary
+gap. The remaining 148 (41%) are Arbiter declining a question shape it has no
+traversal for. Both are safe failures — neither invents an answer — but they are
+not the same claim, so they are not merged.*
 
 We chose BM25 rather than a dense retriever on purpose. BM25 is the *stronger*
 baseline for exact-token queries like role names, so beating it is a harder claim
@@ -160,14 +193,17 @@ The honest limits:
 
 - We cover **two question families** of the five HERB defines. The remaining
   families (PR links, company bug aggregations, free-text content) are not
-  implemented, and the router **abstains** on them rather than guessing.
+  implemented, and the router **abstains** on them rather than guessing. That
+  accounts for 148 of the 361 refusals in Table 3 - safe, but it is coverage we
+  do not have, not a graph result.
 - **QA Specialist questions fail.** Those employees have *zero* authored edges —
   they appear only inside document prose, never in a structured field. That class
   needs extraction layered on top of traversal. Traversal still does useful work
   there by narrowing 1,393 artifacts to the 9 that matter.
-- The `REVIEWS` edge has **high precision and partial recall**. It captures
-  reviewers who participated in the document's review session; HERB's ground
-  truth for that family is broader than the review-thread structure supports.
+- The `REVIEWS` edge has **high precision (0.935) and partial recall (0.455)**.
+  It captures reviewers who participated in the document's review session; HERB's
+  ground truth for that family is broader than the review-thread structure
+  supports, so we win on F1 but score zero exact matches.
 
 ## What we learned
 
