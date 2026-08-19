@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Playfair+Display:ital,wght@1,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@1,500&display=swap">
 <title>Arbiter — enterprise questions, answered by traversal</title>
 <!-- 3d-force-graph@1.80.0's UMD bundle references process.env.NODE_ENV without a typeof guard, throwing ReferenceError in a browser with no bundler shim -->
 <script>window.process=window.process||{env:{NODE_ENV:'production'}};</script>
@@ -17,8 +17,8 @@
     --ink:#E8E1D4; --ink-2:#C4BCAC; --ink-3:#9A9184;
     --line:#2E2E2E; --line-crimson:#4A2326;
     --crimson:#EA5A60; --crimson-mark:#E23B42; --crimson-deep:#8B0E14; --gold:#D9A441;
-    --sans:'Geist',-apple-system,'Segoe UI',sans-serif;
-    --mono:'Geist Mono',ui-monospace,Consolas,monospace;
+    --sans:'Archivo',-apple-system,'Segoe UI',sans-serif;
+    --mono:'Archivo Mono',ui-monospace,Consolas,monospace;
     /* Graph node colours, one per id band. Kept in the same warm register as
        the rest of the palette so the explorer reads as part of the page, and
        declared here rather than in JS so the theme stays the single source. */
@@ -45,19 +45,19 @@
   header,main,footer{position:relative;z-index:1}
   header{padding:22px 28px;border-bottom:1px solid var(--line);
          display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
-  .brand{margin:0;font-size:19px;letter-spacing:-.2px;font-weight:600}
+  .brand{margin:0;font-size:19px;letter-spacing:-.1px;font-weight:600}
   .brand span{color:var(--crimson)}
   .tag{font:12px var(--mono);color:var(--ink-3)}
   .stats{margin-left:auto;display:flex;gap:18px;font:12px var(--mono);color:var(--ink-3);flex-wrap:wrap}
   .stats b{color:var(--crimson);font-weight:600}
   main{max-width:1180px;margin:0 auto;padding:24px 28px 80px}
-  .hero{margin:0 0 10px;font-size:27px;line-height:1.25;letter-spacing:-.5px;max-width:20ch}
+  .hero{margin:0 0 10px;font-size:27px;line-height:1.25;letter-spacing:-.25px;max-width:20ch}
   .hero em{font-family:'Playfair Display',Georgia,serif;font-style:italic;
            font-weight:500;color:var(--crimson-mark)}
   .tiles{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 22px}
   .tile{background:var(--card);border:1px solid var(--line);border-radius:10px;
         padding:14px 18px;min-width:210px;flex:1}
-  .tile .tv{font:600 30px/1.1 var(--mono);color:var(--crimson-mark);letter-spacing:-1px;
+  .tile .tv{font:600 30px/1.1 var(--mono);color:var(--crimson-mark);letter-spacing:-.5px;
             font-variant-numeric:tabular-nums}
   .tile .tv.dim{color:var(--ink-3)}
   .tile .tl{font-size:12.5px;color:var(--ink);margin-top:6px}
@@ -233,7 +233,7 @@
   .ghint{font-size:12.5px;color:var(--ink-3);margin:0}
   .gcaption{margin:0 0 12px;padding:11px 15px;background:var(--card);
     border:1px solid var(--line);border-left:3px solid var(--crimson-mark);border-radius:8px}
-  .gcaption b{display:block;font-size:15px;color:var(--crimson);letter-spacing:-.1px}
+  .gcaption b{display:block;font-size:15px;color:var(--crimson);letter-spacing:-.05px}
   .gcaption span{display:block;margin-top:4px;font:11.5px var(--mono);color:var(--ink-3)}
   button:disabled{opacity:.42;cursor:not-allowed}
   button:disabled:hover{filter:none}
@@ -445,7 +445,7 @@ function erDiagram(o){
              fill="${f[1] ? 'var(--ink)' : 'var(--ink-3)'}">${f[0]}</text>`
         + (f[1] ? `<text x="${e.x+108}" y="${y}" font-family="var(--mono)" font-size="9"
              fill="var(--crimson)" font-weight="500">${f[1]}</text>` : '')
-        + `<text x="${e.x+BW-12}" y="${y}" font-family="var(--mono)" font-size="9.5"
+        + `<text x="${e.x+BW-12}" y="${y}" font-family="var(--mono)" font-size="${f[2].length > 24 ? 8 : 9.5}"
              fill="var(--ink-3)" text-anchor="end">${f[2]}</text>`;
     });
   });
