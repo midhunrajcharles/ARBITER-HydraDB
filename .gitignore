@@ -4,3 +4,9 @@ __pycache__/
 .env
 data/cache/
 data/repos/
+
+# HERB benchmark data is Salesforce's, released for research purposes only.
+# Not redistributed here - fetch it with scripts/fetch_data.sh
+data/herb/
+results/
+.wslip
