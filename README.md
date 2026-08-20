@@ -1,11 +1,12 @@
 # Arbiter
 
-**Graph-native enterprise context resolution on HydraDB.** Answers questions about
-who did what, on which release, from a 38,000-artifact enterprise corpus — by
-traversal, not similarity.
+**Enterprise questions, answered by traversal.**
 
-Built for [Hack Hydra](https://hackhydra.hydradb.com/) 2026, Track 1 (Enterprise
-Context and Ontology).
+Your search returns a market research report that matches every word of the
+question — and belongs to the release before it, or to a different product
+altogether. It reads as correct, so nobody checks. Arbiter answers questions
+about who did what, on which release, from a 38,000-artifact enterprise corpus
+by traversing the relationships between artifacts instead of ranking their text.
 
 ---
 
@@ -170,7 +171,7 @@ flowchart LR
     end
 
     subgraph HDB["HydraDB — object-store-native graph engine"]
-        G[("typed graph<br/>38,490 nodes · 77,144 edges")]
+        G[("typed graph<br/>36,518 nodes · 77,144 edges")]
     end
 
     subgraph APP["Arbiter"]
@@ -188,6 +189,82 @@ flowchart LR
 *Figure 1. Ingestion runs once (24 s for the full corpus). At query time nothing
 is retrieved or re-ranked — the question is compiled to a traversal, HydraDB
 executes it, and vertex ids are mapped back to human-readable keys.*
+
+## Schema
+
+The entity-relationship model. Both artifacts below are generated from
+`arbiter/schema.py` by `scripts/gen_dbml.py`, never hand-edited, so they cannot
+drift from the loader. Structure comes from the code; edge counts come from
+`results/ontology.json`, a dump of the live `/api/ontology` endpoint.
+
+<!-- BEGIN GENERATED ERD -->
+```mermaid
+erDiagram
+    ROLE {
+        integer id PK
+        varchar key
+    }
+    EMPLOYEE {
+        integer id PK
+        varchar key
+        varchar name
+        varchar role FK
+        integer manager_id FK
+    }
+    PRODUCT {
+        integer id PK
+        varchar key
+    }
+    RELEASE {
+        integer id PK
+        varchar key
+        integer seq
+        integer product_id FK
+        integer precedes_id FK
+    }
+    COMPANY {
+        integer id PK
+        varchar key
+    }
+    CUSTOMER {
+        integer id PK
+        varchar key
+        integer company_id FK
+    }
+    ARTIFACT {
+        integer id PK
+        varchar kind
+    }
+    DOCUMENT {
+        integer id PK
+        varchar key
+        varchar dtype
+        integer product_id FK
+    }
+    EMPLOYEE }o--|| ROLE : "HAS_ROLE 530"
+    EMPLOYEE ||--o{ ARTIFACT : "AUTHORED 45,192"
+    ARTIFACT }o--|| RELEASE : "ABOUT_RELEASE 15,326"
+    RELEASE ||--o| RELEASE : "PRECEDES 70"
+    RELEASE }o--|| PRODUCT : "OF_PRODUCT 100"
+    ARTIFACT }o--o{ EMPLOYEE : "MENTIONS 12,960"
+    EMPLOYEE }o--|| EMPLOYEE : "REPORTS_TO 295"
+    ARTIFACT }o--|| CUSTOMER : "REPORTED_BY declared only"
+    CUSTOMER }o--|| COMPANY : "WORKS_FOR 120"
+    ARTIFACT }o--o{ DOCUMENT : "REVIEWS 2,551"
+```
+<!-- END GENERATED ERD -->
+
+*Figure 2. Entity type is carried by the integer id band rather than a label,
+because HydraDB v0.1.0's only batch write form accepts ids alone. `PRECEDES` is
+the edge that orders releases, and so the only reason "the previous release" is
+answerable at all. `REPORTED_BY` is declared by the ontology but never emitted
+by the loader - HERB provides no artifact-to-customer link.*
+
+- [`schema.dbml`](schema.dbml) - the same schema in [DBML](https://dbml.dbdiagram.io/docs/).
+  Paste it into [dbdiagram.io](https://dbdiagram.io/d) to get an interactive,
+  laid-out diagram with every table, column, key and relationship.
+- Regenerate after any schema change: `python scripts/gen_dbml.py`
+- Check for staleness (CI-friendly, exits 1 if out of date): `python scripts/gen_dbml.py --check`
 
 ## Graph model
 
@@ -289,3 +366,10 @@ hackathon rules.
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+---
+
+**Built on [HydraDB](https://github.com/hydra-db/hydradb)** — the graph lives in an
+OpenCypher database and every traversal executes inside it. Originally built for
+[Hack Hydra](https://hackhydra.hydradb.com/) 2026, Track 1 (Enterprise Context
+and Ontology).

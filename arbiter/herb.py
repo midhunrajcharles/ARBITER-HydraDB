@@ -1,9 +1,11 @@
 """HERB -> typed graph rows.
 
 HERB (Salesforce, EMNLP 2025 industry track) is the benchmark the Hack Hydra
-organizers link for Track 1: 530 employees, 27 products, ~34K artifacts across
+organizers link for Track 1. The subset fetched by `scripts/fetch_data.sh` and
+parsed here measures 530 employees, 30 products and 38,490 artifacts across
 Slack, documents, meeting transcripts, PRs and URLs, with answerable and
-unanswerable question sets.
+unanswerable question sets. Those three figures are the loader's own counts,
+recorded in `results/load.json`; nothing here restates them from the paper.
 
 The paper's headline finding is that RETRIEVAL, not reasoning, is the
 bottleneck, and that strong agentic RAG systems reach roughly 30% accuracy.

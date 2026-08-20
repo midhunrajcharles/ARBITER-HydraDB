@@ -1,6 +1,10 @@
 # Arbiter — Hack Hydra 2026, Track 1
 
-**Enterprise context resolution by graph traversal, not similarity.**
+**Enterprise questions, answered by traversal.**
+
+Your search returns a market research report that matches every word of the
+question — and belongs to the release before it, or to a different product
+altogether. It reads as correct, so nobody checks.
 
 Repo: https://github.com/midhunrajcharles/arbiter · Demo video: `<youtube url>` · Track: Enterprise Context and Ontology
 
@@ -239,8 +243,10 @@ document — it was in how they relate, and flat retrieval throws exactly that a
 
 ---
 
-**Built with:** HydraDB (OpenCypher, Bolt/HTTP, object-store native) · Python 3.12 ·
-FastAPI · httpx · Docker · WSL2
+**Built on [HydraDB](https://github.com/hydra-db/hydradb)** — OpenCypher, Bolt/HTTP,
+object-store native; every traversal executes inside the database.
+
+**Also built with:** Python 3.12 · FastAPI · httpx · Docker · WSL2
 
 **Data:** [HERB](https://huggingface.co/datasets/Salesforce/HERB), Salesforce AI
 Research, EMNLP 2025 industry track — fetched at runtime, not redistributed.

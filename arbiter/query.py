@@ -34,6 +34,7 @@ class Resolver:
         self.h = hydra
         self.b = build
         self._release_cache: dict[int, list[dict]] = {}
+        self._doc_types: list[str] | None = None
 
     # -- vocabulary --------------------------------------------------------
     def role_id(self, role_text: str):
@@ -120,17 +121,40 @@ class Resolver:
                         "artifact": art[1] if art else None,
                         "artifact_kind": art[0] if art else None,
                         "release": rel.get("key"),
+                        # The integer ids the traversal already matched on.
+                        # Carrying them costs nothing here and means a viewer
+                        # can replay this exact path without re-running the
+                        # query or guessing which nodes it touched - the row
+                        # is the path: Role <-HAS_ROLE- e -AUTHORED-> a
+                        # -ABOUT_RELEASE-> rel.
+                        "role_id": rid,
+                        "employee_id": row["employee"],
+                        "artifact_id": row["artifact"],
+                        "release_id": rel["id"],
                     })
         return sorted(found), trace
 
     # -- document authors and reviewers ------------------------------------
-    DOC_TYPES = ("Market Research Report", "Product Vision Document",
-                 "Product Requirements Document", "Technical Specifications Document",
-                 "System Design Document")
+    @property
+    def doc_types(self):
+        """The document-type vocabulary, read off the corpus the loader parsed.
+
+        This used to be a literal tuple in this file, which meant a corpus that
+        renamed or added a document type would silently stop matching while the
+        list still looked authoritative. The `dtype` values here are the same
+        ones written onto the Document nodes, so the vocabulary cannot drift
+        from the graph. Longest first, so a type whose name contains another
+        still wins the match.
+        """
+        if self._doc_types is None:
+            self._doc_types = sorted(
+                {d["dtype"] for d in self.b.documents if d.get("dtype")},
+                key=len, reverse=True)
+        return self._doc_types
 
     def doc_type_in(self, question: str):
         low = question.lower()
-        for t in self.DOC_TYPES:
+        for t in self.doc_types:
             if t.lower() in low:
                 return t
         return None

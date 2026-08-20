@@ -25,7 +25,10 @@ slides. Do not speed up audio to fit — if it runs long, cut a beat.
 
 ## 0:15–0:35 — Why retrieval fails
 
-**On screen:** scroll the corpus stats in the header — 38,490 artifacts, 77,144 edges.
+**On screen:** scroll the corpus stats in the header — 35,718 artifacts, 77,144 edges.
+(The header reports `artifacts_loaded`: artifacts that were minted an id and written
+to the graph. The corpus itself holds 38,490; artifacts taking part in no edge never
+reach HydraDB. Both figures come from `/api/stats`.)
 
 **Say:**
 > "No market research report says the words 'previous release'. None of them

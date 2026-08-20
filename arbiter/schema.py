@@ -130,6 +130,116 @@ EDGE_TYPES = [
 ]
 
 # ---------------------------------------------------------------------------
+# Machine-readable ontology declaration.
+#
+# The endpoints of each edge used to live only in the trailing comments above,
+# which meant anything needing them (the API, the diagrams) had to restate them
+# and could drift. This block is the single source: `scripts/gen_dbml.py` and
+# `arbiter.api:/api/ontology` both read it, so schema.dbml, the README ER
+# diagram and the running app cannot disagree with the loader.
+# ---------------------------------------------------------------------------
+
+# entity -> band key + (column, dbml_type, key, note). `key` is "pk"/"fk"/"".
+ENTITIES = {
+    "Role":     {"band": "role", "columns": [
+        ("id", "integer", "pk", "vertex id"),
+        ("key", "varchar", "", "role name, e.g. Marketing Research Analyst")]},
+    "Employee": {"band": "employee", "columns": [
+        ("id", "integer", "pk", "vertex id"),
+        ("key", "varchar", "", "HERB employee_id, e.g. eid_3bd7cd36"),
+        ("name", "varchar", "", ""),
+        ("role", "varchar", "fk", "denormalised; edge of record is HAS_ROLE"),
+        ("manager_id", "integer", "fk", "FK Employee.id via REPORTS_TO; graph edge, not a stored column")]},
+    "Product":  {"band": "product", "columns": [
+        ("id", "integer", "pk", "vertex id"),
+        ("key", "varchar", "", "product name, e.g. SearchForce")]},
+    "Release":  {"band": "release", "columns": [
+        ("id", "integer", "pk", "vertex id"),
+        ("key", "varchar", "", "release_id"),
+        ("seq", "integer", "", "ordinal within the product"),
+        ("product_id", "integer", "fk", "FK Product.id via OF_PRODUCT"),
+        ("precedes_id", "integer", "fk", "FK Release.id via PRECEDES; graph edge, not a stored column")]},
+    "Company":  {"band": "company", "columns": [
+        ("id", "integer", "pk", "vertex id"),
+        ("key", "varchar", "", "company name")]},
+    "Customer": {"band": "customer", "columns": [
+        ("id", "integer", "pk", "vertex id"),
+        ("key", "varchar", "", "customer id"),
+        ("company_id", "integer", "fk", "FK Company.id via WORKS_FOR")]},
+    "Artifact": {"band": None, "columns": [
+        ("id", "integer", "pk", "vertex id; band encodes kind"),
+        ("kind", "varchar", "", "slack | transcript | pr | url")]},
+    "Document": {"band": "document", "columns": [
+        ("id", "integer", "pk", "vertex id"),
+        ("key", "varchar", "", "document id"),
+        ("dtype", "varchar", "", "document type"),
+        ("product_id", "integer", "fk", "FK Product.id via OF_PRODUCT")]},
+}
+
+# edge -> (source entity, target entity, cardinality), per build.py
+EDGE_ENDPOINTS = {
+    HAS_ROLE:      ("Employee", "Role",     "many-1"),
+    REPORTS_TO:    ("Employee", "Employee", "many-1"),
+    WORKS_FOR:     ("Customer", "Company",  "many-1"),
+    OF_PRODUCT:    ("Release",  "Product",  "many-1"),
+    PRECEDES:      ("Release",  "Release",  "1-1"),
+    AUTHORED:      ("Employee", "Artifact", "1-many"),
+    ABOUT_RELEASE: ("Artifact", "Release",  "many-1"),
+    REVIEWS:       ("Artifact", "Document", "many-many"),
+    MENTIONS:      ("Artifact", "Employee", "many-many"),
+    REPORTED_BY:   ("Artifact", "Customer", "many-1"),
+}
+
+# REPORTED_BY is declared by the ontology but the loader never emits it - HERB
+# provides no artifact -> customer link. Kept because the constant is part of
+# the modelled schema, and flagged so nothing reports it as populated.
+UNPOPULATED = frozenset({REPORTED_BY})
+
+# The column each edge leaves from. Self-relationships need a dedicated
+# column because DBML cannot Ref a table to itself on the same column.
+EDGE_SOURCE_COLUMN = {
+    REPORTS_TO: "manager_id",
+    PRECEDES:   "precedes_id",
+    OF_PRODUCT: "product_id",
+    WORKS_FOR:  "company_id",
+}
+
+DBML_OP = {"many-1": ">", "1-many": "<", "1-1": "-", "many-many": "<>"}
+MERMAID_OP = {"many-1": "}o--||", "1-many": "||--o{",
+              "1-1": "||--o|", "many-many": "}o--o{"}
+
+
+# Properties actually readable off a node in the graph, per entity.
+#
+# Probed against a live v0.1.0 node, not assumed: Employee, Release and Document
+# are created one request each with properties attached, so they carry them.
+# Role and Product nodes are only ever born as the far end of a batch-written
+# edge, which carries ids alone - so in the graph they have an id and nothing
+# else. Their human-readable name exists only in the loader's IdMap, and any
+# viewer must label it as resolver-side rather than pretending it was stored.
+STORED_PROPS = {
+    "Employee": ["key", "name", "role"],
+    "Release":  ["key", "seq"],
+    "Document": ["key", "dtype"],
+    "Product":  [],
+    "Role":     [],
+}
+
+# Which column a text search filters on. STARTS WITH only: the engine rejects
+# CONTAINS ("WHERE currently supports boolean combinations of ...").
+SEARCH_PROP = {"Employee": "name", "Release": "key", "Document": "key",
+               "Product": None, "Role": None}
+
+# id band -> entity name. The artifact kinds collapse onto one entity.
+ENTITY_OF_KIND = {
+    "role": "Role", "employee": "Employee", "product": "Product",
+    "release": "Release", "company": "Company", "customer": "Customer",
+    "document": "Document",
+    "slack": "Artifact", "transcript": "Artifact", "pr": "Artifact", "url": "Artifact",
+}
+
+
+# ---------------------------------------------------------------------------
 # Query templates (all verified executable on v0.1.0)
 # ---------------------------------------------------------------------------
 

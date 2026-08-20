@@ -11,3 +11,9 @@ data/herb/
 results/idmap.json
 results/load.json
 .wslip
+
+# playwright-mcp scratch output
+.playwright-mcp/
+
+# source photo for web/assets/stone.webp - only the converted webp is committed
+web/assets/stone.jpg

@@ -103,7 +103,7 @@ RETURN DISTINCT e.id AS employee, a.id AS artifact
 
 Only the few hundred nodes that genuinely need properties (employees, releases,
 documents) are inserted individually; the remaining ~77,000 edges go through
-`UNWIND` batches. Full corpus load: **21 seconds**.
+`UNWIND` batches. Full corpus load: **24.2 seconds** (`results/load.json`).
 
 The absence of `-[:PRECEDES*]->` is the one constraint with a real modelling
 cost. "Every release transitively before the current one" cannot be expressed as
@@ -115,6 +115,6 @@ missing.
 
 | Operation | Result |
 |---|---|
-| Full corpus load (530 employees, 400 documents, 100 releases, 77k edges) | 21.1 s |
+| Full corpus load (530 employees, 400 documents, 100 releases, 77,144 edges) | 24.2 s |
 | Batch edge write | 500 rows/request |
 | 3-hop resolution traversal | median **48 ms**, p95 **57 ms** (n=20) |

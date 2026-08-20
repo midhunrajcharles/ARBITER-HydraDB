@@ -3,82 +3,275 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Arbiter — graph-native enterprise context on HydraDB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Playfair+Display:ital,wght@1,500&display=swap">
+<title>Arbiter — enterprise questions, answered by traversal</title>
+<!-- 3d-force-graph@1.80.0's UMD bundle references process.env.NODE_ENV without a typeof guard, throwing ReferenceError in a browser with no bundler shim -->
+<script>window.process=window.process||{env:{NODE_ENV:'production'}};</script>
 <style>
   :root{
-    --bg:#0d1117; --panel:#151b23; --panel2:#1c232d; --line:#2a3441;
-    --fg:#e6edf3; --dim:#8b98a5; --accent:#4dd4ac; --accent2:#58a6ff;
-    --warn:#f0b849; --bad:#f85149; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    /* Base-to-card contrast is only 1.08:1, so surfaces are separated
+       by --line hairlines, never by fill alone. */
+    --base:#171717; --card:#1E1E1E; --raised:#252525; --sunken:#101012;
+    --ink:#E8E1D4; --ink-2:#C4BCAC; --ink-3:#9A9184;
+    --line:#2E2E2E; --line-crimson:#4A2326;
+    --crimson:#EA5A60; --crimson-mark:#E23B42; --crimson-deep:#8B0E14; --gold:#D9A441;
+    --sans:'Geist',-apple-system,'Segoe UI',sans-serif;
+    --mono:'Geist Mono',ui-monospace,Consolas,monospace;
+    /* Graph node colours, one per id band. Kept in the same warm register as
+       the rest of the palette so the explorer reads as part of the page, and
+       declared here rather than in JS so the theme stays the single source. */
+    --n-product:#8B0E14; --n-release:#EA5A60; --n-document:#D9A441;
+    --n-employee:#C4BCAC; --n-role:#9A9184; --n-company:#3E5A63;
+    --n-customer:#6B8A94; --n-slack:#A8896B; --n-transcript:#5F7355;
+    --n-pr:#9A5B2D; --n-url:#7E6A9B;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--fg);
-       font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,sans-serif}
+  body{margin:0;background:var(--base);color:var(--ink);
+       font:15px/1.55 var(--sans)}
+  /* Stone texture on the page ground only - cards, tables, pre blocks and the
+     console sit on flat opaque --card/--raised so body text is never read
+     over photographic grain. background-size:cover, not repeat: the photo
+     is not seamless and tiling would show visible seams. */
+  body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:url('/assets/stone.webp');background-size:cover;
+    background-position:center;mix-blend-mode:overlay;opacity:.35}
+  /* Halftone dot screen: a finer second layer above the stone, at very low
+     opacity, so the page reads as ink-on-stock rather than a photo wallpaper. */
+  body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:radial-gradient(var(--ink) 1px,transparent 1px);
+    background-size:6px 6px;opacity:.03}
+  header,main,footer{position:relative;z-index:1}
   header{padding:22px 28px;border-bottom:1px solid var(--line);
          display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
-  h1{margin:0;font-size:19px;letter-spacing:-.2px}
-  h1 span{color:var(--accent)}
-  .tag{font:12px var(--mono);color:var(--dim)}
-  .stats{margin-left:auto;display:flex;gap:18px;font:12px var(--mono);color:var(--dim);flex-wrap:wrap}
-  .stats b{color:var(--accent);font-weight:600}
+  .brand{margin:0;font-size:19px;letter-spacing:-.2px;font-weight:600}
+  .brand span{color:var(--crimson)}
+  .tag{font:12px var(--mono);color:var(--ink-3)}
+  .stats{margin-left:auto;display:flex;gap:18px;font:12px var(--mono);color:var(--ink-3);flex-wrap:wrap}
+  .stats b{color:var(--crimson);font-weight:600}
   main{max-width:1180px;margin:0 auto;padding:24px 28px 80px}
-  .lede{color:var(--dim);margin:0 0 22px;max-width:74ch}
-  .lede b{color:var(--fg);font-weight:600}
+  .hero{margin:0 0 10px;font-size:27px;line-height:1.25;letter-spacing:-.5px;max-width:20ch}
+  .hero em{font-family:'Playfair Display',Georgia,serif;font-style:italic;
+           font-weight:500;color:var(--crimson-mark)}
+  .tiles{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 22px}
+  .tile{background:var(--card);border:1px solid var(--line);border-radius:10px;
+        padding:14px 18px;min-width:210px;flex:1}
+  .tile .tv{font:600 30px/1.1 var(--mono);color:var(--crimson-mark);letter-spacing:-1px;
+            font-variant-numeric:tabular-nums}
+  .tile .tv.dim{color:var(--ink-3)}
+  .tile .tl{font-size:12.5px;color:var(--ink);margin-top:6px}
+  .tile .tsub{font:11.5px var(--mono);color:var(--ink-3);margin-top:3px}
+  .svgwrap{overflow-x:auto}
+  .figure{margin:0}
+  .figcap{font-size:12.5px;color:var(--ink-3);margin:10px 0 0;max-width:82ch}
+  .figcap b{color:var(--ink-2);font-weight:600}
+  .figcap em{color:var(--crimson);font-style:normal;font-weight:600}
+  /* tabs */
+  .tablist{display:flex;gap:2px;border-bottom:1px solid var(--line);margin:26px 0 20px}
+  .tab{appearance:none;background:none;border:0;border-bottom:2px solid transparent;
+       padding:11px 18px;min-height:44px;font:inherit;font-size:14px;color:var(--ink-3);
+       cursor:pointer;border-radius:0}
+  .tab:hover{color:var(--ink)}
+  .tab[aria-selected="true"]{color:var(--crimson);border-bottom-color:var(--crimson-mark);
+       font-weight:600}
+  .tab:focus-visible{outline:2px solid var(--crimson-mark);outline-offset:-2px}
+  [role="tabpanel"]:focus{outline:none}
+  /* data viewer */
+  .data{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+  .labels{flex:0 0 210px;display:flex;flex-direction:column;gap:4px}
+  .lbl{display:flex;justify-content:space-between;align-items:center;gap:10px;
+       padding:10px 12px;min-height:44px;background:var(--card);border:1px solid var(--line);
+       border-radius:7px;cursor:pointer;font-size:13.5px;color:var(--ink);text-align:left}
+  .lbl:hover{border-color:var(--line-crimson)}
+  .lbl[aria-pressed="true"]{border-color:var(--crimson-mark);color:var(--crimson);
+       font-weight:600}
+  .lbl .n{font:11px var(--mono);color:var(--ink-3)}
+  .lbl[aria-pressed="true"] .n{color:var(--crimson)}
+  .gridwrap{flex:1;min-width:320px}
+  .gridbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+  .gridbar input{flex:1;min-width:180px}
+  .grid{width:100%;border-collapse:collapse;font-size:13px}
+  .grid th{text-align:left;padding:0;border-bottom:1px solid var(--line);
+       font:11px var(--mono);letter-spacing:.5px;text-transform:uppercase;color:var(--ink-3);
+       white-space:nowrap}
+  .grid th > span,.grid th{padding-left:0}
+  .grid th .pad{display:inline-block;padding:12px 10px}
+  /* the whole header cell is the sort target, so it clears 44px */
+  .grid th button{appearance:none;background:none;border:0;padding:12px 10px;font:inherit;
+       color:inherit;cursor:pointer;min-height:44px;width:100%;text-align:left}
+  .grid th button:hover{color:var(--crimson)}
+  .grid th .src{color:var(--gold);text-transform:none;letter-spacing:0}
+  .grid td{padding:8px 10px;border-bottom:1px solid var(--line);font:12px var(--mono);
+       color:var(--ink-2);vertical-align:top}
+  .grid tbody tr{cursor:pointer}
+  .grid tbody tr:hover{background:var(--raised)}
+  .grid tbody tr[aria-expanded="true"]{background:var(--raised)}
+  .grid td.res{color:var(--gold)}
+  .pager{display:flex;gap:10px;align-items:center;margin-top:12px;font:12px var(--mono);
+       color:var(--ink-3);flex-wrap:wrap}
+  .pager button{padding:7px 14px;min-height:44px}
+  .empty{padding:22px;text-align:center;color:var(--ink-3);font-size:13px;
+       border:1px dashed var(--line);border-radius:8px}
+  /* distinct from .empty so "loading" and "no rows" are not the same state */
+  .loading{padding:22px;text-align:center;color:var(--ink-3);font-size:13px}
+  .err{padding:16px;border:1px solid var(--line-crimson);border-left:3px solid var(--crimson-mark);
+       border-radius:8px;background:var(--card);color:var(--crimson);font-size:13px}
+  .err pre{margin-top:10px}
+  /* node tree */
+  .tree{margin-top:16px;border:1px solid var(--line);border-radius:8px;background:var(--card);
+        padding:16px 18px}
+  .tree h4{margin:0 0 4px;font-size:14px;color:var(--ink)}
+  .tree .sub{font:11.5px var(--mono);color:var(--ink-3);margin-bottom:12px}
+  .tree details{border-top:1px solid var(--line);padding:9px 0}
+  .tree summary{cursor:pointer;font:12px var(--mono);color:var(--ink-2);
+       display:flex;gap:9px;align-items:center;flex-wrap:wrap;min-height:28px}
+  .tree summary::marker{color:var(--ink-3)}
+  .tree summary b{color:var(--crimson);font-weight:600}
+  .tree summary .dir{font-size:10px;color:var(--gold);border:1px solid var(--line);
+       border-radius:4px;padding:1px 6px}
+  .tree summary .ct{color:var(--ink-3)}
+  .tree .kids{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 8px 18px}
+  .tree .kid{font:11.5px var(--mono);background:var(--raised);border:1px solid var(--line);
+       border-radius:5px;padding:4px 9px;color:var(--ink-2);cursor:pointer}
+  .tree .kid:hover{border-color:var(--crimson-mark);color:var(--crimson)}
+  .tree .kid i{color:var(--ink-3);font-style:normal}
+  .sechead{font:12px var(--mono);letter-spacing:1.2px;text-transform:uppercase;
+           color:var(--ink-3);margin:34px 0 12px;padding-top:22px;
+           border-top:1px solid var(--line)}
+  .svgwrap svg{display:block;min-width:860px;width:100%;height:auto}
+  .bench{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);
+         border-radius:10px;padding:16px 20px;margin-bottom:16px}
+  .bench h3{margin:0 0 8px;font-size:12px;letter-spacing:.9px;text-transform:uppercase;color:var(--ink-3)}
+  .bench p{margin:0 0 10px;color:var(--ink-3);font-size:13px;max-width:78ch}
+  .bench code{font:12.5px var(--mono);background:var(--raised);border:1px solid var(--line);
+              border-radius:5px;padding:2px 7px;color:var(--crimson)}
+  .lede{color:var(--ink-3);margin:0 0 22px;max-width:74ch}
+  .lede b{color:var(--ink);font-weight:600}
   .row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-  select,button,input{font:inherit;background:var(--panel2);color:var(--fg);
-    border:1px solid var(--line);border-radius:7px;padding:9px 12px}
+  select,button,input{font:inherit;background:var(--raised);color:var(--ink);
+    border:1px solid var(--line);border-radius:7px;padding:9px 12px;min-height:44px}
   input{flex:1;min-width:280px}
-  button{cursor:pointer;background:var(--accent);color:#06231b;border:0;font-weight:600;padding:9px 20px}
+  button{cursor:pointer;background:var(--crimson-deep);color:var(--ink);border:0;font-weight:600;padding:9px 20px}
   button:hover{filter:brightness(1.08)}
-  button.ghost{background:var(--panel2);color:var(--fg);border:1px solid var(--line);font-weight:400}
+  button.ghost{background:var(--raised);color:var(--ink);border:1px solid var(--line);font-weight:400}
   .qlist{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-height:196px;overflow:auto}
-  .q{padding:8px 11px;background:var(--panel);border:1px solid var(--line);border-radius:6px;
-     cursor:pointer;font-size:13.5px;display:flex;gap:9px;align-items:center}
-  .q:hover{border-color:var(--accent)}
-  .pill{font:10px var(--mono);padding:2px 7px;border-radius:20px;flex-shrink:0;letter-spacing:.4px}
-  .pill.a{background:#12312a;color:var(--accent)}
-  .pill.u{background:#3a2a12;color:var(--warn)}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  .q{padding:8px 11px;background:var(--card);border:1px solid var(--line);border-radius:6px;
+     cursor:pointer;font-size:13.5px;display:flex;gap:9px;align-items:center;min-height:44px;
+     /* .qlist is a height-capped flex column, so rows must not shrink below
+        their wrapped text or the lines collide with the row beneath. */
+     flex:0 0 auto}
+  .q:hover{border-color:var(--crimson-mark)}
+  .pill{font:10px var(--mono);padding:2px 7px;border-radius:20px;flex-shrink:0;letter-spacing:.4px;
+        border:1px solid transparent}
+  .pill.a{background:var(--raised);color:var(--ink-2);border-color:var(--line)}
+  .pill.u{background:var(--card);color:var(--gold);border-color:var(--line)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;
         padding:18px 20px;margin-bottom:16px}
-  .card h3{margin:0 0 12px;font-size:12px;letter-spacing:.9px;text-transform:uppercase;color:var(--dim)}
+  .card h3{margin:0 0 12px;font-size:12px;letter-spacing:.9px;text-transform:uppercase;color:var(--ink-3)}
   .ans{display:flex;flex-wrap:wrap;gap:9px}
-  .emp{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--accent);
+  .emp{background:var(--raised);border:1px solid var(--line);border-left:3px solid var(--crimson-mark);
        border-radius:6px;padding:9px 13px}
-  .emp .id{font:12.5px var(--mono);color:var(--accent)}
-  .emp .nm{font-size:13px;color:var(--dim);margin-top:2px}
-  pre{margin:0;background:#0a0e14;border:1px solid var(--line);border-radius:7px;padding:13px;
-      overflow-x:auto;font:12.5px/1.6 var(--mono);color:#c9d4e0}
+  .emp .id{font:12.5px var(--mono);color:var(--crimson)}
+  .emp .nm{font-size:13px;color:var(--ink-3);margin-top:2px}
+  .emp .mark{font:10px var(--mono);letter-spacing:.4px;margin-left:8px}
+  .emp.hit{border-left-color:var(--crimson-mark)}
+  .emp.hit .mark{color:var(--crimson)}
+  .emp.extra{border-left-color:var(--crimson)}
+  .emp.extra .mark{color:var(--crimson)}
+  .emp.miss{border-left-color:var(--gold);border-style:dashed;background:transparent}
+  .emp.miss .id{color:var(--gold)}
+  .emp.miss .mark{color:var(--gold)}
+  .tally{font:11.5px var(--mono);color:var(--ink-3);margin:10px 0 0}
+  .gtline{font:12px var(--mono);color:var(--ink-3);margin:10px 0 0;word-break:break-all}
+  .gtline b{color:var(--ink);font-weight:600}
+  .cite{font-size:12.5px;color:var(--ink-3);margin:0 0 10px;max-width:78ch}
+  .cite a{color:var(--gold)}
+  .cite i{color:var(--ink);font-style:italic}
+  pre{margin:0;background:var(--raised);border:1px solid var(--line);border-radius:7px;padding:13px;
+      overflow-x:auto;font:12.5px/1.6 var(--mono);color:var(--ink-2)}
   pre + pre{margin-top:9px}
-  .kw{color:#ff7b72}.br{color:var(--accent2)}.num{color:var(--warn)}
+  .kw{color:var(--crimson)}.br{color:var(--gold)}.num{color:var(--ink-3)}
   table{width:100%;border-collapse:collapse;font-size:13px}
   th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line)}
-  th{color:var(--dim);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.6px}
-  td.mono{font:12px var(--mono);color:var(--dim)}
-  .kind{font:10px var(--mono);padding:2px 6px;border-radius:4px;background:var(--panel2)}
-  .kind.document{background:#12312a;color:var(--accent)}
-  .abstain{border-left:3px solid var(--warn)}
-  .abstain .why{color:var(--warn);font-size:14px}
+  th{color:var(--ink-3);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.6px}
+  td.mono{font:12px var(--mono);color:var(--ink-3)}
+  .kind{font:10px var(--mono);padding:2px 6px;border-radius:4px;background:var(--raised);
+        border:1px solid var(--line);color:var(--ink-2)}
+  .kind.document{background:var(--card);color:var(--crimson);border-color:var(--line-crimson)}
+  .abstain{border-left:3px solid var(--gold)}
+  .abstain .why{color:var(--gold);font-size:14px}
   .verdict{display:flex;gap:10px;align-items:center;margin-bottom:14px;font-size:13px}
   .badge{font:11px var(--mono);padding:3px 9px;border-radius:5px}
-  .ok{background:#12312a;color:var(--accent)}
-  .no{background:#3d1518;color:var(--bad)}
-  .muted{color:var(--dim);font-size:13px}
+  .ok{background:var(--crimson-deep);color:var(--ink);border:1px solid var(--crimson-deep)}
+  .no{background:var(--card);color:var(--crimson);border:1px solid var(--line-crimson)}
+  .muted{color:var(--ink-3);font-size:13px}
   .scroll{overflow-x:auto}
+  /* graph explorer */
+  .gbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+  .gcount{font:12px var(--mono);color:var(--ink-3);margin-left:auto}
+  .gcount b{color:var(--crimson);font-weight:600}
+  .graphwrap{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
+  .gcanvas{flex:1 1 460px;min-width:0;height:560px;position:relative;
+    background:var(--raised);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .gcanvas canvas{display:block}
+  .gside{flex:0 1 310px;min-width:0;align-self:stretch}
+  .gempty,.gloading{position:absolute;inset:0;display:flex;align-items:center;
+    justify-content:center;text-align:center;padding:24px;font-size:13px;color:var(--ink-3)}
+  .gerr{position:absolute;inset:12px;display:flex;flex-direction:column;justify-content:center;
+    gap:8px;padding:18px;border:1px solid var(--line-crimson);border-left:3px solid var(--crimson-mark);
+    border-radius:8px;background:var(--card);color:var(--crimson);font-size:13px}
+  .gerr b{display:block;font-size:13.5px}
+  .gerr .d{color:var(--ink-3);font:11.5px/1.5 var(--mono);word-break:break-word}
+  .glegend{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .glegend span{display:inline-flex;align-items:center;gap:5px;font:11px var(--mono);color:var(--ink-3)}
+  .glegend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .gside .card{margin-bottom:12px}
+  .gprops{font:12px/1.7 var(--mono);color:var(--ink-2);word-break:break-word}
+  .gprops .k{color:var(--ink-3)}
+  .gprops .res{color:var(--gold)}
+  .ghint{font-size:12.5px;color:var(--ink-3);margin:0}
+  .gcaption{margin:0 0 12px;padding:11px 15px;background:var(--card);
+    border:1px solid var(--line);border-left:3px solid var(--crimson-mark);border-radius:8px}
+  .gcaption b{display:block;font-size:15px;color:var(--crimson);letter-spacing:-.1px}
+  .gcaption span{display:block;margin-top:4px;font:11.5px var(--mono);color:var(--ink-3)}
+  button:disabled{opacity:.42;cursor:not-allowed}
+  button:disabled:hover{filter:none}
+  .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
+  .actions .note{font-size:12px;color:var(--ink-3)}
+  @media (max-width:540px){
+    .row{flex-direction:column;align-items:stretch}
+    .row select,.row input,.row button{width:100%;min-width:0;flex:0 0 auto}
+    /* Tiles stack rather than shrink: below ~100px the figures overflow their
+       own box and, being unclipped, drag the whole page into scroll. */
+    .tiles{flex-direction:column}
+    .tile{width:100%;min-width:0}
+  }
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:20px 28px;
+         color:var(--ink-3);font-size:12.5px}
+  footer a{color:var(--gold);text-decoration:none}
+  footer a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
 <header>
-  <h1>Arbiter<span>.</span></h1>
-  <span class="tag">graph-native enterprise context resolution on HydraDB</span>
+  <div class="brand">Arbiter<span>.</span></div>
+  <span class="tag">enterprise questions, answered by traversal</span>
   <div class="stats" id="stats"></div>
 </header>
 
 <main>
+  <h1 class="hero">The top result looks right. It's from <em>the wrong release</em>.</h1>
   <p class="lede">
-    HERB asks who worked on <b>the previous release</b> — a question whose answer appears in no
-    document's text. Arbiter resolves it by <b>traversal</b>: release ordering → the artifacts that
-    belong to those releases → the people who authored them → filtered by a role edge.
-    Every answer below is produced by OpenCypher executed inside HydraDB, and the query is shown.
+    Ask who worked on <b>the previous release</b> and search hands back a market research report
+    that matches every word of the question — and belongs to the release before it, or to a
+    different product altogether. It reads as correct, so nobody checks. Arbiter resolves the
+    question by <b>traversal</b> instead: release ordering → the artifacts that belong to those
+    releases → the people who authored them → filtered by a role edge. Every answer below shows
+    the query that produced it and every artifact it landed on.
   </p>
+
+  <div class="tiles" id="tiles"></div>
 
   <div class="row">
     <select id="product"></select>
@@ -86,7 +279,63 @@
     <button id="ask">Resolve</button>
   </div>
   <div class="qlist" id="qlist"></div>
-  <div id="out"></div>
+  <div class="tablist" role="tablist" aria-label="Views">
+    <button class="tab" role="tab" id="tab-resolve" aria-controls="panel-resolve"
+            aria-selected="true" tabindex="0">Resolve</button>
+    <button class="tab" role="tab" id="tab-ontology" aria-controls="panel-ontology"
+            aria-selected="false" tabindex="-1">Ontology</button>
+    <button class="tab" role="tab" id="tab-data" aria-controls="panel-data"
+            aria-selected="false" tabindex="-1">Data</button>
+    <button class="tab" role="tab" id="tab-graph" aria-controls="panel-graph"
+            aria-selected="false" tabindex="-1">Graph</button>
+  </div>
+
+  <section id="panel-resolve" role="tabpanel" aria-labelledby="tab-resolve" tabindex="0">
+    <div id="out"></div>
+  </section>
+
+  <section id="panel-ontology" role="tabpanel" aria-labelledby="tab-ontology" tabindex="0" hidden>
+    <div class="card"><h3>Figure 1 &mdash; Entity-relationship schema</h3>
+      <div class="svgwrap" id="erwrap"></div>
+      <p class="figcap" id="ercap"></p></div>
+    <div class="card"><h3>Figure 2 &mdash; Infrastructure</h3>
+      <div class="svgwrap" id="infrawrap"></div>
+      <p class="figcap" id="infracap"></p></div>
+  </section>
+
+  <section id="panel-data" role="tabpanel" aria-labelledby="tab-data" tabindex="0" hidden>
+    <div class="data">
+      <div class="labels" id="labels"></div>
+      <div class="gridwrap">
+        <div class="gridbar">
+          <input id="dq" placeholder="Search&hellip;" aria-label="Search rows">
+          <button id="dqgo">Search</button>
+          <button class="ghost" id="dqclear">Clear</button>
+        </div>
+        <div id="dgrid"></div>
+        <div id="dpager"></div>
+        <div id="ddetail"></div>
+        <div class="card" style="margin-top:16px"><h3>Cypher executed inside HydraDB</h3>
+          <div id="dcypher"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="panel-graph" role="tabpanel" aria-labelledby="tab-graph" tabindex="0" hidden>
+    <div class="gbar">
+      <select id="gproduct" aria-label="Seed product"></select>
+      <button id="gseed">Load</button>
+      <button class="ghost" id="greset">Reset</button>
+      <span class="gcount" id="gcount" role="status" aria-live="polite"></span>
+    </div>
+    <p class="gcaption" id="gcaption" hidden></p>
+    <div class="graphwrap">
+      <div class="gcanvas" id="gcanvas"></div>
+      <aside class="gside" id="gside"></aside>
+    </div>
+    <div class="card" style="margin-top:16px"><h3>Cypher executed inside HydraDB</h3>
+      <div id="gcypher"></div></div>
+  </section>
 </main>
 
 <script>
@@ -94,31 +343,972 @@ const $ = s => document.querySelector(s);
 let GT = {};
 
 const esc = s => String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+// Attribute context also needs quotes escaped, or a stray " ends the attribute.
+const escA = s => String(s).replace(/[&<>"']/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const hl = q => esc(q)
   .replace(/\b(MATCH|RETURN|WHERE|DISTINCT|AND|OR|AS|OPTIONAL|UNWIND|CREATE)\b/g,'<span class="kw">$1</span>')
   .replace(/\[:(\w+)\]/g,'[:<span class="br">$1</span>]')
   .replace(/\b(\d{4,})\b/g,'<span class="num">$1</span>');
 
+let BENCH = null;
+
+/* Count up 0 -> target over ~2s, ease-out cubic. Anyone who has asked for
+   reduced motion gets the final value immediately, not a shorter animation. */
+function countUp(){
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('[data-to]').forEach(el => {
+    const to = Number(el.dataset.to);
+    if (reduce) { el.textContent = to; return; }
+    const dur = 2000, t0 = performance.now();
+    const tick = now => {
+      const p = Math.min(1, (now - t0) / dur);
+      el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(tick); else el.textContent = to;
+    };
+    requestAnimationFrame(tick);
+  });
+}
+
+/* Every figure below comes from /api/benchmark, which reads
+   results/eval_hydra.json. No statistic is written into this page. */
+function renderTiles(b){
+  const rp = b.release_participation, ab = b.abstention;
+  $('#tiles').innerHTML = `
+    <div class="tile">
+      <div class="tv"><span data-to="${rp.arbiter_pct}">0</span>%</div>
+      <div class="tl">Arbiter &mdash; exact match</div>
+      <div class="tsub">${rp.arbiter_exact}/${rp.n} release-participation questions</div>
+    </div>
+    <div class="tile">
+      <div class="tv dim"><span data-to="${rp.bm25_pct}">0</span>%</div>
+      <div class="tl">BM25 baseline &mdash; exact match</div>
+      <div class="tsub">${rp.bm25_exact}/${rp.n} on the same questions</div>
+    </div>
+    <div class="tile">
+      <div class="tv"><span data-to="${ab.correct}">0</span>/${ab.n}</div>
+      <div class="tl">Unanswerable, correctly refused</div>
+      <div class="tsub">${ab.false_refusals} false refusals</div>
+    </div>`;
+  countUp();
+}
+
+/* ---- hand-authored SVG, no libraries -------------------------------- */
+const NUM = n => Number(n).toLocaleString();
+
+// crow's-foot "many" fork, and the single tick for "one"
+function crow(x, y, dir){                       // dir: 1 right, -1 left, 2 down, -2 up
+  const d = 11, w = 7;
+  if (Math.abs(dir) === 1) return `<path d="M${x} ${y}L${x+d*dir} ${y-w}M${x} ${y}L${x+d*dir} ${y}M${x} ${y}L${x+d*dir} ${y+w}"/>`;
+  const s = dir > 0 ? 1 : -1;
+  return `<path d="M${x} ${y}L${x-w} ${y+d*s}M${x} ${y}L${x} ${y+d*s}M${x} ${y}L${x+w} ${y+d*s}"/>`;
+}
+function one(x, y, dir){
+  const o = 10, w = 7;
+  if (Math.abs(dir) === 1) return `<path d="M${x+o*dir} ${y-w}L${x+o*dir} ${y+w}"/>`;
+  const s = dir > 0 ? 1 : -1;
+  return `<path d="M${x-w} ${y+o*s}L${x+w} ${y+o*s}"/>`;
+}
+
+function erDiagram(o){
+  const N = o.nodes, B = o.id_bands;
+  const band = k => `int, ${NUM(B[k])}+`;
+  const BW = 236, HH = 28, FH = 19;
+  const ents = [
+    {k:'Company',  x:30,  y:30,  n:N.company,        f:[['company','PK','text']]},
+    {k:'Customer', x:30,  y:170, n:N.customer,       f:[['id','PK',band('customer')],['company','FK','→ Company']]},
+    {k:'Role',     x:30,  y:400, n:N.role,           f:[['role','PK',band('role')]]},
+    {k:'Employee', x:400, y:380, n:N.employee,       f:[['employee_id','PK',band('employee')],['name','','text'],['role','FK','→ Role']]},
+    {k:'Artifact', x:790, y:380, n:o.artifacts_total,
+     f:[['artifact_id','PK',`int, ${Object.keys(o.artifact_kinds).length} bands`],
+        ['kind','',Object.keys(o.artifact_kinds).join(' | ')]]},
+    {k:'Document', x:790, y:620, n:N.document,       f:[['document_id','PK',band('document')],['dtype','','text'],['product_id','FK','→ Product']]},
+    {k:'Release',  x:1210,y:380, n:N.release,        f:[['release_id','PK',band('release')],['seq','','int'],['product_id','FK','→ Product']]},
+    {k:'Product',  x:1210,y:170, n:N.product,        f:[['product','PK',band('product')]]},
+  ];
+  const H = e => HH + e.f.length * FH + 8;
+  const at = {}; ents.forEach(e => at[e.k] = {...e, h:H(e), cx:e.x+BW/2, cy:e.y+H(e)/2, r:e.x+BW, b:e.y+H(e)});
+
+  let g = '';
+  ents.forEach(e => {
+    const h = H(e);
+    g += `<rect x="${e.x}" y="${e.y}" width="${BW}" height="${h}" rx="7"
+           fill="var(--card)" stroke="var(--line)"/>`
+      + `<path d="M${e.x} ${e.y+HH}h${BW}" stroke="var(--line)"/>`
+      + `<text x="${e.x+12}" y="${e.y+19}" fill="var(--ink)" font-family="var(--sans)"
+           font-size="13.5" font-weight="600">${e.k}</text>`
+      + `<text x="${e.x+BW-12}" y="${e.y+19}" fill="var(--ink-3)" font-family="var(--mono)"
+           font-size="10.5" text-anchor="end">${NUM(e.n)}</text>`;
+    e.f.forEach((f, i) => {
+      const y = e.y + HH + 14 + i * FH;
+      g += `<text x="${e.x+12}" y="${y}" font-family="var(--mono)" font-size="10.5"
+             fill="${f[1] ? 'var(--ink)' : 'var(--ink-3)'}">${f[0]}</text>`
+        + (f[1] ? `<text x="${e.x+108}" y="${y}" font-family="var(--mono)" font-size="9"
+             fill="var(--crimson)" font-weight="500">${f[1]}</text>` : '')
+        + `<text x="${e.x+BW-12}" y="${y}" font-family="var(--mono)" font-size="9.5"
+             fill="var(--ink-3)" text-anchor="end">${f[2]}</text>`;
+    });
+  });
+  return { g, at, BW };
+}
+
+function renderER(o){
+  const { g, at } = erDiagram(o);
+  const R = Object.fromEntries(o.relationships.map(r => [r.rel, r]));
+  const lab = (x, y, r, anchor) => `<text x="${x}" y="${y}" font-family="var(--mono)"
+      font-size="10" fill="var(--gold)" text-anchor="${anchor||'middle'}">${r.rel}<tspan
+      fill="var(--ink-3)"> ${NUM(r.n)}</tspan></text>`;
+
+  let e = `<g stroke="var(--ink-3)" stroke-width="1.3" fill="none">`;
+  // Customer many -> 1 Company
+  e += `<path d="M${at.Customer.cx} ${at.Customer.y}V${at.Company.b}"/>`
+     + crow(at.Customer.cx, at.Customer.y, -2) + one(at.Company.cx, at.Company.b, 2);
+  // Employee many -> 1 Role
+  e += `<path d="M${at.Employee.x} ${at.Employee.cy}H${at.Role.r}"/>`
+     + crow(at.Employee.x, at.Employee.cy, -1) + one(at.Role.r, at.Role.cy, 1);
+  // Employee 1 -> many Artifact
+  e += `<path d="M${at.Employee.r} ${at.Employee.cy}H${at.Artifact.x}"/>`
+     + one(at.Employee.r, at.Employee.cy, 1) + crow(at.Artifact.x, at.Artifact.cy, -1);
+  // Artifact many -> 1 Release
+  e += `<path d="M${at.Artifact.r} ${at.Artifact.cy}H${at.Release.x}"/>`
+     + crow(at.Artifact.r, at.Artifact.cy, 1) + one(at.Release.x, at.Release.cy, -1);
+  // Release many -> 1 Product
+  e += `<path d="M${at.Release.cx} ${at.Release.y}V${at.Product.b}"/>`
+     + crow(at.Release.cx, at.Release.y, -2) + one(at.Product.cx, at.Product.b, 2);
+  // Artifact many <-> many Document
+  e += `<path d="M${at.Artifact.cx} ${at.Artifact.b}V${at.Document.y}"/>`
+     + crow(at.Artifact.cx, at.Artifact.b, 2) + crow(at.Document.cx, at.Document.y, -2);
+  // REPORTS_TO self-loop on Employee
+  const ex = at.Employee.x + 46, ex2 = at.Employee.x + 152, ey = at.Employee.y;
+  e += `<path d="M${ex} ${ey}V${ey-54}H${ex2}V${ey}"/>`
+     + crow(ex, ey, -2) + one(ex2, ey, -2);
+  // MENTIONS routed underneath, dashed = secondary
+  e += `<path d="M${at.Artifact.cx+48} ${at.Artifact.b}V${at.Artifact.b+70}H${at.Employee.cx+48}V${at.Employee.b}" stroke-dasharray="4 3"/>`
+     + crow(at.Artifact.cx+48, at.Artifact.b, 2) + crow(at.Employee.cx+48, at.Employee.b, 2);
+  e += `</g>`;
+
+  // PRECEDES self-loop on Release, crimson: the load-bearing edge
+  const rx = at.Release.r, ry1 = at.Release.y + 34, ry2 = at.Release.b - 30;
+  e += `<g stroke="var(--crimson-mark)" stroke-width="2" fill="none">`
+     + `<path d="M${rx} ${ry1}H${rx+68}V${ry2}H${rx}"/>`
+     + one(rx, ry1, 1) + one(rx, ry2, 1) + `</g>`
+     + `<text x="${rx+78}" y="${(ry1+ry2)/2-3}" font-family="var(--mono)" font-size="10.5"
+          fill="var(--crimson)" font-weight="500">PRECEDES</text>`
+     + `<text x="${rx+78}" y="${(ry1+ry2)/2+12}" font-family="var(--mono)" font-size="10"
+          fill="var(--crimson)">${NUM(R.PRECEDES.n)} &#183; ${esc(R.PRECEDES.card)}</text>`;
+
+  e += lab(at.Customer.cx+8, at.Customer.y-18, R.WORKS_FOR, 'start')
+     + lab((at.Role.r+at.Employee.x)/2, at.Employee.cy-12, R.HAS_ROLE)
+     + lab((at.Employee.r+at.Artifact.x)/2, at.Employee.cy-12, R.AUTHORED)
+     + lab((at.Artifact.r+at.Release.x)/2, at.Artifact.cy-12, R.ABOUT_RELEASE)
+     + lab(at.Release.cx+8, at.Release.y-18, R.OF_PRODUCT, 'start')
+     + lab(at.Artifact.cx-8, at.Artifact.b+40, R.REVIEWS, 'end')
+     + lab(ex2+12, ey-42, R.REPORTS_TO, 'start')
+     + lab(at.Employee.cx+58, at.Employee.b+62, R.MENTIONS, 'start');
+
+  $('#erwrap').innerHTML = `<svg viewBox="0 0 1680 800" role="img"
+    aria-label="Entity-relationship diagram of the Arbiter schema in crow&#39;s-foot notation">
+    ${g}${e}</svg>`;
+  $('#ercap').innerHTML = `<b>Figure 1.</b> The Arbiter schema in crow&rsquo;s-foot notation.
+    Per-entity figures are node counts, per-relationship figures are edge counts, both read at
+    render time from <code>/api/ontology</code>. Type is carried by the integer id band rather
+    than a label, because HydraDB v0.1.0 accepts no labels on batch writes.
+    <em>PRECEDES is drawn in crimson</em> because it is the only edge that orders releases, and
+    therefore the only reason &ldquo;the previous release&rdquo; is answerable at all &mdash;
+    strip it and the question has no referent in the graph.`;
+}
+
+function renderInfra(o){
+  const W = 1400, H = 300, BW = 186, BH = 92, Y = 96;
+  // gap 3 must clear the OpenCypher hop labels (~184px), not just the arrow
+  const xs = [24, 268, 512, 1000, 1240];
+  const box = (x, t, s2, w) => `<rect x="${x}" y="${Y}" width="${w||BW}" height="${BH}" rx="7"
+      fill="var(--card)" stroke="var(--line)"/>
+    <text x="${x+(w||BW)/2}" y="${Y+38}" text-anchor="middle" font-family="var(--sans)"
+      font-size="14" font-weight="600" fill="var(--ink)">${t}</text>
+    <text x="${x+(w||BW)/2}" y="${Y+60}" text-anchor="middle" font-family="var(--mono)"
+      font-size="10" fill="var(--ink-3)">${s2}</text>`;
+  const arrow = (x1, x2, y) => `<path d="M${x1} ${y}H${x2-10}" stroke="var(--ink-3)"
+      stroke-width="1.3" fill="none" marker-end="url(#iah)"/>`;
+
+  // standard cylinder glyph: elliptical cap, straight body, swept base
+  const cx = xs[2], cw = 268, cy = 60, ch = 164, ry = 21;
+  const cyl = `<path d="M${cx} ${cy+ry}v${ch-2*ry}a${cw/2} ${ry} 0 0 0 ${cw} 0V${cy+ry}"
+      fill="var(--raised)" stroke="var(--crimson-mark)" stroke-width="1.6"/>
+    <ellipse cx="${cx+cw/2}" cy="${cy+ry}" rx="${cw/2}" ry="${ry}"
+      fill="var(--card)" stroke="var(--crimson-mark)" stroke-width="1.6"/>
+    <text x="${cx+cw/2}" y="${cy+72}" text-anchor="middle" font-family="var(--sans)"
+      font-size="15" font-weight="600" fill="var(--ink)">HydraDB</text>
+    <text x="${cx+cw/2}" y="${cy+92}" text-anchor="middle" font-family="var(--mono)"
+      font-size="9.5" fill="var(--ink-3)">object-store-native graph engine</text>
+    <text x="${cx+cw/2}" y="${cy+116}" text-anchor="middle" font-family="var(--mono)"
+      font-size="11" fill="var(--crimson)" font-weight="500">${NUM(o.nodes_total)} nodes &#183; ${NUM(o.edges_total)} edges</text>`;
+
+  const mid = Y + BH/2;
+  $('#infrawrap').innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img"
+      aria-label="Infrastructure map: HERB corpus to build.py ingest to HydraDB to FastAPI to UI">
+    <defs><marker id="iah" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="var(--ink-3)"/></marker></defs>
+    ${box(xs[0], 'HERB corpus', o.herb_source_count + ' sources')}
+    ${arrow(xs[0]+BW, xs[1], mid)}
+    ${box(xs[1], 'build.py', 'ingest &#8594; integer ids')}
+    ${arrow(xs[1]+BW, cx, mid)}
+    ${cyl}
+    ${arrow(cx+cw, xs[3], mid)}
+    ${/* location.host carries the port only when the browser is not on the
+         scheme default. Printing a guessed "80" there stated an address
+         nobody had checked, so the host itself is shown instead. */''}
+    ${box(xs[3], 'FastAPI', `arbiter.api @ ${esc(location.host)}`)}
+    ${arrow(xs[3]+BW, xs[4], mid)}
+    ${box(xs[4], 'UI', 'index.html', 126)}
+    <text x="${(cx+cw+xs[3])/2}" y="${mid-16}" text-anchor="middle" font-family="var(--mono)"
+      font-size="10" fill="var(--crimson)" font-weight="500">OpenCypher over HTTP</text>
+    <text x="${(cx+cw+xs[3])/2}" y="${mid+26}" text-anchor="middle" font-family="var(--mono)"
+      font-size="9" fill="var(--ink-3)">POST ${esc(o.engine.query_path)} :${esc(o.engine.query_port)}</text>
+  </svg>`;
+  $('#infracap').innerHTML = `<b>Figure 2.</b> How a question reaches the graph. The corpus is
+    ingested once into ${NUM(o.nodes_total)} nodes and ${NUM(o.edges_total)} edges; at query time
+    the resolver sends <em>OpenCypher over HTTP</em> to the node and the traversal executes inside
+    the database rather than in Python. The node total is the loader&rsquo;s id ledger, because the
+    engine cannot be asked directly &mdash; a node-only <code>MATCH</code> requires an id.`;
+}
+
+/* ---- tabs: WCAG tabs pattern, roving tabindex ------------------------ */
+let selectTab = null;          // set by initTabs so the Resolve tab can hand off
+function initTabs(){
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const select = (t, focus) => {
+    tabs.forEach(x => {
+      const on = x === t;
+      x.setAttribute('aria-selected', on ? 'true' : 'false');
+      x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) t.focus();
+    if (t.id === 'tab-data' && !DATA.loaded) loadLabels();
+    if (t.id === 'tab-graph' && !GRAPH.loaded) gboot();
+  };
+  selectTab = t => select(t, false);
+  tabs.forEach((t, i) => {
+    t.onclick = () => select(t, false);
+    t.onkeydown = ev => {
+      const k = ev.key;
+      let j = null;
+      if (k === 'ArrowRight') j = (i + 1) % tabs.length;
+      else if (k === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
+      else if (k === 'Home') j = 0;
+      else if (k === 'End') j = tabs.length - 1;
+      if (j !== null) { ev.preventDefault(); select(tabs[j], true); }
+    };
+  });
+}
+
+/* ---- data viewer ----------------------------------------------------- */
+const DATA = { label: 'Employee', limit: 25, offset: 0, q: '', sort: 'id',
+               dir: 'asc', loaded: false, open: null };
+const LABELS = ['Employee', 'Release', 'Document', 'Product', 'Role'];
+
+async function loadLabels(){
+  DATA.loaded = true;
+  let counts = {};
+  try {
+    const o = await (await fetch('/api/ontology')).json();
+    if (o.error) throw new Error(o.error);
+    counts = o.nodes;
+  } catch (e) {
+    // Blank counts would read as "this label has no nodes". Say the counts
+    // could not be read instead of showing nothing where a number belongs.
+    $('#labels').innerHTML = `<div class="err"><b>Label counts unavailable</b>
+      <div style="margin-top:6px">/api/ontology did not answer: ${esc(e.message || e)}</div></div>`;
+    $('#dgrid').innerHTML = '';
+    return;
+  }
+  $('#labels').innerHTML = LABELS.map(l => {
+    const n = counts[l.toLowerCase()];
+    return `<button class="lbl" data-label="${l}" aria-pressed="${l === DATA.label}">
+      <span>${l}</span><span class="n">${n === undefined ? '' : NUM(n)}</span></button>`;
+  }).join('');
+  document.querySelectorAll('.lbl').forEach(el => el.onclick = () => {
+    DATA.label = el.dataset.label; DATA.offset = 0; DATA.q = ''; DATA.sort = 'id';
+    DATA.dir = 'asc'; DATA.open = null; $('#dq').value = '';
+    document.querySelectorAll('.lbl').forEach(x =>
+      x.setAttribute('aria-pressed', x === el ? 'true' : 'false'));
+    loadBrowse();
+  });
+  loadBrowse();
+}
+
+function showCypher(qs){
+  $('#dcypher').innerHTML = (qs || []).map(q => `<pre>${hl(q)}</pre>`).join('')
+    || '<span class="muted">no query</span>';
+}
+
+async function loadBrowse(){
+  $('#dgrid').innerHTML = '<div class="loading" role="status">querying HydraDB\u2026</div>';
+  $('#dpager').innerHTML = ''; $('#ddetail').innerHTML = '';
+  const p = new URLSearchParams({ label: DATA.label, limit: DATA.limit,
+    offset: DATA.offset, q: DATA.q, sort: DATA.sort, dir: DATA.dir });
+  let r;
+  try { r = await (await fetch('/api/browse?' + p)).json(); }
+  catch (e) {
+    $('#dgrid').innerHTML = `<div class="err">Could not reach the API. ${esc(e)}</div>`;
+    return;
+  }
+  if (r.error){
+    $('#dgrid').innerHTML = `<div class="err"><b>${esc(r.error)}</b>
+      ${r.detail ? `<div style="margin-top:6px">${esc(r.detail)}</div>` : ''}</div>`;
+    showCypher(r.queries);
+    return;
+  }
+  showCypher(r.queries);
+
+  if (!r.rows.length){
+    $('#dgrid').innerHTML = `<div class="empty">No rows.
+      ${r.q ? `Nothing in <b>${esc(r.label)}</b> starts with &ldquo;${esc(r.q)}&rdquo;.`
+            : `HydraDB returned no ${esc(r.label)} nodes.`}</div>`;
+    $('#dpager').innerHTML = '';
+    return;
+  }
+
+  const head = r.columns.map(c => {
+    const arrow = DATA.sort === c.name ? (DATA.dir === 'asc' ? ' \u2191' : ' \u2193') : '';
+    const src = c.source === 'resolver' ? ' <span class="src">resolver</span>' : '';
+    return `<th>${c.sortable
+      ? `<button data-sort="${c.name}">${esc(c.name)}${arrow}</button>`
+      : `<span class="pad">${esc(c.name)}</span>`}${src}</th>`;
+  }).join('');
+  const body = r.rows.map(row => `<tr data-id="${row.id}" aria-expanded="false">${
+    r.columns.map(c => `<td class="${c.source === 'resolver' ? 'res' : ''}">${
+      row[c.name] === null || row[c.name] === undefined
+        ? '<span class="muted">null</span>' : esc(row[c.name])}</td>`).join('')
+  }</tr>`).join('');
+  $('#dgrid').innerHTML = `<div class="scroll"><table class="grid"><thead><tr>${head}</tr></thead>
+    <tbody>${body}</tbody></table></div>`;
+
+  document.querySelectorAll('.grid th button').forEach(b => b.onclick = () => {
+    const c = b.dataset.sort;
+    DATA.dir = (DATA.sort === c && DATA.dir === 'asc') ? 'desc' : 'asc';
+    DATA.sort = c; DATA.offset = 0; loadBrowse();
+  });
+  document.querySelectorAll('.grid tbody tr').forEach(tr => tr.onclick = () =>
+    openNode(Number(tr.dataset.id), tr));
+
+  const from = r.offset + 1, to = Math.min(r.offset + r.rows.length, r.total);
+  $('#dpager').innerHTML = `<div class="pager">
+    <button class="ghost" id="prev" ${r.offset === 0 ? 'disabled' : ''}>Prev</button>
+    <button class="ghost" id="next" ${to >= r.total ? 'disabled' : ''}>Next</button>
+    <span>${NUM(from)}\u2013${NUM(to)} of ${NUM(r.total)}${
+      r.q ? ` matching \u201c${esc(r.q)}\u201d` : ''}</span></div>`;
+  const prev = $('#prev'), next = $('#next');
+  if (prev) prev.onclick = () => { DATA.offset = Math.max(0, DATA.offset - DATA.limit); loadBrowse(); };
+  if (next) next.onclick = () => { DATA.offset += DATA.limit; loadBrowse(); };
+}
+
+async function openNode(id, tr){
+  if (DATA.open === id){                       // toggle closed
+    DATA.open = null; $('#ddetail').innerHTML = '';
+    document.querySelectorAll('.grid tbody tr').forEach(x => x.setAttribute('aria-expanded','false'));
+    return;
+  }
+  DATA.open = id;
+  document.querySelectorAll('.grid tbody tr').forEach(x =>
+    x.setAttribute('aria-expanded', x === tr ? 'true' : 'false'));
+  $('#ddetail').innerHTML = '<div class="tree"><span class="muted">walking 1-hop neighbourhood\u2026</span></div>';
+
+  let d;
+  try { d = await (await fetch('/api/node/' + id)).json(); }
+  catch (e) { $('#ddetail').innerHTML = `<div class="err">${esc(e)}</div>`; return; }
+  if (d.error){
+    $('#ddetail').innerHTML = `<div class="err"><b>${esc(d.error)}</b>
+      ${d.detail ? `<div style="margin-top:6px">${esc(d.detail)}</div>` : ''}</div>`;
+    return;
+  }
+
+  const props = Object.entries(d.properties)
+    .map(([k, v]) => `${k}=${v === null ? 'null' : v}`).join('  \u00b7  ');
+  const live = d.branches.filter(b => b.count > 0);
+  const dead = d.branches.filter(b => b.count === 0);
+
+  const branchHTML = b => `<details${b.count && b.count <= 8 ? ' open' : ''}>
+    <summary><b>${esc(b.rel)}</b>
+      <span class="dir">${b.direction === 'out' ? '\u2192 ' + esc(b.other)
+                                                : '\u2190 ' + esc(b.other)}</span>
+      <span class="ct">${NUM(b.count)} ${b.count === 1 ? 'node' : 'nodes'}${
+        b.truncated ? `, showing ${b.sample.length}` : ''} \u00b7 ${esc(b.cardinality)}</span></summary>
+    ${b.sample.length ? `<div class="kids">${b.sample.map(k =>
+      `<span class="kid" data-id="${k.id}">${k.id}${
+        k.key ? ` <i>${esc(k.key)}</i>` : ''}</span>`).join('')}</div>` : ''}
+    ${b.queries.map(q => `<pre>${hl(q)}</pre>`).join('')}
+  </details>`;
+
+  $('#ddetail').innerHTML = `<div class="tree">
+    <h4>${esc(d.entity)} ${d.id}${d.resolver_key ? ` \u2014 ${esc(d.resolver_key)}` : ''}</h4>
+    <div class="sub">${esc(props)}${d.stored_props.length ? '' :
+      ' \u00b7 this node stores no properties in the graph beyond its id'}</div>
+    <div class="sub">${NUM(d.total_neighbours)} neighbours across
+      ${live.length} edge ${live.length === 1 ? 'type' : 'types'}${
+      dead.length ? `, ${dead.length} possible ${dead.length === 1 ? 'type' : 'types'} empty` : ''}</div>
+    ${live.map(branchHTML).join('')}
+    ${dead.length ? `<details><summary><span class="ct">${dead.length} empty edge
+      ${dead.length === 1 ? 'type' : 'types'} the ontology allows here</span></summary>
+      <div class="kids">${dead.map(b =>
+        `<span class="kid">${esc(b.rel)} <i>${b.direction === 'out' ? '\u2192' : '\u2190'}
+        ${esc(b.other)}${b.declared_only ? ', declared only' : ''}</i></span>`).join('')}</div>
+      </details>` : ''}
+  </div>`;
+
+  document.querySelectorAll('.tree .kid[data-id]').forEach(el => el.onclick = ev => {
+    ev.stopPropagation(); openNode(Number(el.dataset.id), null);
+  });
+  showCypher(d.queries);
+}
+
+
+/* ---- graph explorer -------------------------------------------------- */
+/* 3d-force-graph over the live graph. Every node and every link on screen
+   arrived in a HydraDB response via /api/graph/*. There is no fixture and no
+   placeholder: if the library or the engine fails, the canvas shows an error
+   and stays empty rather than rendering a graph that is not the graph. */
+
+const GRAPH_LIB = 'https://unpkg.com/3d-force-graph@1.80.0/dist/3d-force-graph.min.js';
+const GKINDS = ['product','release','document','employee','role',
+                'company','customer','slack','transcript','pr','url'];
+
+const GRAPH = { loaded:false, lib:null, fg:null, seeded:null,
+                nodes:new Map(), links:[], deg:new Map(), busy:false,
+                /* replay state: which nodes are on the answer path, which
+                   edges are lit so far, and whether everything else is dimmed */
+                path:new Set(), lit:new Set(), dimmed:false };
+
+const tok = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const gcolour = kind => tok('--n-' + kind) || tok('--ink-3');
+
+function gsetCount(){
+  $('#gcount').innerHTML = GRAPH.nodes.size
+    ? `<b>${NUM(GRAPH.nodes.size)}</b> nodes / <b>${NUM(GRAPH.links.length)}</b> links loaded`
+    : '';
+}
+
+function gerr(title, detail){
+  $('#gcanvas').innerHTML = `<div class="gerr"><b>${esc(title)}</b>
+    ${detail ? `<div class="d">${esc(detail)}</div>` : ''}
+    <div class="d">No sample or placeholder graph is substituted &mdash;
+      the explorer stays empty until the engine answers.</div></div>`;
+}
+
+function gcypher(qs){
+  $('#gcypher').innerHTML = (qs || []).map(q => `<pre>${hl(q)}</pre>`).join('')
+    || '<span class="muted">no query</span>';
+}
+
+/* Load the UMD bundle once, on first use. Rejects loudly; never silently
+   degrades into a fake graph. */
+function gloadLib(){
+  if (GRAPH.lib) return GRAPH.lib;
+  GRAPH.lib = new Promise((resolve, reject) => {
+    if (window.ForceGraph3D) return resolve(window.ForceGraph3D);
+    const s = document.createElement('script');
+    s.src = GRAPH_LIB;
+    s.onload = () => window.ForceGraph3D
+      ? resolve(window.ForceGraph3D)
+      : reject(new Error('3d-force-graph loaded but exported no ForceGraph3D'));
+    s.onerror = () => reject(new Error('could not fetch ' + GRAPH_LIB));
+    document.head.appendChild(s);
+  });
+  return GRAPH.lib;
+}
+
+function gdegree(){
+  GRAPH.deg = new Map();
+  const bump = id => GRAPH.deg.set(id, (GRAPH.deg.get(id) || 0) + 1);
+  GRAPH.links.forEach(l => { bump(l.source); bump(l.target); });
+}
+
+/* Hand the force engine fresh arrays every time.
+   d3-force rewrites link.source/target into node references and keeps hold of
+   whatever array it was given, so sharing GRAPH.links with it means a later
+   push mutates the array it is already simulating - and the next resolve
+   throws "node not found" against the previous node set. GRAPH.links therefore
+   stays canonical plain ids, and the engine only ever sees copies. */
+function gpush(){
+  GRAPH.fg.graphData({
+    nodes: [...GRAPH.nodes.values()],
+    links: GRAPH.links.map(l => ({ source: l.source, target: l.target, type: l.type })),
+  });
+}
+
+/* Merge a payload into the live scene. New nodes start at the position of the
+   node that revealed them, so the force sim visibly pushes them outward
+   instead of popping them in at random coordinates. */
+function gmerge(payload, origin){
+  let added = 0;
+  (payload.nodes || []).forEach(n => {
+    if (GRAPH.nodes.has(n.id)) return;
+    const rec = { ...n };
+    if (origin && typeof origin.x === 'number'){
+      rec.x = origin.x + (Math.random() - 0.5) * 8;
+      rec.y = origin.y + (Math.random() - 0.5) * 8;
+      rec.z = origin.z + (Math.random() - 0.5) * 8;
+    }
+    GRAPH.nodes.set(n.id, rec); added++;
+  });
+  const seen = new Set(GRAPH.links.map(l => `${l.source}|${l.target}|${l.type}`));
+  let addedL = 0;
+  (payload.links || []).forEach(l => {
+    const k = `${l.source}|${l.target}|${l.type}`;
+    if (seen.has(k)) return;
+    if (!GRAPH.nodes.has(l.source) || !GRAPH.nodes.has(l.target)) return;
+    seen.add(k);
+    GRAPH.links.push({ source: l.source, target: l.target, type: l.type });
+    addedL++;
+  });
+  gdegree();
+  gpush();
+  gsetCount();
+  return { added, addedL };
+}
+
+function gpanel(focus, queries, note){
+  const p = focus.properties || {};
+  const rows = Object.entries(p).map(([k, v]) =>
+    `<div><span class="k">${esc(k)}</span> = ${v === null || v === undefined
+      ? '<span class="k">null</span>' : esc(v)}</div>`).join('');
+  const stored = (focus.stored_props || []).length;
+  $('#gside').innerHTML = `
+    <div class="card">
+      <h3>${esc(focus.entity || 'Node')} ${focus.id}</h3>
+      <div class="gprops">${rows || '<span class="k">no stored properties</span>'}
+        ${stored ? '' : `<div class="res">name &ldquo;${esc(focus.resolver_key || '')}&rdquo;
+          comes from the loader&rsquo;s id ledger &mdash; this node stores only an id
+          in the graph</div>`}</div>
+    </div>
+    <div class="card">
+      <h3>Cypher that fetched this node</h3>
+      ${(queries || []).slice(0, 1).map(q => `<pre>${hl(q)}</pre>`).join('')}
+      ${note ? `<p class="ghint" style="margin-top:9px">${esc(note)}</p>` : ''}
+    </div>`;
+}
+
+function glegend(){
+  const present = new Set([...GRAPH.nodes.values()].map(n => n.kind));
+  return `<div class="glegend">${GKINDS.filter(k => present.has(k)).map(k =>
+    `<span><i style="background:${gcolour(k)}"></i>${k}</span>`).join('')}</div>`;
+}
+
+async function gexpand(node){
+  if (GRAPH.busy) return;
+  GRAPH.busy = true;
+  let d;
+  try {
+    d = await (await fetch('/api/graph/expand?id=' + node.id)).json();
+  } catch (e) {
+    GRAPH.busy = false;
+    gcypher([]); gerr('Could not reach the API', String(e)); return;
+  }
+  GRAPH.busy = false;
+  if (d.error){
+    gcypher(d.queries);
+    $('#gside').innerHTML = `<div class="card"><h3>Expand failed</h3>
+      <div class="gprops">${esc(d.error)}${d.detail ? '<br>' + esc(d.detail) : ''}</div></div>`;
+    return;
+  }
+  const { added, addedL } = gmerge(d, node);
+  const capped = (d.branches || []).filter(b => b.capped);
+  gpanel(d.focus, d.queries,
+    `${d.counts.nodes} nodes and ${d.counts.links} links in this neighbourhood; `
+    + `${added} nodes and ${addedL} links were new to the scene`
+    + (capped.length ? `. ${capped.length} branch${capped.length === 1 ? '' : 'es'} hit the `
+       + `${d.cap}-per-direction cap, so this node has more neighbours than are drawn.` : '.'));
+  gcypher(d.queries);
+  $('#gside').insertAdjacentHTML('beforeend',
+    `<div class="card"><h3>Legend</h3>${glegend()}
+     <p class="ghint" style="margin-top:8px">Click any node to expand its neighbourhood.</p></div>`);
+}
+
+/* Seeding is serialised. Opening the Graph tab kicks off a boot on its own, so
+   a replay arriving at the same moment would otherwise start a second seed
+   that rebuilds the scene and throws away the path just merged into it. */
+function gqueue(fn){
+  const p = Promise.resolve(GRAPH.pending).catch(() => {}).then(fn);
+  GRAPH.pending = p;
+  return p;
+}
+function gseed(productOverride){ return gqueue(() => gseedRun(productOverride)); }
+
+async function gseedRun(productOverride){
+  const product = productOverride || $('#gproduct').value;
+  if (!product) return;
+  if (productOverride) $('#gproduct').value = productOverride;
+  // A fresh seed is a fresh scene: no path, nothing lit, nothing dimmed.
+  GRAPH.path = new Set(); GRAPH.lit = new Set(); GRAPH.dimmed = false;
+  gcaption('');
+  $('#gcanvas').innerHTML = '<div class="gloading" role="status">querying HydraDB&hellip;</div>';
+  $('#gside').innerHTML = ''; gcypher([]);
+
+  let ForceGraph3D;
+  try { ForceGraph3D = await gloadLib(); }
+  catch (e) {
+    gerr('The 3D graph library could not be loaded', String(e.message || e));
+    return;
+  }
+
+  let d;
+  try { d = await (await fetch('/api/graph/seed?product=' + encodeURIComponent(product))).json(); }
+  catch (e) { gerr('Could not reach the API', String(e)); return; }
+  if (d.error){
+    gcypher(d.queries);
+    gerr(d.error, d.detail || '');
+    return;
+  }
+
+  $('#gcanvas').innerHTML = '';
+  GRAPH.nodes = new Map(); GRAPH.links = []; GRAPH.seeded = product;
+
+  const el = $('#gcanvas');
+  const fg = ForceGraph3D({ controlType: 'orbit' })(el)
+    .width(el.clientWidth).height(el.clientHeight)
+    .backgroundColor(tok('--sunken'))
+    .nodeColor(gNodeColour)
+    .nodeVal(n => 1 + (GRAPH.deg.get(n.id) || 0))
+    .nodeOpacity(0.95)
+    .nodeLabel(n => `<div style="background:${tok('--card')};color:${tok('--ink')};
+        border:1px solid ${tok('--line')};border-radius:6px;padding:5px 9px;
+        font:12px ${tok('--mono')}">${esc(n.name || n.id)}
+        <span style="color:${tok('--ink-3')}"> &middot; ${esc(n.label || n.kind || '')}
+        &middot; ${n.id}</span></div>`)
+    .linkColor(gLinkColour)
+    /* force-graph takes a single number here, not a per-link accessor, so
+       emphasis is carried by colour and width instead. */
+    .linkOpacity(0.55)
+    .linkWidth(gLinkWidth)
+    .linkLabel(l => `<div style="background:${tok('--card')};color:${tok('--crimson-deep')};
+        border:1px solid ${tok('--line')};border-radius:6px;padding:4px 8px;
+        font:11px ${tok('--mono')}">${esc(l.type)}</div>`)
+    .onNodeClick(n => gexpand(n));
+
+  // Anyone who asked for reduced motion gets a still scene they drive
+  // themselves, not a slower spin.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const c = fg.controls();
+  if (c){ c.autoRotate = !reduce; c.autoRotateSpeed = 0.55; }
+
+  GRAPH.fg = fg;
+  gmerge(d, null);
+  gcypher(d.queries);
+  $('#gside').innerHTML = `<div class="card"><h3>Seed</h3>
+    <div class="gprops"><div><span class="k">product</span> = ${esc(product)}</div>
+    <div><span class="k">id</span> = ${d.seed.id}</div>
+    <div class="res">the product name is resolved through the loader&rsquo;s id ledger;
+      Product nodes carry only an id in the graph</div></div></div>
+    <div class="card"><h3>Legend</h3>${glegend()}
+      <p class="ghint" style="margin-top:8px">Click any node to expand its neighbourhood.</p></div>`;
+
+  GRAPH.ro = GRAPH.ro || new ResizeObserver(() => {
+    if (GRAPH.fg) GRAPH.fg.width(el.clientWidth).height(el.clientHeight);
+  });
+  GRAPH.ro.observe(el);
+}
+
+
+/* ---- traversal replay ------------------------------------------------ */
+/* Replays the answer's own path in 3D. The path is read straight out of the
+   evidence rows /api/ask already returned - each row carries the four integer
+   ids the traversal matched on, so nothing here re-queries the engine and
+   nothing is reconstructed by guesswork. Each node's type comes from the shape
+   of the query that produced the row:
+       (ro:Role)<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel)
+   which is why a path node can be typed without consulting the id bands. */
+
+const REPLAY_PAUSE = 600;
+const idOf = v => (v && typeof v === 'object') ? v.id : v;
+const lkey = l => `${idOf(l.source)}|${idOf(l.target)}|${l.type}`;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+/* Rows usable as a path: every id present. Anything short of that is not a
+   path we can honestly draw, so the action stays disabled. */
+function replayRows(r){
+  return ((r && r.evidence) || []).filter(e =>
+    e.role_id != null && e.employee_id != null &&
+    e.artifact_id != null && e.release_id != null);
+}
+
+function gNodeColour(n){
+  if (!GRAPH.dimmed) return gcolour(n.kind);
+  return GRAPH.path.has(n.id) ? gcolour(n.kind) : tok('--line');
+}
+function gLinkColour(l){
+  if (GRAPH.lit.has(lkey(l))) return tok('--crimson');
+  if (!GRAPH.dimmed) return l.type === 'PRECEDES' ? tok('--crimson') : tok('--ink-3');
+  return tok('--line');
+}
+function gLinkWidth(l){
+  if (GRAPH.lit.has(lkey(l))) return 3.2;
+  if (!GRAPH.dimmed) return l.type === 'PRECEDES' ? 1.4 : 0.5;
+  return 0.3;
+}
+function grefresh(){
+  // Re-registering an accessor is what makes force-graph re-evaluate it.
+  if (!GRAPH.fg) return;
+  GRAPH.fg.nodeColor(gNodeColour).linkColor(gLinkColour).linkWidth(gLinkWidth);
+}
+
+/* Fly the camera to the centroid of a set of nodes and look at it. */
+function gFocus(ids, ms){
+  const pts = ids.map(i => GRAPH.nodes.get(i))
+                 .filter(n => n && typeof n.x === 'number');
+  if (!pts.length || !GRAPH.fg) return;
+  const c = pts.reduce((a, n) => ({ x: a.x + n.x, y: a.y + n.y, z: a.z + (n.z || 0) }),
+                       { x: 0, y: 0, z: 0 });
+  c.x /= pts.length; c.y /= pts.length; c.z /= pts.length;
+  // Back off by how far the target set actually spreads, not a fixed amount,
+  // or a wide path runs off the edges of the canvas.
+  const radius = Math.max(1, ...pts.map(n =>
+    Math.hypot(n.x - c.x, n.y - c.y, (n.z || 0) - c.z)));
+  const dist = Math.max(110, radius * 3.3);
+  const d = Math.hypot(c.x, c.y, c.z);
+  const u = d > 1 ? { x: c.x / d, y: c.y / d, z: c.z / d } : { x: 0, y: 0, z: 1 };
+  GRAPH.fg.cameraPosition(
+    { x: c.x + u.x * dist, y: c.y + u.y * dist, z: c.z + u.z * dist }, c, ms);
+}
+
+function gcaption(html){
+  $('#gcaption').innerHTML = html || '';
+  $('#gcaption').hidden = !html;
+}
+
+async function gReplay(ans){
+  const rows = replayRows(ans);
+  if (!rows.length) return;                       // button is disabled anyway
+
+  selectTab(document.getElementById('tab-graph'));
+  if (!GRAPH.loaded) gboot(ans.product);
+  await Promise.resolve(GRAPH.pending).catch(() => {});   // whatever the switch started
+  if (!GRAPH.fg || GRAPH.seeded !== ans.product) await gseed(ans.product);
+  if (!GRAPH.fg) return;                          // seed failed; its error stands
+
+  // Build the path purely from the evidence rows.
+  const roleId = rows[0].role_id;
+  const nodes = [{ id: roleId, kind: 'role', label: 'Role',
+                   name: ans.role_matched || null, name_source: 'evidence' }];
+  const links = [];
+  const emp = [], art = [], rel = [];
+  rows.forEach(e => {
+    nodes.push({ id: e.employee_id, kind: 'employee', label: 'Employee',
+                 name: e.employee, name_source: 'evidence' });
+    nodes.push({ id: e.artifact_id, kind: e.artifact_kind || 'document',
+                 label: 'Document', name: e.artifact, name_source: 'evidence' });
+    nodes.push({ id: e.release_id, kind: 'release', label: 'Release',
+                 name: e.release, name_source: 'evidence' });
+    links.push({ source: e.employee_id, target: roleId,        type: 'HAS_ROLE' });
+    links.push({ source: e.employee_id, target: e.artifact_id, type: 'AUTHORED' });
+    links.push({ source: e.artifact_id, target: e.release_id,  type: 'ABOUT_RELEASE' });
+    emp.push(e.employee_id); art.push(e.artifact_id); rel.push(e.release_id);
+  });
+
+  gmerge({ nodes, links }, null);
+
+  GRAPH.path = new Set(nodes.map(n => n.id));
+  GRAPH.lit = new Set();
+  GRAPH.dimmed = true;
+  grefresh();
+
+  const uniq = a => [...new Set(a)];
+  const hops = [
+    { type: 'HAS_ROLE',      targets: uniq(emp) },
+    { type: 'AUTHORED',      targets: uniq(art) },
+    { type: 'ABOUT_RELEASE', targets: uniq(rel) },
+  ];
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const c = GRAPH.fg.controls();
+  if (c) c.autoRotate = false;                    // a replay is not a carousel
+
+  gcaption(`<b>The answer is this path. No document contains it.</b>
+    <span>${uniq(emp).length === 1 ? '1 employee' : uniq(emp).length + ' employees'}
+    &middot; ${esc(ans.role_matched || 'role')}
+    &middot; ${rows.length} evidence ${rows.length === 1 ? 'row' : 'rows'}, replayed from
+    the traversal &mdash; not re-queried</span>`);
+
+  if (reduce){
+    // Reduced motion gets the finished argument, not a slower one.
+    links.forEach(l => GRAPH.lit.add(lkey(l)));
+    grefresh();
+    gFocus([roleId, ...emp, ...art, ...rel], 0);
+    gReplayPanel(ans, rows, hops, true);
+    return;
+  }
+
+  gFocus([roleId], 900);
+  await sleep(900 + REPLAY_PAUSE);
+  for (const hop of hops){
+    links.filter(l => l.type === hop.type).forEach(l => GRAPH.lit.add(lkey(l)));
+    grefresh();
+    gFocus(hop.targets, 900);
+    await sleep(900 + REPLAY_PAUSE);
+  }
+  // Pull back so the finished path is visible whole - the caption claims the
+  // answer *is* this path, so the last frame should actually show all of it.
+  gFocus([roleId, ...emp, ...art, ...rel], 1200);
+  await sleep(1200);
+  gReplayPanel(ans, rows, hops, false);
+}
+
+function gReplayPanel(ans, rows, hops, instant){
+  const chain = ['Role', ...hops.map(h => h.type === 'HAS_ROLE' ? 'Employee'
+    : h.type === 'AUTHORED' ? 'Document' : 'Release')];
+  $('#gside').innerHTML = `
+    <div class="card">
+      <h3>Replayed traversal</h3>
+      <div class="gprops">
+        <div><span class="k">question</span> = ${esc(ans.question || '')}</div>
+        <div><span class="k">role node</span> = ${esc(ans.role_matched || '')}</div>
+        <div><span class="k">path</span> = ${chain.join(' &rarr; ')}</div>
+        <div><span class="k">lit</span> = ${GRAPH.path.size} nodes, ${GRAPH.lit.size} edges
+          of ${GRAPH.nodes.size} / ${GRAPH.links.length} loaded</div>
+        <div class="res">every id above came from the evidence rows of this answer;
+          the replay issued no new query${instant ? ' (reduced motion: shown at once)' : ''}</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Cypher that produced this path</h3>
+      ${(ans.queries || []).map(q => `<pre>${hl(q)}</pre>`).join('')}
+    </div>
+    <div class="card"><h3>Legend</h3>${glegend()}
+      <p class="ghint" style="margin-top:8px">Dimmed nodes are loaded but off the answer path.
+        Click <b>Reset</b> to explore freely again.</p></div>`;
+  gcypher(ans.queries || []);
+}
+
+function gboot(productOverride){
+  GRAPH.loaded = true;
+  return gqueue(() => gbootRun(productOverride));
+}
+
+/* Calls gseedRun directly, not the queued gseed - queueing from inside a
+   queued task would wait on itself. */
+async function gbootRun(productOverride){
+  let ps;
+  try { ps = await getJSON('/api/products'); }
+  catch (e) { gerr('Could not list the products', String(e.message || e)); return; }
+  $('#gproduct').innerHTML = ps.map(p => `<option>${esc(p)}</option>`).join('');
+  const demo = productOverride && ps.includes(productOverride) ? productOverride
+    : (BENCH && BENCH.demo && ps.includes(BENCH.demo.product) ? BENCH.demo.product : ps[0]);
+  if (demo) $('#gproduct').value = demo;
+  $('#gseed').onclick = () => gseed();
+  $('#greset').onclick = () => gseed();
+  await gseedRun();
+}
+
+/* Fetch JSON or throw with the endpoint named. Callers turn the throw into a
+   visible error: no counter on this page may fall back to a stand-in value,
+   so an endpoint that does not answer has to say so where its number would
+   have been. */
+async function getJSON(url){
+  let r;
+  try { r = await fetch(url); }
+  catch (e) { throw new Error(`${url} unreachable: ${e.message || e}`); }
+  let d;
+  try { d = await r.json(); }
+  catch (e) { throw new Error(`${url} returned HTTP ${r.status}, not JSON`); }
+  if (d && d.error) throw new Error(`${url}: ${d.error}${d.detail ? ' — ' + d.detail : ''}`);
+  return d;
+}
+
 async function boot(){
-  const s = await (await fetch('/api/stats')).json();
-  $('#stats').innerHTML =
-    `<span><b>${s.artifacts.toLocaleString()}</b> artifacts</span>
+  const [s, ps, b] = await Promise.all([
+    getJSON('/api/stats').catch(e => ({ error: String(e.message || e) })),
+    getJSON('/api/products').catch(e => ({ error: String(e.message || e) })),
+    getJSON('/api/benchmark').catch(e => ({ error: String(e.message || e) })),
+  ]);
+
+  // The header counters are the graph's own figures. If /api/stats does not
+  // answer there are no figures, so the strip says that rather than showing
+  // zeroes or blanks that read as a small graph.
+  $('#stats').innerHTML = s.error
+    ? `<span style="color:var(--crimson)">corpus counts unavailable —
+       /api/stats did not answer</span>`
+    : `<span><b>${s.artifacts_loaded.toLocaleString()}</b> artifacts</span>
      <span><b>${s.edges_total.toLocaleString()}</b> edges</span>
      <span><b>${s.employees}</b> employees</span>
      <span><b>${s.releases}</b> releases</span>
-     <span>HydraDB ${s.hydradb.ready?'<b>ready</b>':'<span style="color:var(--bad)">down</span>'}</span>`;
-  const ps = await (await fetch('/api/products')).json();
-  $('#product').innerHTML = ps.map(p=>`<option>${p}</option>`).join('');
-  loadQs();
+     <span>graph ${s.hydradb.ready?'<b>ready</b>':'<span style="color:var(--crimson)">down</span>'}</span>`;
+
+  initTabs();
+  $('#dqgo').onclick = () => { DATA.q = $('#dq').value.trim(); DATA.offset = 0; loadBrowse(); };
+  $('#dqclear').onclick = () => { $('#dq').value = ''; DATA.q = ''; DATA.offset = 0; loadBrowse(); };
+  $('#dq').addEventListener('keydown', e => { if (e.key === 'Enter') $('#dqgo').click(); });
+
+  // The diagrams are drawn entirely from /api/ontology. If it does not answer
+  // there is nothing truthful to draw, so say so rather than leaving two empty
+  // frames that read as "the schema has nothing in it".
+  const figErr = msg => `<div class="err"><b>Diagram unavailable</b>
+    <div style="margin-top:6px">Every figure in it is read from /api/ontology,
+    which did not answer: ${esc(msg)}</div></div>`;
+  fetch('/api/ontology').then(r => r.json())
+    .then(o => {
+      if (o.error) throw new Error(o.error);
+      renderER(o); renderInfra(o);
+    })
+    .catch(e => {
+      $('#erwrap').innerHTML = figErr(e.message || e); $('#ercap').innerHTML = '';
+      $('#infrawrap').innerHTML = figErr(e.message || e); $('#infracap').innerHTML = '';
+    });
+
+  BENCH = b;
+  if (b && !b.error) {
+    renderTiles(b);
+  } else {
+    // Every tile figure comes from results/eval_hydra.json. No artifact, no
+    // tiles - and never a stand-in number in their place.
+    $('#tiles').innerHTML = `<div class="err"><b>Measured results unavailable</b>
+      <div style="margin-top:6px">The headline figures are read from
+      results/eval_hydra.json via /api/benchmark, which did not answer:
+      ${esc((b && b.error) || 'unknown error')}. No substitute figures are shown.</div></div>`;
+  }
+
+  // Everything past this point is keyed on a product. Losing the list is fatal
+  // to resolution rather than cosmetic, so it is reported where the answer
+  // would have gone - and no stand-in product list is put in the select.
+  if (ps.error || !Array.isArray(ps)){
+    $('#out').innerHTML = `<div class="err"><b>Product list unavailable</b>
+      <div style="margin-top:6px">${esc(ps.error || '/api/products returned no list')}.
+      No question can be resolved without it, and no substitute list is
+      shown.</div></div>`;
+    return;
+  }
+  $('#product').innerHTML = ps.map(p=>`<option>${esc(p)}</option>`).join('');
+  if (b && !b.error && b.demo && ps.includes(b.demo.product))
+    $('#product').value = b.demo.product;
+
+  await loadQs();
+
+  // Resolve one question before anyone clicks, so the evidence is already on
+  // screen. The case is chosen server-side by a rule blind to correctness.
+  if (b && b.demo) { $('#question').value = b.demo.question; ask(); }
 }
 
 async function loadQs(){
   const p = $('#product').value;
-  const qs = await (await fetch(`/api/questions?product=${encodeURIComponent(p)}`)).json();
+  let qs;
+  try { qs = await getJSON(`/api/questions?product=${encodeURIComponent(p)}`); }
+  catch (e) {
+    // An empty list would read as "HERB asks nothing about this product".
+    // The questions and their ground truth are the corpus's, not ours, so
+    // there is nothing to put here but the failure.
+    GT = {};
+    $('#qlist').innerHTML = `<div class="err"><b>HERB questions unavailable</b>
+      <div style="margin-top:6px">${esc(e.message || e)}. No questions are
+      invented in their place.</div></div>`;
+    return;
+  }
   GT = {};
   $('#qlist').innerHTML = qs.map(q=>{
     GT[q.question] = q.ground_truth || [];
-    return `<div class="q" data-q="${esc(q.question)}">
+    const g = q.ground_truth || [];
+    const tip = g.length
+      ? `HERB ground truth (${g.length}): ${g.join(', ')}`
+      : 'HERB marks this unanswerable from the corpus - the expected result is an abstention.';
+    return `<div class="q" data-q="${escA(q.question)}" title="${escA(tip)}">
       <span class="pill ${q.answerable?'a':'u'}">${q.answerable?'ANSWERABLE':'UNANSWERABLE'}</span>
       <span>${esc(q.question)}</span></div>`;
   }).join('');
@@ -127,14 +1317,96 @@ async function loadQs(){
   });
 }
 
+/* The traversal, drawn from the response itself - the node counts are the
+   rows the query actually returned, not an illustration. */
+function traversalSVG(r){
+  const people = r.answer.length;
+  const arts = new Set(r.evidence.map(e => e.artifact).filter(Boolean)).size;
+  const rels = new Set(r.evidence.map(e => e.release).filter(Boolean)).size;
+  const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
+  const nodes = [
+    { t: 'Role',     s: r.role_matched || '—' },
+    { t: 'Employee', s: plural(people, 'person').replace('persons', 'people') },
+    { t: 'Artifact', s: plural(arts, 'artifact') },
+    { t: 'Release',  s: plural(rels, 'release') },
+  ];
+  const edges = ['HAS_ROLE', 'AUTHORED', 'ABOUT_RELEASE'];
+  // Gaps must clear the widest edge label (ABOUT_RELEASE ~85px at 10.5px mono),
+  // otherwise the next box is painted over it.
+  const W = 1114, H = 128, bw = 196, bh = 66, y = 40;
+  const gap = (W - 4 * bw) / 3;
+  let out = `<svg viewBox="0 0 ${W} ${H}" role="img" `
+    + `aria-label="Traversal: role to employee to artifact to release">`
+    + `<defs><marker id="ah" markerWidth="9" markerHeight="9" refX="8" refY="3"`
+    + ` orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="var(--crimson-mark)"/></marker></defs>`;
+  nodes.forEach((n, i) => {
+    const x = i * (bw + gap);
+    out += `<rect x="${x}" y="${y}" width="${bw}" height="${bh}" rx="8"`
+        + ` fill="var(--raised)" stroke="var(--line)"/>`
+        + `<text x="${x + 14}" y="${y + 25}" fill="var(--ink-3)"`
+        + ` font-family="var(--mono)" font-size="11"`
+        + ` letter-spacing="1">${esc(n.t.toUpperCase())}</text>`
+        + `<text x="${x + 14}" y="${y + 48}" fill="var(--ink)"`
+        + ` font-family="var(--sans)" font-size="14">`
+        + `${esc(n.s)}</text>`;
+    if (i < 3) {
+      const x1 = x + bw + 6, x2 = x + bw + gap - 8, mid = (x1 + x2) / 2;
+      out += `<line x1="${x1}" y1="${y + bh / 2}" x2="${x2}" y2="${y + bh / 2}"`
+          + ` stroke="var(--crimson-mark)" stroke-width="1.5" marker-end="url(#ah)"/>`
+          + `<text x="${mid}" y="${y + bh / 2 - 10}" fill="var(--gold)" text-anchor="middle"`
+          + ` font-family="var(--mono)" font-size="10.5">`
+          + `${esc(edges[i])}</text>`;
+    }
+  });
+  return out + '</svg>';
+}
+
+function benchCue(){
+  const b = BENCH;
+  if (!b || b.error) return '';
+  const rp = b.release_participation, dr = b.doc_reviewers, ab = b.abstention;
+  return `<div class="bench">
+    <h3>Run the full benchmark</h3>
+    <p class="cite">Questions and ground truth are taken unmodified from <b>HERB</b> &mdash;
+      <i>Benchmarking Deep Search over Heterogeneous Enterprise Data</i>, Salesforce AI
+      Research, EMNLP 2025 (industry track),
+      <a href="https://huggingface.co/datasets/Salesforce/HERB">dataset on HuggingFace</a>.
+      It tests whether a system can answer enterprise questions whose answer is distributed
+      across Slack threads, documents, pull requests and meeting transcripts rather than
+      stated in any single one of them.</p>
+    <p>This is one question. The complete evaluation covers
+      ${rp.n + dr.n} answerable questions across two families and
+      ${ab.n} unanswerable ones &mdash; including
+      <b>${dr.arbiter_exact}/${dr.n}</b> exact on document reviewers, where Arbiter
+      scores F1 ${dr.arbiter_f1} against BM25's ${dr.bm25_f1} but rarely lands the
+      whole set. It took ${b.elapsed_s}s.</p>
+    <p><code>python scripts/eval_hydra.py</code> &nbsp;&rarr;&nbsp;
+      <code>results/eval_hydra.json</code></p>
+  </div>`;
+}
+
 async function ask(){
   const question = $('#question').value.trim();
   const product = $('#product').value;
   if(!question) return;
   $('#out').innerHTML = '<div class="card"><span class="muted">traversing…</span></div>';
-  const r = await (await fetch('/api/ask',{method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({question,product})})).json();
+  let r;
+  try {
+    const res = await fetch('/api/ask',{method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({question,product})});
+    r = await res.json();
+    if (r.error) throw new Error(r.detail ? `${r.error} — ${r.detail}` : r.error);
+  } catch (e) {
+    // Without this the panel sits on "traversing…" forever, which reads as a
+    // slow query rather than a failed one.
+    $('#out').innerHTML = `<div class="card"><h3>Traversal failed</h3>
+      <div class="err">${esc(e.message || e)}</div>
+      <p class="muted" style="margin:10px 0 0">This is an engine failure, not an
+      abstention: the question was never put to the graph. No answer is shown
+      because there is none to show.</p></div>`;
+    return;
+  }
 
   if(r.abstained){
     $('#out').innerHTML = `<div class="card abstain">
@@ -150,18 +1422,49 @@ async function ask(){
   const gt = GT[question] || [];
   const got = r.answer.map(a=>a.employee_id).sort();
   const exact = gt.length && JSON.stringify(got)===JSON.stringify([...gt].sort());
+  const gtSet = new Set(gt);
+  const gotSet = new Set(got);
+  const missed = gt.filter(id => !gotSet.has(id));      // in HERB, not returned
+  const extra  = got.filter(id => !gtSet.has(id));      // returned, not in HERB
   const verdict = gt.length
     ? `<div class="verdict"><span class="badge ${exact?'ok':'no'}">${exact?'EXACT MATCH':'MISMATCH'}</span>
-       <span class="muted">ground truth: ${gt.map(esc).join(', ')}</span></div>` : '';
+       <span class="muted">${r.answer.length} returned &middot; ${got.length-extra.length}
+       of ${gt.length} ground-truth IDs matched &middot; ${missed.length} missed &middot;
+       ${extra.length} not in ground truth</span></div>` : '';
+  // The full expected set, printed verbatim so the badge can be checked, not trusted.
+  const gtLine = gt.length
+    ? `<p class="gtline"><b>HERB ground truth (${gt.length}):</b> ${gt.map(esc).join(', ')}</p>` : '';
+  const missChips = missed.map(id => `<div class="emp miss"><div class="id">${esc(id)}</div>
+        <div class="nm">in ground truth, not returned<span class="mark">MISSED</span></div></div>`).join('');
+
+  // The replay is driven by this payload and nothing else, so the action is
+  // offered only when the evidence actually carries a full path.
+  const answer = { ...r, product, question };
+  const canReplay = replayRows(answer).length > 0;
 
   $('#out').innerHTML = `
     <div class="card">
       <h3>Answer${r.role_matched?` — role node: ${esc(r.role_matched)}`:''}</h3>
       ${verdict}
-      <div class="ans">${r.answer.length ? r.answer.map(a=>`
-        <div class="emp"><div class="id">${esc(a.employee_id)}</div>
-        <div class="nm">${esc(a.name||'')} · ${esc(a.role||'')}</div></div>`).join('')
-        : '<span class="muted">no nodes matched</span>'}</div>
+      <div class="ans">${r.answer.length ? r.answer.map(a=>{
+        const cls = !gt.length ? '' : (gtSet.has(a.employee_id) ? ' hit' : ' extra');
+        const mk = !gt.length ? '' : (gtSet.has(a.employee_id)
+          ? '<span class="mark">&check; IN GROUND TRUTH</span>'
+          : '<span class="mark">&times; NOT IN GROUND TRUTH</span>');
+        return `<div class="emp${cls}"><div class="id">${esc(a.employee_id)}</div>
+        <div class="nm">${esc(a.name||'')} · ${esc(a.role||'')}${mk}</div></div>`;}).join('')
+        : '<span class="muted">no nodes matched</span>'}${missChips}</div>
+      ${gtLine}
+      <div class="actions">
+        <button id="show3d" ${canReplay ? '' : 'disabled'}>Show in 3D</button>
+        <span class="note">${canReplay
+          ? 'Replays this traversal in the graph &mdash; Role &rarr; Employee &rarr; Document &rarr; Release.'
+          : 'No replayable path: this answer returned no evidence rows carrying a full traversal.'}</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Traversal</h3>
+      <div class="svgwrap">${traversalSVG(r)}</div>
     </div>
     <div class="card">
       <h3>Cypher executed inside HydraDB (${r.queries.length})</h3>
@@ -177,7 +1480,10 @@ async function ask(){
           <td><span class="kind ${esc(e.artifact_kind||'')}">${esc(e.artifact_kind||'')}</span></td>
           <td class="mono">${esc(e.release||'')}</td></tr>`).join('')}
       </table></div>
-    </div>`;
+    </div>
+    ${benchCue()}`;
+
+  if (canReplay) $('#show3d').onclick = () => gReplay(answer);
 }
 
 $('#ask').onclick = ask;
@@ -185,5 +1491,11 @@ $('#question').addEventListener('keydown', e => { if(e.key==='Enter') ask(); });
 $('#product').onchange = loadQs;
 boot();
 </script>
+
+<footer>
+  Built on <a href="https://github.com/hydra-db/hydradb">HydraDB</a> — traversals run as
+  OpenCypher inside the database. Evaluated on
+  <a href="https://huggingface.co/datasets/Salesforce/HERB">HERB</a> (Salesforce AI Research).
+</footer>
 </body>
 </html>
