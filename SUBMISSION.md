@@ -250,5 +250,3 @@ object-store native; every traversal executes inside the database.
 
 **Data:** [HERB](https://huggingface.co/datasets/Salesforce/HERB), Salesforce AI
 Research, EMNLP 2025 industry track — fetched at runtime, not redistributed.
-
-**AI assistance:** Claude was used during development, as the rules permit.

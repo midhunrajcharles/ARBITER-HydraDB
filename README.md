@@ -1,30 +1,257 @@
-# Arbiter
+![Arbiter — resolving a HERB question by traversal](arbiter-verified.png)
 
-**Enterprise questions, answered by traversal.**
-
-Your search returns a market research report that matches every word of the
-question — and belongs to the release before it, or to a different product
-altogether. It reads as correct, so nobody checks. Arbiter answers questions
-about who did what, on which release, from a 38,000-artifact enterprise corpus
-by traversing the relationships between artifacts instead of ranking their text.
-
----
-
-## Why it exists
-
-HERB — Salesforce's enterprise RAG benchmark — asks things like *"find employee
-IDs of Marketing Research Analysts who worked on the previous release of
-SearchForce."* No document in the corpus contains that answer. You have to know
-which releases exist, which one is *previous*, who authored the artifacts
-belonging to it, and then filter by a job title stored in a different file.
-
-The HERB paper reports the best agentic RAG systems reaching ~30% accuracy, and
-names **retrieval — not reasoning — as the bottleneck.** Arbiter replaces the
-retrieval step with an OpenCypher traversal executed inside HydraDB.
+**Arbiter** answers enterprise questions about *who did what, on which release* by
+traversing a 38,490-artifact corpus instead of ranking its text. Built for
+**[Hack Hydra](https://hackhydra.hydradb.com/) 2026, Track 1 (Enterprise Context and
+Ontology)**, Arbiter demonstrates how an **OpenCypher traversal executed inside
+[HydraDB](https://github.com/hydra-db/hydradb)** answers questions that no document in
+the corpus contains — and shows you the query and every artifact it landed on, every
+time.
 
 ---
 
-## Prerequisites
+## Try Arbiter Live
+
+The console is deployed here:
+**[arbiter-nine-mu.vercel.app](https://arbiter-nine-mu.vercel.app)**
+
+> **Read this before you click.** The hosted page is the **UI only**. Arbiter's API
+> parses the HERB corpus at boot and holds an open connection to a HydraDB node, so it
+> cannot run as a serverless function — a cold start would re-parse 28 MB per
+> invocation and could not reach a `localhost` engine. Until `ARBITER_API_URL` points
+> at a stateful host, every view renders **"The Arbiter API is not answering"** and
+> names what to configure.
+>
+> That is the honest state, not a broken one — and it is the same rule the whole
+> project runs on: an outage must never render as an empty result.
+
+**For the full experience, run it locally.** [Get started](#get-started) takes about
+five minutes and needs no API keys, no accounts and no paid services.
+
+### Runtime notes
+
+| Operation | Measured |
+|---|---|
+| Full corpus load — 530 employees, 400 documents, 100 releases, 77,144 edges | **24.2 s**, once |
+| 3-hop resolution traversal | **median 48 ms**, p95 57 ms (n=20) |
+| Full evaluation — 200 questions + 361 abstention checks | **171.6 s** |
+| Corpus fetch — one-time download from Salesforce | ~28 MB |
+
+*Nothing is retrieved or re-ranked at query time. The question compiles to a
+traversal, HydraDB executes it, and vertex ids map back to human-readable keys.*
+
+---
+
+## The problem, in one question
+
+HERB — Salesforce's enterprise RAG benchmark — asks things like *"find employee IDs of
+Marketing Research Analysts who worked on the previous release of SearchForce."*
+
+**No document in the corpus contains that answer.** You have to know which releases
+exist, which one is *previous*, who authored the artifacts belonging to it, and then
+filter by a job title stored in an entirely different file.
+
+So search hands back a market research report that matches every word of the question
+— and belongs to the release before it, or to a different product altogether. It reads
+as correct, so nobody checks. The HERB paper reports the best agentic RAG systems
+reaching **~30% accuracy**, and names **retrieval — not reasoning — as the
+bottleneck.**
+
+Arbiter replaces the retrieval step entirely.
+
+---
+
+## High-Level System Overview
+
+Arbiter is four components, each doing one job:
+
+- **Ingestion (`arbiter/herb.py`, `arbiter/build.py`)** — parses eight HERB sources and
+  *infers* the two relationships HERB never states outright: release ordering (from
+  artifact id structure) and review sessions (parsed from document links posted in
+  Slack planning channels). Emits integer-keyed rows.
+- **HydraDB — the graph engine** — an object-store-native OpenCypher database. Holds
+  36,518 nodes and 77,144 edges. **Every traversal runs inside it**; Arbiter never
+  pulls a subgraph into Python to walk it.
+- **Resolver (`arbiter/query.py`)** — compiles a question into a traversal, or
+  **refuses**. If the graph has no vocabulary for the question, it says so instead of
+  guessing.
+- **Console (`web/index.html`)** — a single-page UI that renders the answer, **the
+  Cypher that produced it**, and the evidence path. Also ships as a standalone
+  deployable frontend (`frontend/`, ES modules, no build step).
+
+## Deployment Surfaces
+
+| Component | Technology | Deployment | Purpose |
+|---|---|---|---|
+| **Graph engine** | HydraDB v0.1.0 | Docker container, local object store | Stores the graph; executes every OpenCypher traversal |
+| **API** | FastAPI + Uvicorn | Stateful host (local, VM or container) | Compiles questions into traversals; serves evidence |
+| **Console** | Vanilla ES modules, one 2D canvas | Same-origin with API, or Vercel | Answer · Cypher · evidence · graph · data browser |
+| **Corpus** | HERB (Salesforce AI Research) | Fetched at runtime, **not vendored** | 38,490 artifacts across 30 products |
+
+The graph node runs from `ghcr.io/hydra-db/hydradb:latest` with a local object store —
+no HydraDB source is vendored into this repo.
+
+<p align="center">
+  <img src="fig2-infra.png" alt="Arbiter architecture: HERB corpus to build.py to HydraDB to FastAPI to UI" width="900">
+</p>
+<p align="center"><strong>Figure 1.</strong> Ingestion runs once. At query time, OpenCypher goes over HTTP to HydraDB and vertex ids come back.</p>
+
+---
+
+## How the Traversal Works
+
+Answering *"who worked on the previous release"* is not one lookup — it is a chain of
+four hops, three of which touch relationships that appear in no document's text.
+Below, we walk through each stage.
+
+### 1. The question becomes a path, not a query string
+
+This is the whole argument, in one query:
+
+```cypher
+MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)
+      -[:ABOUT_RELEASE]->(rel {id: 4000073})
+WHERE a.id >= 10000000 AND a.id < 11000000
+RETURN DISTINCT e.id AS employee, a.id AS artifact
+```
+
+Read it right to left: start from a release the question only refers to obliquely
+(*"the previous"*), walk backwards to the artifacts belonging to it, land on people
+through a role edge that appears in no document's text.
+
+The `WHERE` clause is the typed-edge constraint — documents only — expressed as an
+integer range, because entity type is encoded in the id itself. HydraDB v0.1.0's only
+batch write form accepts ids alone, so the id band *is* the label (see
+[`docs/hydradb-subset.md`](docs/hydradb-subset.md)).
+
+Copy-pasteable against a loaded node:
+
+```bash
+curl -sS http://$(cat .wslip):8443/v1/graphs/default/query \
+  -H "Authorization: Bearer local-development-token-32-bytes" \
+  -H 'X-Graph-Namespace: default' -H 'Content-Type: application/json' \
+  --data '{"cell_id":"cell-0","query":"MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000073}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee"}'
+```
+
+### 2. The answer is a path — and the graph replays it
+
+We treat the traversal as the deliverable, not a hidden implementation detail. Every
+answer can be **replayed on the graph itself**: the path lights up, everything else
+dims.
+
+The replay issues **no new query**. Every id drawn came from the evidence rows of the
+answer you are already looking at — so what you see is provably the same traversal,
+not a re-run that might land somewhere else.
+
+![Graph replay — the answer path lit on the graph, replayed from evidence rows](graph-replay.png)
+
+### 3. Every answer is scored against HERB ground truth — including the misses
+
+This is where most demos stop showing you things. Arbiter renders the ground-truth
+comparison inline, and a partial answer is labelled **MISMATCH**, not quietly rounded
+up to a win.
+
+Below: 4 of 11 ground-truth IDs matched, 7 missed, 0 returned that were not in ground
+truth. Precision held; recall did not. The UI says so.
+
+![Ground truth comparison showing a MISMATCH with 7 missed IDs](arbiter-groundtruth.png)
+
+### 4. When the graph cannot answer, it refuses
+
+An enterprise system that invents an answer is worse than one that declines. HERB
+includes 361 questions the corpus genuinely cannot support — about bug lifecycle
+states, competitor entities and feature deferral history that Arbiter never ingests.
+
+Arbiter refuses **361 of 361**, with **zero false refusals** across 100 answerable
+questions. Each refusal names its own reason rather than returning an empty list:
+
+| Reason for refusal | n |
+|---|---|
+| No traversal is registered for this question shape | 148 |
+| Bug resolution outcomes are not ingested | 97 |
+| No competitor entities are ingested | 70 |
+| Bug lifecycle state is not ingested | 36 |
+| Feature deferral history is not ingested | 10 |
+
+213 of 361 (59%) are genuine graph vocabulary gaps. 148 (41%) are unsupported question
+shapes — safe, but a coverage limit rather than a graph result. We report the split
+because the two mean different things.
+
+### 5. Explore the graph yourself
+
+The graph view seeds from a product and expands on click. The panel shows the node's
+stored properties, the Cypher that fetched it, and an honest note when a branch hits
+the per-direction cap — *"1 branch hit the 60-per-direction cap, so this node has more
+neighbours than are drawn."*
+
+![Graph explorer — 3D force graph with node inspector and executed Cypher](graph-tab.png)
+
+### 6. Browse the rows the answers came from
+
+The data browser is the audit trail. Search any entity, open any node, see every
+neighbour grouped by edge type — with the count query and the fetch query printed
+underneath.
+
+It also shows you why this task resists embeddings. Search `Ian Smith` and you get
+**ten different employees**, each with a distinct id, and roles ranging from Software
+Engineer to Marketing Manager to QA Specialist. A name is not an identity here. Only
+the edges disambiguate.
+
+![Data browser — ten distinct employees all named Ian Smith](data-tab.png)
+
+<p align="center">
+  <img src="arbiter-375.png" alt="Arbiter console at 375px width" width="300">
+</p>
+<p align="center"><strong>Figure 2.</strong> The console is responsive down to 375px, keyboard-navigable, and honours <code>prefers-reduced-motion</code>.</p>
+
+---
+
+## Measured Results
+
+Produced by `python scripts/eval_hydra.py` against a live HydraDB v0.1.0 node with the
+full HERB corpus loaded. Raw output: [`results/eval_hydra.json`](results/eval_hydra.json).
+
+The graph covers all 30 products. The evaluation covers the **20 distinct products**
+for which HERB defines these two question families (10 products each).
+
+### Accuracy
+
+| Family | n | Arbiter exact | Arbiter F1 | precision | recall | BM25 exact | BM25 F1 |
+|---|---|---|---|---|---|---|---|
+| `person_previous_release` | 50 | **40/50 (80.0%)** | 0.800 | 0.800 | 0.800 | 0/50 | 0.028 |
+| `doc_reviewers` | 50 | 0/50 (0.0%) | **0.593** | 0.935 | 0.455 | 0/50 | 0.391 |
+
+**HERB paper reference: best agentic RAG ~30% accuracy.**
+
+Two things we will not round off. On `doc_reviewers`, Arbiter scores **zero exact
+matches** — it rarely lands the whole set — but at precision 0.935 it is almost never
+wrong about the reviewers it *does* return; the recall of 0.455 is the real gap.
+
+And BM25 was chosen over a dense retriever **deliberately**: it is the *stronger*
+baseline on exact-token queries like role names, so beating it is a harder claim than
+beating an embedding model would have been.
+
+### Abstention
+
+| Direction | n | correct | rate |
+|---|---|---|---|
+| Unanswerable, correctly refused | 361 | 361 | **100.0%** |
+| Answerable, correctly answered | 100 | 100 | **100.0%** |
+
+False refusals: **0**.
+
+Reproduce both tables:
+
+```bash
+.venv/Scripts/python scripts/eval_hydra.py     # accuracy vs BM25, via HydraDB
+.venv/Scripts/python scripts/probe_cypher.py   # what Cypher v0.1.0 actually executes
+```
+
+---
+
+## Get Started
+
+### Prerequisites
 
 | Requirement | Version | Notes |
 |---|---|---|
@@ -33,11 +260,7 @@ retrieval step with an OpenCypher traversal executed inside HydraDB.
 | `curl`, `bash` | — | Git Bash or WSL on Windows |
 | Disk | ~250 MB | HERB corpus + HydraDB store |
 
-No API keys. No paid services. Every data source is public.
-
----
-
-## Get started
+**No API keys. No paid services. Every data source is public.**
 
 ### 1. Clone and install
 
@@ -51,14 +274,12 @@ python -m venv .venv
 
 ### 2. Fetch the HERB corpus
 
-HERB is **not** redistributed in this repo — it is Salesforce's, released for
-research purposes only. This pulls it from the original source:
+HERB is **not** redistributed in this repo — it is Salesforce's, released for research
+purposes only. This pulls it from the original source:
 
 ```bash
 bash scripts/fetch_data.sh
 ```
-
-Expected output:
 
 ```
 listing files ...
@@ -75,24 +296,20 @@ done: 30 products, 3 metadata files
 bash scripts/hydra_up.sh
 ```
 
-Expected output:
-
 ```
 STATUS Up 3 seconds
 IP 172.26.200.199
 ```
 
-The script is idempotent — run it any time the node needs restoring. It starts
-`ghcr.io/hydra-db/hydradb:latest` with a local object store, waits for `/readyz`,
-and writes the node address to `.wslip`.
+Idempotent — run it any time the node needs restoring. It starts
+`ghcr.io/hydra-db/hydradb:latest` with a local object store, waits for `/readyz`, and
+writes the node address to `.wslip`.
 
 ### 4. Load the graph
 
 ```bash
 .venv/Scripts/python scripts/load.py
 ```
-
-Expected output:
 
 ```
 {
@@ -110,90 +327,19 @@ Expected output:
 .venv/Scripts/python -m uvicorn arbiter.api:app --port 8000
 ```
 
-Open <http://127.0.0.1:8000>. Pick a product, click a HERB question, and the UI
-shows the answer, **the Cypher that produced it**, and every artifact the
-traversal touched.
+Open <http://127.0.0.1:8000>. Pick a product, click a HERB question, and the UI shows
+the answer, **the Cypher that produced it**, and every artifact the traversal touched.
 
 ### 6. Reproduce the numbers
 
-```bash
-.venv/Scripts/python scripts/eval_hydra.py    # accuracy vs BM25, via HydraDB
-.venv/Scripts/python scripts/probe_cypher.py  # what Cypher v0.1.0 executes
-```
+See [Measured Results](#measured-results) above.
 
 ---
-
-## The traversal
-
-This is the whole argument, in one query:
-
-```cypher
-MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)
-      -[:ABOUT_RELEASE]->(rel {id: 4000073})
-WHERE a.id >= 10000000 AND a.id < 11000000
-RETURN DISTINCT e.id AS employee, a.id AS artifact
-```
-
-Read it right to left: start from a release the question only refers to
-obliquely (*"the previous"*), walk backwards to the artifacts belonging to it,
-land on people through a role edge that appears in no document's text. The
-`WHERE` clause is the typed-edge constraint — documents only — expressed as an
-integer range, because entity type is encoded in the id (see
-[`docs/hydradb-subset.md`](docs/hydradb-subset.md)).
-
-Copy-pasteable against a loaded node:
-
-```bash
-curl -sS http://$(cat .wslip):8443/v1/graphs/default/query \
-  -H "Authorization: Bearer local-development-token-32-bytes" \
-  -H 'X-Graph-Namespace: default' -H 'Content-Type: application/json' \
-  --data '{"cell_id":"cell-0","query":"MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000073}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee"}'
-```
-
----
-
-## Architecture
-
-```mermaid
-flowchart LR
-    subgraph SRC["HERB corpus (fetched, not vendored)"]
-        D["documents<br/>400"]
-        S["slack<br/>33,618"]
-        P["pull requests<br/>1,268"]
-        T["transcripts + urls"]
-        M["metadata<br/>employees · org · customers"]
-    end
-
-    subgraph BUILD["arbiter/build.py"]
-        R["release ordering<br/>inferred from artifact ids"]
-        V["review sessions<br/>parsed from doc links in Slack"]
-        I["IdMap<br/>string key → integer id band"]
-    end
-
-    subgraph HDB["HydraDB — object-store-native graph engine"]
-        G[("typed graph<br/>36,518 nodes · 77,144 edges")]
-    end
-
-    subgraph APP["Arbiter"]
-        Q["query.py<br/>question → traversal"]
-        A["FastAPI + UI<br/>answer · cypher · evidence"]
-    end
-
-    SRC --> BUILD
-    BUILD -->|"UNWIND $rows batch writes"| G
-    Q -->|"OpenCypher"| G
-    G -->|"vertex ids"| Q
-    Q --> A
-```
-
-*Figure 1. Ingestion runs once (24 s for the full corpus). At query time nothing
-is retrieved or re-ranked — the question is compiled to a traversal, HydraDB
-executes it, and vertex ids are mapped back to human-readable keys.*
 
 ## Schema
 
 The entity-relationship model. Both artifacts below are generated from
-`arbiter/schema.py` by `scripts/gen_dbml.py`, never hand-edited, so they cannot
+`arbiter/schema.py` by `scripts/gen_dbml.py`, **never hand-edited**, so they cannot
 drift from the loader. Structure comes from the code; edge counts come from
 `results/ontology.json`, a dump of the live `/api/ontology` endpoint.
 
@@ -254,19 +400,18 @@ erDiagram
 ```
 <!-- END GENERATED ERD -->
 
-*Figure 2. Entity type is carried by the integer id band rather than a label,
-because HydraDB v0.1.0's only batch write form accepts ids alone. `PRECEDES` is
-the edge that orders releases, and so the only reason "the previous release" is
-answerable at all. `REPORTED_BY` is declared by the ontology but never emitted
-by the loader - HERB provides no artifact-to-customer link.*
+*Figure 3. Entity type is carried by the integer id band rather than a label, because
+HydraDB v0.1.0's only batch write form accepts ids alone. `PRECEDES` is the edge that
+orders releases, and so the only reason "the previous release" is answerable at all.
+`REPORTED_BY` is declared by the ontology but never emitted by the loader — HERB
+provides no artifact-to-customer link.*
 
-- [`schema.dbml`](schema.dbml) - the same schema in [DBML](https://dbml.dbdiagram.io/docs/).
-  Paste it into [dbdiagram.io](https://dbdiagram.io/d) to get an interactive,
-  laid-out diagram with every table, column, key and relationship.
+- [`schema.dbml`](schema.dbml) — the same schema in [DBML](https://dbml.dbdiagram.io/docs/).
+  Paste it into [dbdiagram.io](https://dbdiagram.io/d) for an interactive, laid-out diagram.
 - Regenerate after any schema change: `python scripts/gen_dbml.py`
 - Check for staleness (CI-friendly, exits 1 if out of date): `python scripts/gen_dbml.py --check`
 
-## Graph model
+### Graph model
 
 | Node | Id range | Carries |
 |---|---|---|
@@ -312,18 +457,17 @@ The node stopped, usually because WSL reaped the distro. Re-run `scripts/hydra_u
 it is idempotent.
 
 **`docker: Cannot connect to the Docker daemon`**
-On Windows, Docker Desktop's `com.docker.service` needs administrator rights to
-start. Either launch Docker Desktop as administrator, or use the WSL path this
-project uses — `scripts/hydra_up.sh` runs `dockerd` inside the Ubuntu distro and
-needs no elevation.
+On Windows, Docker Desktop's `com.docker.service` needs administrator rights to start.
+Either launch Docker Desktop as administrator, or use the WSL path this project uses —
+`scripts/hydra_up.sh` runs `dockerd` inside the Ubuntu distro and needs no elevation.
 
 **Node answers `/readyz` then dies on the first query**
 `RUST_MIN_STACK` is unset. `scripts/hydra_up.sh` sets it to `33554432`.
 
 **`node id property must be an integer`**
 You are passing a string key. HydraDB v0.1.0 requires integer vertex ids — see
-[`docs/hydradb-subset.md`](docs/hydradb-subset.md); `arbiter/schema.py:IdMap`
-does the mapping.
+[`docs/hydradb-subset.md`](docs/hydradb-subset.md); `arbiter/schema.py:IdMap` does the
+mapping.
 
 **Answers come back empty after a reload**
 The store was wiped but the graph was not reloaded. Run `scripts/load.py` again.
@@ -349,19 +493,17 @@ The store was wiped but the graph was not reloaded. Run `scripts/load.py` again.
 
 ## Attribution
 
-- **HERB** — *Benchmarking Deep Search over Heterogeneous Enterprise Data*,
-  Salesforce AI Research, EMNLP 2025 (industry track).
+- **HERB** — *Benchmarking Deep Search over Heterogeneous Enterprise Data*, Salesforce
+  AI Research, EMNLP 2025 (industry track).
   [dataset](https://huggingface.co/datasets/Salesforce/HERB) ·
-  [code](https://github.com/SalesforceAIResearch/HERB). Released for research
-  purposes only; fetched at runtime, not redistributed here.
-- **HydraDB** — [hydra-db/hydradb](https://github.com/hydra-db/hydradb), AGPL-3.0.
-  Used as a container image; no HydraDB source is vendored into this repo.
-- **LIMIT** — *On the Theoretical Limitations of Embedding-Based Retrieval*,
-  Weller et al., 2025. The formal result behind why this task resists embeddings.
+  [code](https://github.com/SalesforceAIResearch/HERB). Released for research purposes
+  only; fetched at runtime, not redistributed here.
+- **HydraDB** — [hydra-db/hydradb](https://github.com/hydra-db/hydradb), AGPL-3.0. Used
+  as a container image; no HydraDB source is vendored into this repo.
+- **LIMIT** — *On the Theoretical Limitations of Embedding-Based Retrieval*, Weller et
+  al., 2025. The formal result behind why this task resists embeddings.
 
 Third-party Python dependencies are listed in `requirements.txt`.
-AI coding assistance (Claude) was used during development, as permitted by the
-hackathon rules.
 
 ## License
 
@@ -371,5 +513,5 @@ MIT — see [LICENSE](LICENSE).
 
 **Built on [HydraDB](https://github.com/hydra-db/hydradb)** — the graph lives in an
 OpenCypher database and every traversal executes inside it. Originally built for
-[Hack Hydra](https://hackhydra.hydradb.com/) 2026, Track 1 (Enterprise Context
-and Ontology).
+[Hack Hydra](https://hackhydra.hydradb.com/) 2026, Track 1 (Enterprise Context and
+Ontology).
