@@ -91,9 +91,22 @@ Arbiter is four components, each doing one job:
 The graph node runs from `ghcr.io/hydra-db/hydradb:latest` with a local object store —
 no HydraDB source is vendored into this repo.
 
-<p align="center">
-  <img src="fig2-infra.png" alt="Arbiter architecture: HERB corpus to build.py to HydraDB to FastAPI to UI" width="900">
-</p>
+```mermaid
+flowchart LR
+  subgraph ingest["Ingestion — runs once"]
+    HERB["HERB corpus<br/>38,490 artifacts · 8 sources"] --> BUILD["arbiter/build.py<br/>parse · infer · mint integer ids"]
+  end
+
+  BUILD -->|"batch write<br/>36,518 nodes · 77,144 edges"| HYDRA[("HydraDB v0.1.0<br/>OpenCypher engine<br/>object-store native")]
+
+  subgraph query["Query time"]
+    UI["Console<br/>ES modules · 2D canvas"] -->|"HTTP /api/ask"| API["FastAPI<br/>arbiter/query.py<br/>question becomes a traversal, or a refusal"]
+    API -->|"OpenCypher over HTTP"| HYDRA
+    HYDRA -->|"vertex ids"| API
+    API -->|"answer + Cypher + evidence"| UI
+  end
+```
+
 <p align="center"><strong>Figure 1.</strong> Ingestion runs once. At query time, OpenCypher goes over HTTP to HydraDB and vertex ids come back.</p>
 
 ---
@@ -133,28 +146,29 @@ curl -sS http://$(cat .wslip):8443/v1/graphs/default/query \
   --data '{"cell_id":"cell-0","query":"MATCH (ro:Role {id: 1000007})<-[:HAS_ROLE]-(e)-[:AUTHORED]->(a)-[:ABOUT_RELEASE]->(rel {id: 4000073}) WHERE a.id >= 10000000 AND a.id < 11000000 RETURN DISTINCT e.id AS employee"}'
 ```
 
-### 2. The answer is a path — and the graph replays it
+### 2. The answer is a path, and every hop is walkable
 
-We treat the traversal as the deliverable, not a hidden implementation detail. Every
-answer can be **replayed on the graph itself**: the path lights up, everything else
-dims.
+We treat the traversal as the deliverable, not a hidden implementation detail. Each
+evidence row carries the **whole path** that produced it — `role → employee → artifact
+→ release` — and every hop is a link into the node it landed on.
 
-The replay issues **no new query**. Every id drawn came from the evidence rows of the
-answer you are already looking at — so what you see is provably the same traversal,
-not a re-run that might land somewhere else.
+Opening a hop shows what HydraDB actually stores for that vertex: the edges the
+ontology permits, how many of each are populated, the properties on the node, and
+**every query the page issued to build it**. Nothing on that page is inferred from the
+answer you came from; it is all read back out of the graph.
 
-![Graph replay — the answer path lit on the graph, replayed from evidence rows](graph-replay.png)
+![Node inspector — a hop from the evidence path, with its permitted edges and every query the page ran](evidence-path.png)
 
 ### 3. Every answer is scored against HERB ground truth — including the misses
 
 This is where most demos stop showing you things. Arbiter renders the ground-truth
-comparison inline, and a partial answer is labelled **MISMATCH**, not quietly rounded
-up to a win.
+comparison inline, in the answer header, and a partial answer says so on its face
+rather than being quietly rounded up to a win.
 
-Below: 4 of 11 ground-truth IDs matched, 7 missed, 0 returned that were not in ground
-truth. Precision held; recall did not. The UI says so.
+Below: 4 of 11 ground-truth IDs matched — the header reads **7 missing · 0 extra**.
+Precision held; recall did not. The UI says so.
 
-![Ground truth comparison showing a MISMATCH with 7 missed IDs](arbiter-groundtruth.png)
+![Ground truth comparison showing 7 missing and 0 extra against 11 ground-truth IDs](arbiter-groundtruth.png)
 
 ### 4. When the graph cannot answer, it refuses
 
@@ -179,12 +193,12 @@ because the two mean different things.
 
 ### 5. Explore the graph yourself
 
-The graph view seeds from a product and expands on click. The panel shows the node's
-stored properties, the Cypher that fetched it, and an honest note when a branch hits
-the per-direction cap — *"1 branch hit the 60-per-direction cap, so this node has more
-neighbours than are drawn."*
+The graph view seeds from a product and expands one hop per click. The panel shows the
+node's stored properties, every branch it walked with the row count each returned, and
+a **`capped at 60`** badge on any direction that hit the per-direction limit — so a
+node with more neighbours than are drawn says so, rather than looking complete.
 
-![Graph explorer — 3D force graph with node inspector and executed Cypher](graph-tab.png)
+![Graph explorer — force-directed canvas with node inspector and the 21 queries the panel ran](graph-tab.png)
 
 ### 6. Browse the rows the answers came from
 
